@@ -2,7 +2,7 @@
 
 namespace Storymaattori
 {
-	public class Soldier : Critter
+	public class Soldier
 	{
 		private int id;
 		private string callsign;
@@ -44,9 +44,7 @@ namespace Storymaattori
 
 		public bool HasTrait (int trait)
 		{
-			if (traits & trait == trait)
-				return true;
-			else
+			
 				return false;
 		}
 
