@@ -24,4 +24,15 @@ public class UIMainMenu : MonoBehaviour {
     public void setCampaignName(string s) { 
         this.campaignNameLabel.text = s;
     }
+
+	public void ClickLoadButton ()
+	{
+		//show load screen
+		//GameObject.Find ("LoadMenu").SetActive ();
+	}
+	public void ClickExitButton()
+	{
+		Application.Quit();
+	}
+
 }
