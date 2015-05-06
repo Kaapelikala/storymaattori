@@ -3,9 +3,9 @@ using System.Collections;
 
 public class SoldierController : MonoBehaviour {
 
-	public string name;
-	public string callsign;
-	public string [] attributes;
+	public string soldierName="Batman";
+	public string callsign="Superman";
+	public ArrayList attributes=new ArrayList();
 	public int experience=0;
 	public int morale=100;
 	public int health = 100;
@@ -18,6 +18,11 @@ public class SoldierController : MonoBehaviour {
 	public string rank="Conscript";
 	public ArrayList events = new ArrayList ();
 	
+	public void AddAttribute (string attribute)
+	{
+		attributes.Add (attribute);
+	}
+
 
 	public void AddExperience(int experience){
 		this.experience += experience;
