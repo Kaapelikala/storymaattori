@@ -2,6 +2,8 @@
 
 public class Soldier 
 	{
+
+
 		private int id;
 		private string callsign;
 		private string firstName;

@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CombatController : MonoBehaviour {
 
 	public SoldierController target;
 	//Tähän myöhemmin LISTA TAISTELIJOISTA.
+
+	public Text Battlelog;
+
+
 
 	private Event_Battle tappelu = new Event_Battle();
 
@@ -18,7 +23,7 @@ public class CombatController : MonoBehaviour {
 			//JOs jonku sotilaan NEXTPULSE ni tekee eventin!
 		}
 
-	//NY VAA TESTIMEININGILLÄ!
+	/*NY VAA TESTIMEININGILLÄ!
 	void OnGUI () {
 		if (GUI.Button (new Rect (10,10,200,20), "FIGHT")) {
 			if (target.alive == true)
@@ -27,6 +32,14 @@ public class CombatController : MonoBehaviour {
 			}
 		}
 
+	}*/
+	public void fight(){
+
+		//test continues!
+		if (target.alive == true)
+		{
+			Battlelog.text = tappelu.FightRound(target, 100);
+		}
 	}
 }
 	

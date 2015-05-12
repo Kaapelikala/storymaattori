@@ -3,10 +3,13 @@ using System.Collections;
 
 public class SoldierController : MonoBehaviour {
 
-	public string soldierName="Batman";
+	public string soldierFName="Flash";	//Fistname
+	public string soldierLName="Batman";	//Lastname
 	public string callsign="Superman";
 	public ArrayList attributes=new ArrayList();
+	public ArrayList awards=new ArrayList();
 	public int experience=0;
+	public int missions=0;
 	public int kills=0;
 	public int morale=100;
 	public int health = 100;
@@ -16,21 +19,34 @@ public class SoldierController : MonoBehaviour {
 	public int gear = 0;
 	public string[] gearList;
 	public bool alive=true;
-	public string rank="Conscript";
+	private int rank = 0;
 	public ArrayList events = new ArrayList ();
 	
+	//ATTRIBUTES
 	public void AddAttribute (string attribute)
 	{
 		attributes.Add (attribute);
 	}
+	public bool HasAttribute (string question)
+	{
+		return attributes.Contains(question);
+	}
+	
+	public string GetAttributes ()
+	{
+		return attributes.ToString(); //does not work!
+	}
+
 
 	public void AddExperience(int experience){
 		this.experience += experience;
 	}
+
 	public void AddKills (int NewKills)
 	{
 		this.kills += NewKills;
 	}
+
 	public void ChangeMorale(int changedAmount){
 		this.morale += changedAmount;
 	}
@@ -44,10 +60,28 @@ public class SoldierController : MonoBehaviour {
 	{
 		return skill + gear;
 	}
+	
 
-	public bool HasAttribute (string question)
+	public string GetRank()
 	{
-		return attributes.Contains(question);
+			
+		if (rank == 0)
+			return "Recruit";
+
+		if (rank == 1)
+			return "Trooper";
+
+		if (rank == 2)
+			return "Corporal";
+
+		if (rank == 3)
+			return "Sergeant";
+
+		if (rank == 4)
+			return "Liutenant";
+
+		return "Recruit";
+
 	}
 
 }

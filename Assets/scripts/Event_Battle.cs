@@ -16,7 +16,7 @@ public class Event_Battle {
 	
 	}
 
-		public void FightRound (SoldierController NEWTARGET, int Enemy_difficulty){
+		public string FightRound (SoldierController NEWTARGET, int Enemy_difficulty){
 
 			this.target = NEWTARGET;
 
@@ -63,11 +63,12 @@ public class Event_Battle {
 		{
 			target.AddKills(1);
 			target.AddExperience(Enemy_difficulty/10);
+			return (target.callsign + " killed enemy!");
 		}
 
 		else if (Roll < BothMissChance)
 		{
-			
+			return (target.callsign + " missed!");
 		}
 		else if (Roll < SoldierHitChance)
 		{
@@ -75,13 +76,19 @@ public class Event_Battle {
 			target.ChangeMorale(-20);
 			target.AddAttribute("wounded");
 
-			if (target.morale < 0)
+			if (target.health < 0){
 				target.alive=false;
+				return (target.callsign + " Died!");
+			}
+
+			return (target.callsign + " was hit by enemy!");
+
 		}
-		else if (Roll < SoldierDeadChance)
-		{
-			target.alive = false;
-		}
+
+		
+		target.alive = false;
+		return (target.callsign + " Died!");
+		
 
 
 
