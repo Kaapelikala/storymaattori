@@ -160,10 +160,53 @@ public class SoldierController : ScriptableObject {
 			this. callsign = "TV";
 			break;
 		default:
-			this. soldierFName = "Dwarf";
+			this. callsign = "Dwarf";
 			break;
 		}
 
+		this.AddAttribute("newbie");	//every soldier has this - goes away after first kill or wound!
+
+		int traitRandomiser = Random.Range(0, 11);
+
+		switch (traitRandomiser)
+		{
+		case 0:
+			this.AddAttribute("heroic");
+			break;
+		case 1:
+			this.AddAttribute("accurate");
+			break;
+		case 2:
+			this.AddAttribute("inaccurate");
+			break;
+		case 3:
+			this.AddAttribute("idiot");
+			break;
+		case 4:
+			this.AddAttribute("loner");
+			break;
+		case 5:
+			this.AddAttribute("cook");
+			break;
+		case 6:
+			this.AddAttribute("tough");
+			break;
+		case 7:
+			this.AddAttribute("young");
+			break;
+		case 8:
+			this.AddAttribute ("drunkard");
+			break;
+		case 9:
+			this.AddAttribute("coward");
+			break;
+		case 10:
+			this.AddAttribute("techie");
+			break;
+		default:
+			this.AddAttribute("lucky");
+			break;
+		}
 
 		Debug.Log("Luotu Solttu '" + this.soldierFName + " '" + this.callsign + "' " + this.soldierLName);
 
@@ -184,14 +227,33 @@ public class SoldierController : ScriptableObject {
 	{
 		attributes.Add (attribute);
 	}
+
+	public void RemoveAttribute (string attribute)
+	{
+		attributes.Remove (attribute);
+	}
 	public bool HasAttribute (string question)
 	{
 		return attributes.Contains(question);
 	}
-	
-	public string GetAttributes ()
+
+	/// <summary>
+	/// Prints list of all attributes of the Soldier
+	/// </summary>
+	/// <returns>list of attributes.</returns>
+	public string GetAttributes ()	
 	{
-		return attributes.ToString(); //does not work!
+		string returnoitava = "";
+
+		foreach (string item in attributes)
+		{
+			returnoitava += item + ", ";
+
+		}
+
+		if (this.HasAttribute("wounded"))	//just workaround to see it works
+			return "wounded";
+		return returnoitava; //does not work!
 	}
 
 

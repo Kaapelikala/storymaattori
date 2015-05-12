@@ -35,6 +35,7 @@ public class Event_Battle {
 
 		modifier += CheckTrait("heroic", 5);
 		modifier +=  CheckTrait("idiot", -10);
+		modifier +=  CheckTrait("newbie", -5);
 		modifier +=  CheckTrait("wounded", -10);
 
 		HitChance +=  CheckTrait("accurare", 5);
@@ -58,6 +59,8 @@ public class Event_Battle {
 
 		 //Positive modifier = Good = rolls lower.
 		 //Negative modifier = Bad = rolls higher.
+
+		target.RemoveAttribute("newbie");
 
 		if (Roll < HitChance)
 		{
