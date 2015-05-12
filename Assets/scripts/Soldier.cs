@@ -60,7 +60,8 @@ namespace Storymaattori
 
 		public string GetFormalName ()
 		{
-			return this.GetRank + " " + firstName + " " + lastName;
+			string returned = this.GetRank() + " " + firstName + " " + lastName;
+			return returned;
 		}
 
 		public string GetRank ()
@@ -87,7 +88,8 @@ namespace Storymaattori
 		{
 			string[] temp = {"","",""};
 			int[] temp2 = {3,0};
-			TextGenerator.Generate (temp, temp2);
+			TextGenerator generator = new TextGenerator ();
+			this.callsign=generator.Generate (temp, temp2);
 		}
 
 		public void SetCallsign(string callsign)
@@ -100,7 +102,7 @@ namespace Storymaattori
 		{
 			this.experience = this.experience + experience;
 			this.rank = this.experience;
-			return this.GetRank ();
+			return this.experience;
 		}
 
 		/* jokin väärin tässä, ny en jaksa korjat
