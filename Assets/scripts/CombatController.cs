@@ -3,13 +3,32 @@ using System.Collections;
 
 public class CombatController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public SoldierController target;
+	//Tähän myöhemmin LISTA TAISTELIJOISTA.
+
+	private Event_Battle tappelu = new Event_Battle();
+
+		// Use this for initialization
+		void Start () {
+			//2D taulukko - SOLDIER - INITIATIVE millo toimii seuraavan kerran
+		}
+		
+		// Update is called once per frame
+		void Update () {
+			//JOs jonku sotilaan NEXTPULSE ni tekee eventin!
+		}
+
+	//NY VAA TESTIMEININGILLÄ!
+	void OnGUI () {
+		if (GUI.Button (new Rect (10,10,200,20), "FIGHT")) {
+			if (target.alive == true)
+			{
+			tappelu.FightRound(target, 100);
+			}
+		}
+
 	}
 }
+	
+
+

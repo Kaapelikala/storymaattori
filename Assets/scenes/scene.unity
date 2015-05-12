@@ -335,9 +335,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 101941919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6e91037264893c41a988e4e01f83650, type: 3}
+  m_Script: {fileID: 11500000, guid: 434bf5f683fea0a4f87c4e0bb70ecdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soldierName: Batman
+  callsign: Superman
+  experience: 0
+  kills: 0
+  morale: 100
+  health: 100
+  skill: 100
+  gear: 0
+  gearList: []
+  alive: 1
+  rank: Conscript
 --- !u!114 &101941923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,9 +368,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 101941919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2af05813894b8146bb33b123c87a2ec, type: 3}
+  m_Script: {fileID: 11500000, guid: f3676c495c88ff24fa4864b5adc203e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 2012558438}
 --- !u!1 &117992799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,6 +1799,7 @@ Transform:
   - {fileID: 2025240471}
   - {fileID: 1234043747}
   - {fileID: 101941920}
+  - {fileID: 2012558437}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1 &845520269
@@ -2055,7 +2068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1045686478
 Transform:
   m_ObjectHideFlags: 0
@@ -2672,7 +2685,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1234043747
 Transform:
   m_ObjectHideFlags: 0
@@ -3724,7 +3737,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e542ab83ed4b64a98fb29a505db54c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: {fileID: 1858354526}
 --- !u!4 &1923106974
 Transform:
   m_ObjectHideFlags: 0
@@ -3959,6 +3971,56 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1994459403}
+--- !u!1 &2012558436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2012558437}
+  - 114: {fileID: 2012558438}
+  m_Layer: 0
+  m_Name: TESTISOLDIER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2012558437
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2012558436}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 369.5, y: 258, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 844087648}
+  m_RootOrder: 5
+--- !u!114 &2012558438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2012558436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434bf5f683fea0a4f87c4e0bb70ecdd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soldierName: TEENA
+  callsign: TESTAAJA
+  experience: 0
+  kills: 0
+  morale: 100
+  health: 100
+  skill: 100
+  gear: 0
+  gearList: []
+  alive: 1
+  rank: Conscript
 --- !u!1 &2025240470
 GameObject:
   m_ObjectHideFlags: 0

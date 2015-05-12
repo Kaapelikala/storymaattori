@@ -1,8 +1,6 @@
 ﻿using System;
 
-namespace Storymaattori
-{
-	public class Soldier 
+public class Soldier 
 	{
 		private int id;
 		private string callsign;
@@ -55,11 +53,12 @@ namespace Storymaattori
 		{
 			return firstName + " '" + callsign + "' " + lastName;
 		}
-
+		/*
 		public string GetFormalName ()
 		{
 			return this.GetRank + " " + firstName + " " + lastName;
 		}
+		*/
 
 		public string GetRank ()
 		{
@@ -114,4 +113,3 @@ namespace Storymaattori
 		}*/
 
 	}
-}
