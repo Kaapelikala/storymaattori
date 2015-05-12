@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 using System.Collections;
-using Storymaattori
+using Storymaattori;
 
 namespace Storymaattori
 {
