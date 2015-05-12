@@ -1,8 +1,11 @@
-﻿using System;
+﻿
+using UnityEngine;
+using System.Collections;
+using Storymaattori
 
 namespace Storymaattori
 {
-	public class Soldier 
+	public class Soldier : MonoBehaviour 
 	{
 		private int id;
 		private string callsign;
@@ -17,13 +20,12 @@ namespace Storymaattori
 			//3 Sergeant
 			//4 Liutenant
 
-		private	int level= 1;
 		private int experience; // used for level
 			//lvl 2: 4 exp aka kills?
 			//lvl 3: 8 exp?
 
 
-		private int traits;
+		private ArrayList traits = new ArrayList ();
 
 
 		//STATS
@@ -83,7 +85,9 @@ namespace Storymaattori
 		}
 		public void SetCallsign()
 		{
-			//TextGenerator generates new
+			string[] temp = {"","",""};
+			int[] temp2 = {3,0};
+			TextGenerator.Generate (temp, temp2);
 		}
 
 		public void SetCallsign(string callsign)
@@ -91,15 +95,12 @@ namespace Storymaattori
 			this.callsign = callsign;
 		}
 
-		public int GetLevel ()
-		{
-			return (int)(experience % 1000);  //Level on lineaarinen? ääh
-		}
 
 		public int AddExperience (int experience)
 		{
 			this.experience = this.experience + experience;
-			return this.GetLevel ();
+			this.rank = this.experience;
+			return this.GetRank ();
 		}
 
 		/* jokin väärin tässä, ny en jaksa korjat
