@@ -203,6 +203,7 @@ GameObject:
   - 114: {fileID: 101941923}
   - 114: {fileID: 101941922}
   - 114: {fileID: 101941921}
+  - 114: {fileID: 101941925}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -221,7 +222,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 844087648}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!114 &101941921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +249,9 @@ MonoBehaviour:
   soldierFName: Flash
   soldierLName: Batman
   callsign: Superman
+  sex: 109
+  pictureID: 2
+  soldierID: 0
   experience: 0
   missions: 0
   kills: 0
@@ -279,8 +283,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3676c495c88ff24fa4864b5adc203e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 2012558438}
+  begin: {fileID: 300297074}
   Battlelog: {fileID: 1424256109}
+--- !u!114 &101941925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 101941919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c323978747901468f46b68d18b47e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soldiers:
+  - {fileID: 2012558438}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  NumberAlive: 0
+  dead:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  NumberDead: 0
 --- !u!1 &117992799
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,12 +793,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24fddfc79617a044489efb4407b18e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 2012558438}
+  ALIVE_SOLDIERS: {fileID: 101941925}
+  Current: 0
+  Target: {fileID: 101941922}
   View_Name: {fileID: 1553100848}
   View_Details: {fileID: 997248237}
   View_Traits: {fileID: 1887683286}
   View_Numbers: {fileID: 760310722}
   View_Alive: {fileID: 1405566350}
+  IMAGE: {fileID: 1158360636}
 --- !u!1 &364094698
 GameObject:
   m_ObjectHideFlags: 0
@@ -931,7 +973,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -13, y: -10}
@@ -1011,7 +1053,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 432810915}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 300297074}
+        m_MethodName: NextSoldier
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &432810915
@@ -1454,7 +1508,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1095, y: -563}
@@ -1565,6 +1619,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
+--- !u!1 &775422158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 775422159}
+  m_Layer: 0
+  m_Name: DEAD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &775422159
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 775422158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1647693826}
+  m_RootOrder: 1
 --- !u!1 &834808701
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +1824,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 839823816}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 300297074}
+        m_MethodName: PrevSoldier
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &839823816
@@ -1798,12 +1891,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1647693826}
   - {fileID: 1045686478}
   - {fileID: 1288759407}
   - {fileID: 2025240471}
   - {fileID: 1234043747}
   - {fileID: 101941920}
-  - {fileID: 2012558437}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!1 &845520269
@@ -2016,7 +2109,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_AnchorMin: {x: 0, y: .5}
   m_AnchorMax: {x: 0, y: .5}
   m_AnchoredPosition: {x: 767, y: 126}
@@ -2081,7 +2174,7 @@ Transform:
   m_Children:
   - {fileID: 694432973}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!1 &1049180869
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,6 +2451,93 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1120771544}
+--- !u!1 &1158360632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1158360633}
+  - 222: {fileID: 1158360635}
+  - 114: {fileID: 1158360634}
+  - 114: {fileID: 1158360636}
+  m_Layer: 5
+  m_Name: SOLDIERHEAD
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1158360633
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1158360632}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1810631128}
+  m_RootOrder: 1
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: 261, y: 168}
+  m_SizeDelta: {x: 150, y: 150}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &1158360634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1158360632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: dfed5639839689148b3b0c28b4632145, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1158360635
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1158360632}
+--- !u!114 &1158360636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1158360632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17393a7818c27a4fa7268c19e17fc19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sex: 109
+  ImageNumber: 1
+  Effect: {fileID: 1158360634}
+  Default: {fileID: 21300000, guid: dfed5639839689148b3b0c28b4632145, type: 3}
+  M1: {fileID: 21300000, guid: 6da2807b0e2acbe4885854c000199970, type: 3}
+  M2: {fileID: 21300000, guid: e1fa2b834d4de5b408d8b154d06996fb, type: 3}
+  M3: {fileID: 21300000, guid: ac9c167580ca482439e8f825b0b0bac1, type: 3}
+  M4: {fileID: 21300000, guid: de2c4020709716145b1802add1b93713, type: 3}
+  M5: {fileID: 21300000, guid: 0168f0124bc49e84b9b821b462e7f1bf, type: 3}
+  F1: {fileID: 21300000, guid: 2e6c1a7bd0d09ed4c993e13110ea7eb1, type: 3}
+  F2: {fileID: 21300000, guid: 2e6c1a7bd0d09ed4c993e13110ea7eb1, type: 3}
+  F3: {fileID: 21300000, guid: 26cde0ef77dfd96418fdf7d0dafdf2b3, type: 3}
+  F4: {fileID: 21300000, guid: fbdc00451a10f3b459f9f22ef87fc78a, type: 3}
+  F5: {fileID: 21300000, guid: 338bb542c85940445b1b3f2d09ea4c95, type: 3}
 --- !u!1 &1171641914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2502,7 +2682,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1072, y: -563}
@@ -2765,7 +2945,7 @@ Transform:
   - {fileID: 1862060933}
   - {fileID: 1351749033}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &1288759406
 GameObject:
   m_ObjectHideFlags: 0
@@ -2794,7 +2974,7 @@ Transform:
   - {fileID: 1482195235}
   - {fileID: 975341543}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &1351749032
 GameObject:
   m_ObjectHideFlags: 0
@@ -2916,7 +3096,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 687.5, y: -523.400024}
@@ -2989,7 +3169,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 263, y: 34}
@@ -3055,7 +3235,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_AnchorMin: {x: 0, y: .5}
   m_AnchorMax: {x: 0, y: .5}
   m_AnchoredPosition: {x: 612, y: -227}
@@ -3452,6 +3632,35 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1590347130}
+--- !u!1 &1647693825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1647693826}
+  m_Layer: 0
+  m_Name: SOLDIERLIST
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1647693826
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1647693825}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 378.162659, y: 265.30777, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2012558437}
+  - {fileID: 775422159}
+  m_Father: {fileID: 844087648}
+  m_RootOrder: 0
 --- !u!1 &1664425520
 GameObject:
   m_ObjectHideFlags: 0
@@ -3894,6 +4103,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1553100847}
+  - {fileID: 1158360633}
   - {fileID: 1387033056}
   - {fileID: 997248236}
   - {fileID: 1887683285}
@@ -4083,7 +4293,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 766, y: -421}
@@ -4475,11 +4685,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2012558436}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 369.5, y: 258, z: 0}
+  m_LocalPosition: {x: -8.66265869, y: -7.30776978, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 844087648}
-  m_RootOrder: 5
+  m_Father: {fileID: 1647693826}
+  m_RootOrder: 0
 --- !u!114 &2012558438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4494,6 +4704,9 @@ MonoBehaviour:
   soldierFName: Filea
   soldierLName: Batman
   callsign: Boomer
+  sex: 109
+  pictureID: 4
+  soldierID: 0
   experience: 0
   missions: 0
   kills: 0
@@ -4531,7 +4744,7 @@ Transform:
   - {fileID: 117992800}
   - {fileID: 508999927}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &2047895397
 GameObject:
   m_ObjectHideFlags: 0
@@ -4730,7 +4943,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1810631128}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 263, y: 46}

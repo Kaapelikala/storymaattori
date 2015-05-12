@@ -4,11 +4,16 @@ using System.Collections;
 
 public class CombatController : MonoBehaviour {
 
-	public SoldierController target;
+	//public SoldierController target;
+
+	public SoldierView begin;
+
+	//Only temporary, pitäs itse SoldierControlleriin pästä käsiks
+
 	//Tähän myöhemmin LISTA TAISTELIJOISTA.
 
-	public Text Battlelog;
 
+	public Text Battlelog;
 
 
 	private Event_Battle tappelu = new Event_Battle();
@@ -36,9 +41,10 @@ public class CombatController : MonoBehaviour {
 	public void fight(){
 
 		//test continues!
-		if (target.alive == true)
+		//if (target == true)
+		if (begin.Target.alive == true)
 		{
-			Battlelog.text = tappelu.FightRound(target, 100);
+			Battlelog.text = tappelu.FightRound(begin.Target, 100);
 		}
 	}
 }

@@ -7,7 +7,10 @@ using System.Collections;
 
 public class SoldierView : MonoBehaviour {
 
+	public SoldierManager ALIVE_SOLDIERS;
+	public int Current = 0;		// keeps track of which soldier we are looking at.
 	public SoldierController Target;
+
 	public Text View_Name; 			//just the name
 	public Text View_Details; 		//rank, name etc
 	public Text View_Traits; 		//traits
@@ -15,9 +18,18 @@ public class SoldierView : MonoBehaviour {
 
 	public Text View_Alive;			//is Soldier alive or dead?
 
+	public SoldierHeadImage IMAGE;
+
+	void Start (){
+	
+		this.NextSoldier();
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
+		IMAGE.Set(Target.sex , Target.pictureID);
+
 		this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
 		this.View_Details.text = Target.callsign + "\n" + Target.GetRank();
 
@@ -63,7 +75,11 @@ public class SoldierView : MonoBehaviour {
 		}
 
 
-		this.View_Numbers.text = Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath;
+		int awards = Target.awards.Count;   
+
+		this.View_Numbers.text = Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath + "\n\n" + awards;
+
+
 
 		if (Target.alive == true)
 		{
@@ -73,5 +89,30 @@ public class SoldierView : MonoBehaviour {
 		{
 			this.View_Alive.text = "DEAD!";
 		}
+	}
+
+	public void NextSoldier(){
+
+		Current++;
+
+		if (Current > ALIVE_SOLDIERS.NumberAlive)
+			Current = 1;
+
+		Target = ALIVE_SOLDIERS.soldiers[Current-1];
+
+
+	}
+
+	public void PrevSoldier(){
+
+		Current--;
+
+		if (Current < 1)
+			Current = ALIVE_SOLDIERS.NumberAlive;
+
+		
+		Target = ALIVE_SOLDIERS.soldiers[Current-1];
+
+		
 	}
 }

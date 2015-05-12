@@ -5,34 +5,53 @@ using System.Collections.Generic;
 
 public class SoldierManager : MonoBehaviour {
 
-    List<TestSoldier> soldiers; 
+	public SoldierController[] soldiers = new SoldierController[25]; 
+	public int NumberAlive = 0;
+
+	public SoldierController[] dead = new SoldierController[25]; 
+	public int NumberDead = 0;
 
 	// Use this for initialization
 	void Start () {
-	    this.soldiers = new List<TestSoldier>();
 
-        // testing
-        this.CreateRandomSoldiers(5);
+		//for testing. DELETE PRIOR TO LAUNCH
+		this.CreateNewSoldier();
+
 	}
-	
-	
+
+	public void CreateNewSoldier() //creates new soldier!!
+	{
+		soldiers[NumberAlive] = new SoldierController();
+		NumberAlive++;
+
+	}
+
+
 
     public void CreateRandomSoldiers(int num) {
         for (int i = 0; i < num; i++)
         {
-            TestSoldier soldier = new TestSoldier();
+           /* TestSoldier soldier = new TestSoldier();
             soldier.id = i;
             soldier.callsign = "sign" + i;
             soldier.experience = Random.Range(1, 10);
             soldier.traits = i * 3;
-            soldiers.Add(soldier);
+            soldiers.Add(soldier);*/
         }
 
     }
 
 
-    public List<TestSoldier> GetSoldiers() {
-        return this.soldiers;
-    }
+	/* ArrayList<SoldierController> GetSoldiers() {
 
+		//this.soldiers.
+        return this.soldiers;
+    }*/
+
+	void OnGUI () {
+		if (GUI.Button (new Rect (30,200,200,20), "NEW SOLTTU")) {
+			this.CreateNewSoldier();
+
+		}
+	}
 }

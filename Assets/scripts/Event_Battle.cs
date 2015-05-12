@@ -77,7 +77,7 @@ public class Event_Battle {
 			target.AddAttribute("wounded");
 
 			if (target.health < 0){
-				target.alive=false;
+				target.die ();
 				return (target.callsign + " Died!");
 			}
 
@@ -86,7 +86,7 @@ public class Event_Battle {
 		}
 
 		
-		target.alive = false;
+		target.die ();
 		return (target.callsign + " Died!");
 		
 
