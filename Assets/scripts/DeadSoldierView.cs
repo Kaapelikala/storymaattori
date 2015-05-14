@@ -5,23 +5,24 @@ using System.Collections;
 
 //Shows details of Soldier at SQUADVIEW. 
 
-public class SoldierView : MonoBehaviour {
+public class DeadSoldierView : MonoBehaviour {
 
-	public SoldierManager ALIVE_SOLDIERS;
+	public SoldierManager DEAD_SOLDIERS;
 	public int Current = 0;		// keeps track of which soldier we are looking at.
-	public SoldierController Target;
+	public SoldierController Target;		//whot are we looking curretly
 
 	public Text View_Name; 			//just the name
 	public Text View_Details; 		//rank, name etc
 	public Text View_Traits; 		//traits
 	public Text View_Numbers; 		//Kills, missions, etc
 
-	public Text View_Alive;			//is Soldier alive or dead?
+	public Text HowDied;			//Or something else??
 
 	public SoldierHeadImage IMAGE;
 
-	public GameObject NoAlive;
-	public GameObject SomeAlive;
+	public GameObject NoDead;
+	public GameObject SomeDead;
+
 
 	void Start (){
 	
@@ -30,16 +31,17 @@ public class SoldierView : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(ALIVE_SOLDIERS.NumberAlive == 0){
-			NoAlive.SetActive(true);
-			SomeAlive.SetActive(false);
-			
+	
+		if(DEAD_SOLDIERS.NumberDead == 0){
+			NoDead.SetActive(true);
+			SomeDead.SetActive(false);
+
 		}
 		
 		else {
-			
-			NoAlive.SetActive(false);
-			SomeAlive.SetActive(true);
+
+			NoDead.SetActive(false);
+			SomeDead.SetActive(true);
 
 			IMAGE.Set(Target.sex , Target.pictureID);
 
@@ -93,16 +95,8 @@ public class SoldierView : MonoBehaviour {
 			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath + "\n\n" + awards;
 
 
-
-			if (Target.alive == true)
-			{
-				this.View_Alive.text = "ALIVE";
-			}
-			else
-			{
-				this.View_Alive.text = "DEAD!";
-			}
-
+			this.HowDied.text = Target.HowDied;
+			
 		}
 	}
 
@@ -110,10 +104,10 @@ public class SoldierView : MonoBehaviour {
 
 		Current++;
 
-		if (Current > ALIVE_SOLDIERS.NumberAlive)
+		if (Current > DEAD_SOLDIERS.NumberDead)
 			Current = 1;
 
-		Target = ALIVE_SOLDIERS.soldiers[Current-1];
+		Target = DEAD_SOLDIERS.dead[Current-1];
 
 
 	}
@@ -123,10 +117,10 @@ public class SoldierView : MonoBehaviour {
 		Current--;
 
 		if (Current < 1)
-			Current = ALIVE_SOLDIERS.NumberAlive;
+			Current = DEAD_SOLDIERS.NumberDead;
 
 		
-		Target = ALIVE_SOLDIERS.soldiers[Current-1];
+		Target = DEAD_SOLDIERS.dead[Current-1];
 
 		
 	}

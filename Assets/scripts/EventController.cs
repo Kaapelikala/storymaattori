@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class EventController : MonoBehaviour {
 
 	// Use this for initialization
@@ -13,3 +14,4 @@ public class EventController : MonoBehaviour {
 	
 	}
 }
+

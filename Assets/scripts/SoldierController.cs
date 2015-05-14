@@ -25,12 +25,15 @@ public class SoldierController : ScriptableObject {
 	private int rank = 0;
 	public ArrayList events = new ArrayList ();
 
+	public string HowDied = "";
 
-	public SoldierController (){
+
+	public SoldierController (int IDimput){
 
 
 		// THESE NEED THE RANDOMISER!!
 
+		this.soldierID = IDimput;
 
 		int SexRandomiser = Random.Range(0, 2);
 
@@ -48,7 +51,7 @@ public class SoldierController : ScriptableObject {
 				break;
 		}
 
-		int FNameRandomiser = Random.Range(0, 3);
+		int FNameRandomiser = Random.Range(0, 8);
 		
 		if (this.sex == 'm')
 		{
@@ -65,6 +68,18 @@ public class SoldierController : ScriptableObject {
 				break;
 			case 3:
 				this. soldierFName = "Bolton";
+				break;
+			case 4:
+				this. soldierLName = "Arken";
+				break;
+			case 5:
+				this. soldierLName = "Damien";
+				break;
+			case 6:
+				this. soldierLName = "Piper";
+				break;
+			case 7:
+				this. soldierLName = "Tybalt";
 				break;
 			default:
 				this. soldierFName = "Jerry";
@@ -87,6 +102,12 @@ public class SoldierController : ScriptableObject {
 			case 3:
 				this. soldierFName = "Emily";
 				break;
+			case 4:
+				this. soldierLName = "Vyce";
+				break;
+			case 5:
+				this. soldierLName = "Felixia";
+				break;
 			default:
 				this. soldierFName = "Lily";
 				break;
@@ -95,7 +116,7 @@ public class SoldierController : ScriptableObject {
 
 		this.pictureID = Random.Range(0, 5);
 
-		int LNameRandomiser = Random.Range(0, 6);
+		int LNameRandomiser = Random.Range(0, 7);
 
 		switch (LNameRandomiser)
 		{
@@ -117,12 +138,15 @@ public class SoldierController : ScriptableObject {
 		case 5:
 			this. soldierLName = "Fury";
 			break;
+		case 6:
+			this. soldierLName = "Mestos";
+			break;
 		default:
 			this. soldierFName = "Smith";
 			break;
 		}
 
-		int CallsignNameRandomiser = Random.Range(0, 11);
+		int CallsignNameRandomiser = Random.Range(0, 12);
 		
 		switch (CallsignNameRandomiser)
 		{
@@ -158,6 +182,9 @@ public class SoldierController : ScriptableObject {
 			break;
 		case 10:
 			this. callsign = "TV";
+			break;
+		case 11:
+			this. callsign = "Feral";
 			break;
 		default:
 			this. callsign = "Dwarf";
@@ -207,25 +234,30 @@ public class SoldierController : ScriptableObject {
 			this.AddAttribute("lucky");
 			break;
 		}
-
-		Debug.Log("Luotu Solttu '" + this.soldierFName + " '" + this.callsign + "' " + this.soldierLName);
+		 
+		Debug.Log("Luotu " +  soldierID + " '" + this.soldierFName + " '" + this.callsign + "' " + this.soldierLName);
 
 
 	}
 
 
 
-	public SoldierController (string LNameImput){
+	public SoldierController (string LNameImput, int IDimput){
 
 		soldierLName = LNameImput;
-		Debug.Log("Luotu Solttu '" + this.soldierLName + "'!");
+		this.soldierID = IDimput;
+		Debug.Log("Luotu  " + soldierID + " '" + this.soldierFName + " '" + this.callsign + "' " + this.soldierLName);
 
 	}
 
 	//ATTRIBUTES
-	public void AddAttribute (string attribute)
+	public void AddAttribute (string lisattava)
 	{
-		attributes.Add (attribute);
+		if (this.HasAttribute(lisattava) == false)
+		{
+			attributes.Add (lisattava);
+		}
+
 	}
 
 	public void RemoveAttribute (string attribute)
@@ -251,9 +283,7 @@ public class SoldierController : ScriptableObject {
 
 		}
 
-		if (this.HasAttribute("wounded"))	//just workaround to see it works
-			return "wounded";
-		return returnoitava; //does not work!
+		return returnoitava;
 	}
 
 
@@ -304,8 +334,9 @@ public class SoldierController : ScriptableObject {
 	}
 
 	//As character dying should quite big thing, this function SHOULD FIRE OFF MORE THIGNS - Depression in comrades, move from active soldiers to burial ground etc!
-	public void die(){
+	public void die(string how){
 		this.alive = false;
+		this.HowDied = how;
 
 	
 

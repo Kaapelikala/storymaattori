@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+namespace Storymaattori{
+
 public class TextGenerator : MonoBehaviour {
 
 	private string []nouns;
@@ -28,7 +30,7 @@ public class TextGenerator : MonoBehaviour {
 
 	public string Generate(string[] parts, int[] generatedWordTypes)
 	{
-		int current = 1;
+		int current = 0;
 		string returned = "";
 		foreach (string part in parts) {
 			returned = returned+part;
@@ -36,15 +38,15 @@ public class TextGenerator : MonoBehaviour {
 			{int temp;
 				//add a randomly selected word from correct wordlist.
 
-				if (current ==0)
+				if (generatedWordTypes[current] ==0)
 				{	temp=(Mathf.RoundToInt(Random.value*nouns.GetLength(0)));
 					returned = returned+nouns[temp];
 				}
-				else if (current==1)
+					else if (generatedWordTypes[current]==1)
 				{	temp=(Mathf.RoundToInt(Random.value*verbs.GetLength(0)));
 					returned = returned+verbs[temp];
 				}
-				else if (current ==2)
+					else if (generatedWordTypes[current] ==2)
 				{	temp=(Mathf.RoundToInt(Random.value*adverbs.GetLength(0)));
 					returned = returned+adverbs[temp];
 				}
@@ -62,4 +64,5 @@ public class TextGenerator : MonoBehaviour {
 
 	
 
+}
 }
