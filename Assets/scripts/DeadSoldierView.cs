@@ -29,72 +29,54 @@ public class DeadSoldierView : MonoBehaviour {
 		this.NextSoldier();
 	}
 
-	// Update is called once per frame
-	void Update () {
-	
-		if(DEAD_SOLDIERS.NumberDead == 0){
-			NoDead.SetActive(true);
-			SomeDead.SetActive(false);
-
-		}
-		
-		else {
-
-			NoDead.SetActive(false);
-			SomeDead.SetActive(true);
-
-			IMAGE.Set(Target.sex , Target.pictureID);
-
+	public void ShowSoldier(){
+		if (DEAD_SOLDIERS.NumberDead == 0) {
+			NoDead.SetActive (true);
+			SomeDead.SetActive (false);
+			
+		} else {
+			
+			NoDead.SetActive (false);
+			SomeDead.SetActive (true);
+			
+			IMAGE.Set (Target.sex, Target.pictureID);
+			
 			this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
-			this.View_Details.text = Target.callsign + "\n" + Target.GetRank();
-
-			this.View_Traits.text = Target.GetAttributes();
-
-
+			this.View_Details.text = Target.callsign + "\n" + Target.GetRank ();
+			
+			this.View_Traits.text = Target.GetAttributes ();
+			
+			
 			// ei anneta suoraa numeraalisia arvoja pelaajille nähtäviksi
 			string ReturnMorale;
-			if (Target.morale >= 100)
-			{
+			if (Target.morale >= 100) {
 				ReturnMorale = "Great";
-			}
-			else if (Target.morale > 50)
-			{
+			} else if (Target.morale > 50) {
 				ReturnMorale = "OK";
-			}
-			else if (Target.morale > 25)
-			{
+			} else if (Target.morale > 25) {
 				ReturnMorale = "Poor";
-			}
-			else
-			{
+			} else {
 				ReturnMorale = "None";
 			}
-
-
+			
+			
 			string ReturnHeath;
-				if (Target.health >= 100)
-			{
+			if (Target.health >= 100) {
 				ReturnHeath = "Great";
-			}
-			else if (Target.health > 50)
-			{
+			} else if (Target.health > 50) {
 				ReturnHeath = "OK";
-			}
-			else if (Target.health > 25)
-			{
+			} else if (Target.health > 25) {
 				ReturnHeath = "Poor";
-			}
-			else
-			{
+			} else {
 				ReturnHeath = "Dangerous";
 			}
-
-
+			
+			
 			int awards = Target.awards.Count;   
-
+			
 			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath + "\n\n" + awards;
-
-
+			
+			
 			this.HowDied.text = Target.HowDied;
 			
 		}

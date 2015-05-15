@@ -30,6 +30,10 @@ public class SoldierView : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+	}
+	
+
+	public void ShowSoldier (){
 		if(ALIVE_SOLDIERS.NumberAlive == 0){
 			NoAlive.SetActive(true);
 			SomeAlive.SetActive(false);
@@ -40,15 +44,15 @@ public class SoldierView : MonoBehaviour {
 			
 			NoAlive.SetActive(false);
 			SomeAlive.SetActive(true);
-
+			
 			IMAGE.Set(Target.sex , Target.pictureID);
-
+			
 			this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
 			this.View_Details.text = Target.callsign + "\n" + Target.GetRank();
-
+			
 			this.View_Traits.text = Target.GetAttributes();
-
-
+			
+			
 			// ei anneta suoraa numeraalisia arvoja pelaajille nähtäviksi
 			string ReturnMorale;
 			if (Target.morale >= 100)
@@ -67,10 +71,10 @@ public class SoldierView : MonoBehaviour {
 			{
 				ReturnMorale = "None";
 			}
-
-
+			
+			
 			string ReturnHeath;
-				if (Target.health >= 100)
+			if (Target.health >= 100)
 			{
 				ReturnHeath = "Great";
 			}
@@ -86,14 +90,14 @@ public class SoldierView : MonoBehaviour {
 			{
 				ReturnHeath = "Dangerous";
 			}
-
-
+			
+			
 			int awards = Target.awards.Count;   
-
+			
 			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath + "\n\n" + awards;
-
-
-
+			
+			
+			
 			if (Target.alive == true)
 			{
 				this.View_Alive.text = "ALIVE";
@@ -102,20 +106,21 @@ public class SoldierView : MonoBehaviour {
 			{
 				this.View_Alive.text = "DEAD!";
 			}
-
+			
 		}
+
 	}
 
 	public void NextSoldier(){
-
+		
 		Current++;
-
+		
 		if (Current > ALIVE_SOLDIERS.NumberAlive)
 			Current = 1;
-
+		
 		Target = ALIVE_SOLDIERS.soldiers[Current-1];
-
-
+		ShowSoldier ();
+		
 	}
 
 	public void PrevSoldier(){
@@ -127,6 +132,7 @@ public class SoldierView : MonoBehaviour {
 
 		
 		Target = ALIVE_SOLDIERS.soldiers[Current-1];
+		ShowSoldier ();
 
 		
 	}

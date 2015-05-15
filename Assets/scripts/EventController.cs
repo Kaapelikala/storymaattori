@@ -1,17 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+//using Events;
 
 public class EventController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+	Event_Battle battleEvent = new Event_Battle();
+	OtherEvent otherEvent = new OtherEvent();
 }
 

@@ -6,19 +6,9 @@ public class UIMainMenu : MonoBehaviour {
 
     public Text campaignNameLabel;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     public void ClickPlayButton()
     {
-        Application.LoadLevel("GameScene");
+        Application.LoadLevel("scene");
     }
 
     public void setCampaignName(string s) { 
