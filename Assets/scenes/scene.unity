@@ -161,7 +161,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 24638638}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 904350973}
+        m_MethodName: DeActivateDeadSoldierViewButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &24638638
@@ -221,8 +233,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 844087648}
-  m_RootOrder: 5
+  m_Father: {fileID: 1045686478}
+  m_RootOrder: 1
 --- !u!114 &101941921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,7 +455,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &200176810
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1562,6 +1574,34 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 469070542}
+--- !u!1 &487207107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 487207108}
+  m_Layer: 0
+  m_Name: MainView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &487207108
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 487207107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 694432973}
+  m_Father: {fileID: 1045686478}
+  m_RootOrder: 0
 --- !u!1 &508999926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,7 +1953,7 @@ RectTransform:
   - {fileID: 1092852829}
   - {fileID: 1732423577}
   - {fileID: 1590347131}
-  m_Father: {fileID: 1045686478}
+  m_Father: {fileID: 487207108}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1947,7 +1987,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -2440,7 +2480,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 834808704}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 904350973}
+        m_MethodName: ActivateSoldierViewButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &834808704
@@ -2613,12 +2665,52 @@ Transform:
   m_Children:
   - {fileID: 1647693826}
   - {fileID: 1045686478}
-  - {fileID: 1288759407}
   - {fileID: 2025240471}
-  - {fileID: 1234043747}
-  - {fileID: 101941920}
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!1 &904350972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 904350974}
+  - 114: {fileID: 904350973}
+  m_Layer: 0
+  m_Name: ButtonAssistantObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &904350973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 904350972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b2202b9d2dbf94e94913738f7f30a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soldierView: {fileID: 1288759406}
+  missionView: {fileID: 1234043746}
+  deadSoldierView: {fileID: 2025240470}
+  mainView: {fileID: 487207107}
+--- !u!4 &904350974
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 904350972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1664425521}
+  m_RootOrder: 1
 --- !u!1 &975341542
 GameObject:
   m_ObjectHideFlags: 0
@@ -2895,7 +2987,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 694432973}
+  - {fileID: 487207108}
+  - {fileID: 101941920}
+  - {fileID: 1288759407}
   m_Father: {fileID: 844087648}
   m_RootOrder: 1
 --- !u!1 &1049180869
@@ -3725,7 +3819,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1189124245}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 904350973}
+        m_MethodName: DeActivateSoldierViewButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1189124245
@@ -3918,8 +4024,8 @@ Transform:
   m_Children:
   - {fileID: 1862060933}
   - {fileID: 1351749033}
-  m_Father: {fileID: 844087648}
-  m_RootOrder: 4
+  m_Father: {fileID: 2025240471}
+  m_RootOrder: 2
 --- !u!1 &1247665668
 GameObject:
   m_ObjectHideFlags: 0
@@ -4008,12 +4114,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1288759406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 126.665001, y: 95.0599976, z: 0}
+  m_LocalScale: {x: .49000001, y: .49000001, z: .49000001}
   m_Children:
   - {fileID: 1482195235}
   - {fileID: 975341543}
-  m_Father: {fileID: 844087648}
+  m_Father: {fileID: 1045686478}
   m_RootOrder: 2
 --- !u!1 &1351749032
 GameObject:
@@ -4880,6 +4986,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 139330712}
+  - {fileID: 904350974}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!1 &1694781697
@@ -5306,7 +5413,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1732423579}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 904350973}
+        m_MethodName: ActivateMissionViewButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1732423579
@@ -6052,13 +6171,14 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2025240470}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 126.665001, y: 95.0599976, z: 0}
+  m_LocalScale: {x: .49000001, y: .49000001, z: .49000001}
   m_Children:
   - {fileID: 682295842}
   - {fileID: 508999927}
+  - {fileID: 1234043747}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &2041637920
 GameObject:
   m_ObjectHideFlags: 0
@@ -6249,7 +6369,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2103999173}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 904350973}
+        m_MethodName: ActivateDeadSoldierViewButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2103999173
