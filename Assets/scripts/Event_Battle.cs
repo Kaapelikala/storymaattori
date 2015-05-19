@@ -42,10 +42,11 @@ public class Event_Battle {
 		if (negative) {
 			returned = "Got "+verb+" by "+monstername;
 		}
-		else 
+		/*else 
 		{
 			returned = ("Foe "+monstername+" was "+verb);
-		}
+		}*/
+
 
 
 		target.AddEvent(returned);
@@ -125,6 +126,7 @@ public class Event_Battle {
 
 		
 		target.die ("Died in battle");
+		addCombatEvent (true);
 		return (target.callsign + " Died!");
 		
 

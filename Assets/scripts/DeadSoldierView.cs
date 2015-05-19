@@ -109,7 +109,7 @@ public class DeadSoldierView : MonoBehaviour {
 			
 			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath + "\n\n" + awards;
 			
-			
+			this.View_Alive.text = Target.events[0];
 
 			
 		}
