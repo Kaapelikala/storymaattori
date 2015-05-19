@@ -26,7 +26,25 @@ public class TextGenerator : MonoBehaviour {
 	void Start () {
 	
 			monsternames= new string[] {"Mauler","Snotling","Waster","Kitten","Puppy","Green-Haired Screamer","Triclops","Duclops"};
-			verbs = new string[] {"mauled", "wasted", "squashed", "flattened","dematerialized", "cooked", "chewed","samurai sworded","packaged","smoshed","drowned","zapped","flamed","grilled","asskicked","freezed","nomnomed"}
+			verbs = new string[] {
+				"mauled",
+				"wasted",
+				"squashed",
+				"flattened",
+				"dematerialized",
+				"cooked",
+				"chewed",
+				"samurai sworded",
+				"packaged",
+				"smoshed",
+				"drowned",
+				"zapped",
+				"flamed",
+				"grilled",
+				"asskicked",
+				"freezed",
+				"nomnomed"
+			};
 		//LOAD WORD LISTS
 	
 	}
