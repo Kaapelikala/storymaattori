@@ -11,11 +11,13 @@ public class ButtonController : MonoBehaviour {
 
 	public void ActivateSoldierViewButton(){
 		soldierView.SetActive (true);
+		soldierView.transform.GetChild(0).transform.FindChild ("SoldierView").SendMessage ("CheckAliveMessage");
 		mainView.SetActive (false);
 	}
 
 	public void ActivateDeadSoldierViewButton(){
 		deadSoldierView.SetActive (true);
+		deadSoldierView.transform.GetChild(0).transform.FindChild ("SoldierView").SendMessage ("CheckAliveMessage");
 		mainView.SetActive (false);
 	}
 

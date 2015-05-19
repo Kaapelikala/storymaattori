@@ -7,71 +7,60 @@ public class SoldierManager : MonoBehaviour {
 
 	public int SoldierID = 42001;
 
-	public SoldierController[] soldiers = new SoldierController[25]; 
-	//public ArrayList soldiers = new ArrayList();   // too hard!
-	public int NumberAlive = 0;
-
-	public SoldierController[] dead = new SoldierController[25]; 
-	public int NumberDead = 0;
-
-	// Use this for initialization
+	//public SoldierController[] soldiers = new SoldierController[25];
+	public List<SoldierController> soldiers = new List<SoldierController> (0);
+	public List<SoldierController> dead = new List<SoldierController> (0);
 	void Start () {
-
 		//for testing. DELETE PRIOR TO LAUNCH
-		this.CreateNewSoldier();
+//		this.CreateNewSoldier();
+
+	}
+
+	public List<SoldierController> GetSquad()
+	{
+		List<int> listOfNumbers=new List<int>();
+		while (listOfNumbers.Count!=4&&listOfNumbers.Count<soldiers.Count)
+		{
+			int temp = Mathf.FloorToInt(Random.Range(0,soldiers.Count));
+			if (!listOfNumbers.Contains(temp))
+			{
+				listOfNumbers.Add(temp);
+			}
+		}
+		List <SoldierController> temporary = new List<SoldierController>();
+		for (int i = 0;i<listOfNumbers.Count;i++)
+		{
+			temporary.Add(soldiers[listOfNumbers[i]]);
+		}
+		return temporary;
 
 	}
 
 	public void CreateNewSoldier() //creates new soldier!!
 	{
-		soldiers[NumberAlive] = new SoldierController(SoldierID);
-		NumberAlive++;
-
+		soldiers.Add(new SoldierController(SoldierID));
 		SoldierID++;
+		Debug.Log ("Added soldier. Size now " + soldiers.Count);
 	
 	}
 
 	public void MoveDeadsAway() //Moves dead Soldiers to Dead line
 	{
-		int NewDeads = 0;
 
 		//foreach (SoldierController sotilas in soldiers)
 
-		for(int i = 0; i < soldiers.Length ; i++)
+		for(int i = 0; i < soldiers.Count ; i++)
 		{
 			if (soldiers[i] != null){
 
 				if(soldiers[i].alive == false)		//first we copy dead
 				{
-					dead[NumberDead] = soldiers[i];
-					Debug.Log(soldiers[i].soldierID + " is deposited correctly!");
+					dead.Add (soldiers[i]);
+					soldiers.RemoveAt(i);
 
-					NewDeads++;
-					NumberDead++;
 				}
 			}
 
-		}
-
-
-		for(int i = 0; i < soldiers.Length ; i++)
-		{		
-			if (soldiers[i] != null){
-				
-				if(soldiers[i].alive == false)		//then we remove them at the location! WERY CLUMBERSOME AT THIS MOMENT!
-				{
-					System.Collections.Generic.List<SoldierController> list = new System.Collections.Generic.List<SoldierController>(soldiers);
-					
-					list.Remove(soldiers[i]);
-					list.Add (null);
-					soldiers = list.ToArray();
-
-					i--;
-					NumberAlive--;
-
-					
-				}
-			}
 		}
 
 		//this.checkSizes();
@@ -80,7 +69,7 @@ public class SoldierManager : MonoBehaviour {
 
 
 
-    public void CreateRandomSoldiers(int num) {
+/*    public void CreateRandomSoldiers(int num) {
         for (int i = 0; i < num; i++)
         {
            /* TestSoldier soldier = new TestSoldier();
@@ -89,11 +78,11 @@ public class SoldierManager : MonoBehaviour {
             soldier.experience = Random.Range(1, 10);
             soldier.traits = i * 3;
             soldiers.Add(soldier);*/
-        }
+    /*    }
 
     }
 
-
+*/
 	/* ArrayList<SoldierController> GetSoldiers() {
 
 		//this.soldiers.
@@ -105,10 +94,10 @@ public class SoldierManager : MonoBehaviour {
 			this.CreateNewSoldier();
 
 		}
-		if (GUI.Button (new Rect (50,250,200,40), "CHECK DEAD")) {
+		/*if (GUI.Button (new Rect (50,250,200,40), "CHECK DEAD")) {
 			this.MoveDeadsAway();
 			
-		}
+		}*/
 	}
 
 

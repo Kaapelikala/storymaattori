@@ -214,7 +214,6 @@ GameObject:
   - 114: {fileID: 101941924}
   - 114: {fileID: 101941923}
   - 114: {fileID: 101941922}
-  - 114: {fileID: 101941921}
   - 114: {fileID: 101941925}
   m_Layer: 0
   m_Name: Controllers
@@ -235,18 +234,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1045686478}
   m_RootOrder: 1
---- !u!114 &101941921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 101941919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81702c5492899ac4999d5eaa34e75c72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  menu: {fileID: 1858354526}
 --- !u!114 &101941922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd46b06e7d616642aef8ea97759a35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manager: {fileID: 101941925}
 --- !u!114 &101941924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,6 +1570,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 487207108}
+  - 114: {fileID: 487207109}
   m_Layer: 0
   m_Name: MainView
   m_TagString: Untagged
@@ -1602,6 +1591,18 @@ Transform:
   - {fileID: 694432973}
   m_Father: {fileID: 1045686478}
   m_RootOrder: 0
+--- !u!114 &487207109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 487207107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81702c5492899ac4999d5eaa34e75c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menu: {fileID: 1858354526}
 --- !u!1 &508999926
 GameObject:
   m_ObjectHideFlags: 0
@@ -2665,6 +2666,7 @@ Transform:
   m_Children:
   - {fileID: 1647693826}
   - {fileID: 1045686478}
+  - {fileID: 1234043747}
   - {fileID: 2025240471}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -2696,7 +2698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soldierView: {fileID: 1288759406}
-  missionView: {fileID: 1234043746}
+  missionView: {fileID: 0}
   deadSoldierView: {fileID: 2025240470}
   mainView: {fileID: 487207107}
 --- !u!4 &904350974
@@ -2710,33 +2712,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1664425521}
-  m_RootOrder: 1
---- !u!1 &975341542
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 975341543}
-  m_Layer: 0
-  m_Name: SoldierList
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &975341543
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 975341542}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1288759407}
   m_RootOrder: 1
 --- !u!1 &976694350
 GameObject:
@@ -4019,12 +3994,12 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1234043746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 126.665001, y: 95.0599976, z: 0}
+  m_LocalScale: {x: .49000001, y: .49000001, z: .49000001}
   m_Children:
   - {fileID: 1862060933}
   - {fileID: 1351749033}
-  m_Father: {fileID: 2025240471}
+  m_Father: {fileID: 844087648}
   m_RootOrder: 2
 --- !u!1 &1247665668
 GameObject:
@@ -4118,7 +4093,6 @@ Transform:
   m_LocalScale: {x: .49000001, y: .49000001, z: .49000001}
   m_Children:
   - {fileID: 1482195235}
-  - {fileID: 975341543}
   m_Father: {fileID: 1045686478}
   m_RootOrder: 2
 --- !u!1 &1351749032
@@ -6176,9 +6150,8 @@ Transform:
   m_Children:
   - {fileID: 682295842}
   - {fileID: 508999927}
-  - {fileID: 1234043747}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &2041637920
 GameObject:
   m_ObjectHideFlags: 0

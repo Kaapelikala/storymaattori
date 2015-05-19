@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 
 //Shows details of Soldier at SQUADVIEW. 
@@ -8,7 +9,7 @@ using System.Collections;
 public class SoldierView : MonoBehaviour {
 
 	public SoldierManager ALIVE_SOLDIERS;
-	public int Current = 0;		// keeps track of which soldier we are looking at.
+	public int Current = 1;		// keeps track of which soldier we are looking at.
 	public SoldierController Target;
 
 	public Text View_Name; 			//just the name
@@ -22,29 +23,41 @@ public class SoldierView : MonoBehaviour {
 
 	public GameObject NoAlive;
 	public GameObject SomeAlive;
+	/*
+	 * CheckAliveStatus checks if there are alive soldiers
+	 * If yes, returns true and sets "alive soldiers view" on
+	 * If no, returns false and sets "no soldiers view" on
+	 * 
+	 */
 
-	void Start (){
-	
-		this.NextSoldier();
+	public void CheckAliveMessage()
+	{
+		Debug.Log ("Current: " + Current);
+		ShowSoldier ();
 	}
 
-	// Update is called once per frame
-	void Update () {
+	public bool  CheckAliveStatus(){
+		if (ALIVE_SOLDIERS.soldiers.Count <1) {
+			NoAlive.SetActive (true);
+			SomeAlive.SetActive (false);
+			return false;
+
+		} else {
+			if (Current<1)
+				Current = 1;
+			
+			NoAlive.SetActive (false);
+			SomeAlive.SetActive (true);
+			return true;
+		}
 	}
-	
 
 	public void ShowSoldier (){
-		if(ALIVE_SOLDIERS.NumberAlive == 0){
-			NoAlive.SetActive(true);
-			SomeAlive.SetActive(false);
+		Debug.Log ("Current: " + Current + ", size " + ALIVE_SOLDIERS.soldiers.Count);
+		if (CheckAliveStatus())
+			{
 			
-		}
-		
-		else {
-			
-			NoAlive.SetActive(false);
-			SomeAlive.SetActive(true);
-			
+			Target = ALIVE_SOLDIERS.soldiers [Current - 1];
 			IMAGE.Set(Target.sex , Target.pictureID);
 			
 			this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
@@ -105,35 +118,46 @@ public class SoldierView : MonoBehaviour {
 			else
 			{
 				this.View_Alive.text = "DEAD!";
-			}
+ 			}
 			
 		}
 
 	}
 
 	public void NextSoldier(){
+		if (ALIVE_SOLDIERS.soldiers.Count != 0) 
+		{
+			Current++;
+			if (Current > ALIVE_SOLDIERS.soldiers.Count)
+			{Current = ALIVE_SOLDIERS.soldiers.Count;
+				Debug.Log ("Currently at "+Current);
+				Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
+			}
+			
+			Debug.Log ("Currently at "+Current);
+			Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
+
+			
+		}
 		
-		Current++;
-		
-		if (Current > ALIVE_SOLDIERS.NumberAlive)
-			Current = 1;
-		
-		Target = ALIVE_SOLDIERS.soldiers[Current-1];
 		ShowSoldier ();
 		
 	}
 
 	public void PrevSoldier(){
+		if (ALIVE_SOLDIERS.soldiers.Count != 0) {
+			Current --;
+			if (Current <1)
+			{
+				Current =  1;
+			}
+			
+			Debug.Log ("Currently at "+Current);
+			Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
 
-		Current--;
-
-		if (Current < 1)
-			Current = ALIVE_SOLDIERS.NumberAlive;
-
+		}
+			ShowSoldier ();
 		
-		Target = ALIVE_SOLDIERS.soldiers[Current-1];
-		ShowSoldier ();
-
 		
 	}
 }

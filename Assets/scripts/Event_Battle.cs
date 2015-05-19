@@ -6,6 +6,10 @@ public class Event_Battle {
 
 	public SoldierController target;
 
+	public Event_Battle()
+	{
+	}
+
 
 		public string FightRound (SoldierController NEWTARGET, int Enemy_difficulty){
 
