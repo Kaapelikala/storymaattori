@@ -44,7 +44,7 @@ public class Event_Battle {
 		}
 		else 
 		{
-			returned = ("Foe "+monstername+" was "+verb;
+			returned = ("Foe "+monstername+" was "+verb);
 		}
 
 
