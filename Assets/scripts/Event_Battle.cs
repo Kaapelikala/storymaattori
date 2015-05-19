@@ -35,8 +35,8 @@ public class Event_Battle {
 		};
 		string returned="";
 		int temp;
-		string monstername = (Mathf.RoundToInt(Random.value*monsternames.GetLength(0)));
-		string verb = (Mathf.RoundToInt(Random.value*verbs.GetLength(0)));
+		string monstername = monsternames[(Mathf.RoundToInt(Random.value*monsternames.GetLength(0)))];
+		string verb = verbs[(Mathf.RoundToInt(Random.value*verbs.GetLength(0)))];
 
 
 		if (negative) {
