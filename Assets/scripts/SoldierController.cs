@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SoldierController : ScriptableObject {
 
@@ -23,7 +24,7 @@ public class SoldierController : ScriptableObject {
 	public string[] gearList;
 	public bool alive=true;
 	private int rank = 0;
-	public ArrayList events = new ArrayList ();
+	public List<string> events = new List<string> ();
 
 	public string HowDied = "";
 
@@ -332,6 +333,12 @@ public class SoldierController : ScriptableObject {
 		return "Recruit";
 
 	}
+
+	public void AddEvent(string combatEvent)
+	{
+		events.Add(combatEvent);
+	}
+
 
 	//As character dying should quite big thing, this function SHOULD FIRE OFF MORE THIGNS - Depression in comrades, move from active soldiers to burial ground etc!
 	public void die(string how){

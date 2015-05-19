@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 public class Event_Battle {
 
 	public SoldierController target;
@@ -10,6 +9,47 @@ public class Event_Battle {
 	{
 	}
 
+
+		public void addCombatEvent(bool negative)
+	{
+
+		string[] monsternames= new string[] {"Mauler","Snotling","Waster","Kitten","Puppy","Green-Haired Screamer","Triclops","Duclops"};
+		string [] verbs = new string[] {
+			"mauled",
+			"wasted",
+			"squashed",
+			"flattened",
+			"dematerialized",
+			"cooked",
+			"chewed",
+			"samurai sworded",
+			"packaged",
+			"smoshed",
+			"drowned",
+			"zapped",
+			"flamed",
+			"grilled",
+			"asskicked",
+			"freezed",
+			"nomnomed"
+		};
+		string returned="";
+		int temp;
+		string monstername = (Mathf.RoundToInt(Random.value*monsternames.GetLength(0)));
+		string verb = (Mathf.RoundToInt(Random.value*verbs.GetLength(0)));
+
+
+		if (negative) {
+			returned = "Got "+verb+" by "+monstername;
+		}
+		else 
+		{
+			returned = ("Foe "+monstername+" was "+verb;
+		}
+
+
+		target.AddEvent(returned);
+	}
 
 		public string FightRound (SoldierController NEWTARGET, int Enemy_difficulty){
 
