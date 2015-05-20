@@ -27,16 +27,17 @@ public class SoldierView : MonoBehaviour {
 	public GameObject SomeAlive;
 
 	public GUIStyle Style;
+	public Text eventText;
 	
 
 	//public Vector2 scrollPosition = Vector2.zero;
-	void OnGUI() {
+	/*void OnGUI() {
 		//scrollPosition = GUI.BeginScrollView(new Rect(10, 300, 100, 100), scrollPosition, new Rect(0, 0, 220, 200));
 		GUI.TextArea(new Rect(10, 300, 350, 100), History, Style);
 
 		//GUI.EndScrollView();
 	}
-
+*/
 	/*
 	 * CheckAliveStatus checks if there are alive soldiers
 	 * If yes, returns true and sets "alive soldiers view" on
@@ -79,6 +80,7 @@ public class SoldierView : MonoBehaviour {
 			this.View_Details.text = Target.callsign + "\n" + Target.GetRank();
 			
 			this.View_Traits.text = Target.GetAttributes();
+			this.eventText.text=Target.GetEvents();
 			
 			
 			// ei anneta suoraa numeraalisia arvoja pelaajille nähtäviksi

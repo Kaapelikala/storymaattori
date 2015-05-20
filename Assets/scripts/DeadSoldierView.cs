@@ -26,17 +26,8 @@ public class DeadSoldierView : MonoBehaviour {
 	public GameObject NoAlive;
 	public GameObject SomeAlive;
 
-	public GUIStyle Style;
-
-
-	//public Vector2 scrollPosition = Vector2.zero;
-	void OnGUI() {
-		//scrollPosition = GUI.BeginScrollView(new Rect(10, 300, 100, 100), scrollPosition, new Rect(0, 0, 220, 200));
-		GUI.TextArea(new Rect(10, 300, 350, 100), History, Style);
-		
-		//GUI.EndScrollView();
-	}
-
+	public Text eventText;
+		//GUI.EndScroll
 	/*
 	 * CheckAliveStatus checks if there are alive dead
 	 * If yes, returns true and sets "alive dead view" on
@@ -78,7 +69,8 @@ public class DeadSoldierView : MonoBehaviour {
 			this.View_Details.text = Target.callsign + "\n" + Target.GetRank();
 			
 			this.View_Traits.text = Target.GetAttributes();
-			
+			this.eventText.text=Target.GetEvents();
+
 			
 			// ei anneta suoraa numeraalisia arvoja pelaajille nähtäviksi
 			string ReturnMorale;
