@@ -37,7 +37,7 @@ public class Mission : MonoBehaviour {
 		}
 			else{
 			string returned = "";
-			returned += MissionName;
+			returned += MissionName + "\n";
 			returned += "--Location: " + location + "\n";
 			returned += "--Operation: " + type + "\n";
 			returned += "--Members:\n";
