@@ -19,7 +19,7 @@ public class DeadSoldierView : MonoBehaviour {
 	
 	public Text View_Alive;			//is Soldier alive or dead?
 	
-	public string History;			// All the history!
+	public Text History;			// All the history!
 
 	public SoldierHeadImage IMAGE;
 	
@@ -29,22 +29,6 @@ public class DeadSoldierView : MonoBehaviour {
 
 	public GUIStyle Style;
 
-	public Vector2 scrollPosition;
-	
-	
-	//public Vector2 scrollPosition = Vector2.zero;
-	void OnGUI() {
-		
-		
-		//GUI.TextArea(new Rect(10, 300, 350, 100), History, Style);
-		
-		
-		scrollPosition = GUI.BeginScrollView(new Rect(10, 290, 350, 100), scrollPosition, new Rect(0, 0, 220, Target.events.Count*20));
-		
-		GUILayout.Label(History, Style);
-		
-		GUI.EndScrollView();
-	}
 
 	/*
 	 * CheckAliveStatus checks if there are alive dead
@@ -134,7 +118,8 @@ public class DeadSoldierView : MonoBehaviour {
 			
 			this.View_Alive.text = Target.HowDied;
 
-			this.History = Target.GetEvents();
+			this.History.text = Target.GetEvents();
+			this.History.rectTransform.sizeDelta = new Vector2( 520, Target.events.Count*20);
 
 			
 		}

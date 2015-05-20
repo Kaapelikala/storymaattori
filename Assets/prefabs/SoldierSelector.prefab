@@ -112,9 +112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: .196078435, g: .196078435, b: .196078435, a: 1}
+  m_Color: {r: .200000003, g: 0, b: 0, a: 1}
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 2354fcbfe2a36bf4fbc448dcc5798b4d, type: 3}
     m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
@@ -145,8 +145,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: .960784316, g: .960784316, b: .960784316, a: 1}
+    m_NormalColor: {r: .200000003, g: 0, b: 0, a: 1}
+    m_HighlightedColor: {r: .580882311, g: .0726102889, b: .0726102889, a: 1}
     m_PressedColor: {r: .784313738, g: .784313738, b: .784313738, a: 1}
     m_DisabledColor: {r: .784313738, g: .784313738, b: .784313738, a: .501960814}
     m_ColorMultiplier: 1
@@ -193,6 +193,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   soldierName: {fileID: 11420848}
   onMission: {fileID: 11481600}
+  missions: {fileID: 0}
 --- !u!114 &11466818
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -252,9 +253,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: .196078435, g: .196078435, b: .196078435, a: 1}
+  m_Color: {r: .200000003, g: 0, b: 0, a: 1}
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 2354fcbfe2a36bf4fbc448dcc5798b4d, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
