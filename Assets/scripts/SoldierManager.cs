@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class SoldierManager : MonoBehaviour {
 
 	public int SoldierID = 42001;
+	public int[] squadIds=new int[4];
+	public int inSquadCurrently=0;
 
 	//public SoldierController[] soldiers = new SoldierController[25];
 	public List<SoldierController> soldiers = new List<SoldierController> (0);
@@ -13,11 +15,39 @@ public class SoldierManager : MonoBehaviour {
 
 	void Start () {
 		//for testing. DELETE PRIOR TO LAUNCH
-		//this.CreateNewSoldier();
+		//
 
 	}
-	//gets a specific squad using given indexes
 
+	public bool SetToMission (int i)
+	{
+		Debug.Log ("Setting to mission: " + i);
+		if (i >= soldiers.Count)
+			return false;
+		if (inSquadCurrently < 4) {
+			bool ok=true;
+			for (int j=0;j<inSquadCurrently;j++)
+			{if (squadIds[j]==i)
+				ok=false;
+			}
+			if (ok)
+			{
+				squadIds [inSquadCurrently] = i;
+				inSquadCurrently++;
+				return true;
+			}
+			Debug.Log ("Currently in squad: "+inSquadCurrently);
+		}
+		return false;
+	}
+	public List<SoldierController> GetSquad ()
+	{
+		return GetSquad (squadIds);
+	}
+
+
+
+	//gets a specific squad using given indexes
 	public List<SoldierController> GetSquad (int[] indexes)
 	{
 		List<SoldierController> returned= new List<SoldierController> ();
@@ -29,7 +59,7 @@ public class SoldierManager : MonoBehaviour {
 	}
 
 	//gets a random squad 
-	public List<SoldierController> GetSquad()
+	public List<SoldierController> GetSquad(bool random)
 	{
 		List<int> listOfNumbers=new List<int>();
 		while (listOfNumbers.Count!=4&&listOfNumbers.Count<soldiers.Count)
