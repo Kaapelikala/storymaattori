@@ -59,18 +59,20 @@ public class MissionLog : MonoBehaviour {
 	}
 	public void AddSquad()
 	{
-		Debug.Log ("Adding squad...");
-		Debug.Log (missions.IndexOf(mission));
-		Debug.Log (currentlyAdded);
- 		Debug.Log ("mission @ "+missions[currentlyAdded]);
-		missions[currentlyAdded].AddSquad (manager.GetSquad(manager.squadIds));
-		Debug.Log ("Fighting....");
-		control.Fight (manager.squadIds);
+		if (manager.inSquadCurrently == 4) {
+			Debug.Log ("Adding squad...");
+			Debug.Log (missions.IndexOf (mission));
+			Debug.Log (currentlyAdded);
+			Debug.Log ("mission @ " + missions [currentlyAdded]);
+			missions [currentlyAdded].AddSquad (manager.GetSquad (manager.squadIds));
+			Debug.Log ("Fighting....");
+			control.Fight (manager.squadIds);
 		
-		Debug.Log ("writing to log...");
-		UpdateLog ();
-		manager.squadIds = new int[4]{-2,-2,-2,-2};
-		manager.inSquadCurrently = 0;
+			Debug.Log ("writing to log...");
+			UpdateLog ();
+			manager.squadIds = new int[4]{-2,-2,-2,-2};
+			manager.inSquadCurrently = 0;
+		}
 	}
 	
 	public void UpdateLog()

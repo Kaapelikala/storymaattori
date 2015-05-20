@@ -2825,7 +2825,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 904350973}
-        m_MethodName: DeactivateSoldierSelectorView
+        m_MethodName: CheckDeactivateSoldierSelectionView
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2837,7 +2837,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1351749034}
-        m_MethodName: AddSquad
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2847,7 +2847,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &562753706
@@ -4264,6 +4264,8 @@ MonoBehaviour:
   deadSoldierView: {fileID: 2025240470}
   mainView: {fileID: 487207107}
   soldierSelectorView: {fileID: 633030517}
+  manager: {fileID: 101941925}
+  missions: {fileID: 1351749034}
 --- !u!4 &904350974
 Transform:
   m_ObjectHideFlags: 0
@@ -6009,7 +6011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1234043747
 Transform:
   m_ObjectHideFlags: 0
@@ -6770,7 +6772,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "AT LEAST 4 \nSOLDIERS NEEDED!"
+  m_Text: ' 4 SOLDIERS NEEDED!'
 --- !u!222 &1412953665
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7435,7 +7437,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 1
       - m_Target: {fileID: 1351749034}
-        m_MethodName: AddMission
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7445,7 +7447,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 0
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1590347133
