@@ -6,13 +6,28 @@ public class EventController : MonoBehaviour {
 
 	public SoldierManager manager;
 	public Campaing campaing;
-	
-	public void Fight()
+
+
+
+	public void Fight ()
+	{
+		int[] indexes = {-1,-1,-1,-1};
+		Fight (indexes);
+	}
+
+
+	public void Fight(int [] indexes)
 {
 		string MissionName = campaing.GetNextMission();
+		List<SoldierController> squad;
 
 		//Get new squad. 
-		List<SoldierController> squad = manager.GetSquad ();
+		if (indexes [0]==-1)
+			squad = manager.GetSquad ();
+		else
+		{
+			squad = manager.GetSquad(indexes);
+		}
 		Event_Battle temp = new Event_Battle (MissionName);
 
 		//Give Mission Number to all!

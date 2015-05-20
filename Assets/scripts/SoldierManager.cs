@@ -19,6 +19,12 @@ public class SoldierManager : MonoBehaviour {
 
 	}
 
+	public void EmptySquad()
+	{
+		squadIds = new int[4];
+		inSquadCurrently = 0;
+	}
+
 	public bool SetToMission (int i)
 	{
 		Debug.Log ("Setting to mission: " + i);
