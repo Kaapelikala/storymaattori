@@ -28,7 +28,9 @@ public class SoldierSelector : MonoBehaviour {
 		temp = Int32.Parse (this.gameObject.name);
 		Debug.Log ("This parsed name: " + temp);
 		if (manager.SetToMission (temp))
-			onMission.text="On mission";
+			onMission.text = "On mission";
+		else 
+			onMission.text = "";
 	}
 	public void LaunchMission()
 	{
