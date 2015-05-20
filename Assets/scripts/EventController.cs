@@ -22,10 +22,8 @@ public class EventController : MonoBehaviour {
 		for (int j =0; j<(Mathf.FloorToInt(Random.Range(3,10))); j++) {
 			for (int i =0; i<squad.Count; i++) {
 				temp.FightRound (squad [i], 90 + (Mathf.FloorToInt (Random.Range (0, 20))));
-				if (squad [i].health <= 0) {
-					//kill the dood.
-					manager.MoveDeadsAway ();
-				}
+				//Everyone has enough processing power anyways.
+				manager.MoveDeadsAway ();
 			}
 		}
 	}
