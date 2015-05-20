@@ -13,10 +13,22 @@ public class SoldierManager : MonoBehaviour {
 
 	void Start () {
 		//for testing. DELETE PRIOR TO LAUNCH
-		this.CreateNewSoldier();
+		//this.CreateNewSoldier();
 
 	}
+	//gets a specific squad using given indexes
 
+	public List<SoldierController> GetSquad (int[] indexes)
+	{
+		List<SoldierController> returned= new List<SoldierController> ();
+		for (int i =0;i<4;i++)
+		{
+			returned.Add(soldiers[indexes[i]]);
+		}
+		return returned;
+	}
+
+	//gets a random squad 
 	public List<SoldierController> GetSquad()
 	{
 		List<int> listOfNumbers=new List<int>();

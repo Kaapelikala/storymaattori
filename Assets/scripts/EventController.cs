@@ -10,6 +10,8 @@ public class EventController : MonoBehaviour {
 	public void Fight()
 {
 		string MissionName = campaing.GetNextMission();
+
+		//Get new squad. 
 		List<SoldierController> squad = manager.GetSquad ();
 		Event_Battle temp = new Event_Battle (MissionName);
 
