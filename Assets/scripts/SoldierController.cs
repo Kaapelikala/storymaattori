@@ -271,7 +271,7 @@ public class SoldierController : ScriptableObject {
 	}
 
 	/// <summary>
-	/// Prints list of all attributes of the Soldier
+	/// Prints list of all attributes of the Soldier. THROWS NULLPOINT IF THERE IS NONE SO THERE HAS TO BE SOMETHING!
 	/// </summary>
 	/// <returns>list of attributes.</returns>
 	public string GetAttributes ()	
