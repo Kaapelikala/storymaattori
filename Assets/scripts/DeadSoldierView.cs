@@ -120,7 +120,7 @@ public class DeadSoldierView : MonoBehaviour {
 		if (ALIVE_SOLDIERS.dead.Count != 0) 
 		{
 			Current++;
-			if (Current > ALIVE_SOLDIERS.dead.Count)
+			if (Current >= ALIVE_SOLDIERS.dead.Count)
 			{Current = 0;
 				Debug.Log ("Currently at "+Current);
 				Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.dead.Count);
