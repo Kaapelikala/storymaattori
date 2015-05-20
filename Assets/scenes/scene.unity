@@ -3727,6 +3727,99 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1664425521}
   m_RootOrder: 1
+--- !u!1 &908303308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 908303309}
+  - 222: {fileID: 908303311}
+  - 114: {fileID: 908303310}
+  m_Layer: 5
+  m_Name: MissionText 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &908303309
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 908303308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1401374701}
+  m_RootOrder: 1
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: 6, y: -29.25}
+  m_SizeDelta: {x: 359, y: 2963.5}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &908303310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 908303308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: .196078435, g: .196078435, b: .196078435, a: 1}
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Mission 1:
+
+
+    blaablaa
+
+
+    Mission 2:
+
+
+    blaablaa
+
+
+    Mission 3:
+
+
+    blaablaa
+
+
+    Mission 4:
+
+
+    blaablaa
+
+
+    Mission 5:
+
+
+    blaablaa'
+--- !u!222 &908303311
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 908303308}
 --- !u!4 &918971813
 Transform:
   m_PrefabParentObject: {fileID: 424246, guid: 88f47f6024076464285896594037557d, type: 2}
@@ -5449,6 +5542,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1351749033}
+  - 114: {fileID: 1351749034}
   m_Layer: 0
   m_Name: MissionList
   m_TagString: Untagged
@@ -5468,6 +5562,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1234043747}
   m_RootOrder: 1
+--- !u!114 &1351749034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1351749032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a395e7c82db25814e86d3863ca8ac0c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missionText: {fileID: 908303310}
 --- !u!1 &1354126794
 GameObject:
   m_ObjectHideFlags: 0
@@ -5701,12 +5807,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1898363801}
+  - {fileID: 908303309}
   m_Father: {fileID: 57422413}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -212}
-  m_SizeDelta: {x: 0, y: 423}
+  m_AnchoredPosition: {x: 0, y: -1372}
+  m_SizeDelta: {x: 0, y: 2743}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1401374702
 MonoBehaviour:
@@ -7708,8 +7815,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 6, y: 0}
-  m_SizeDelta: {x: 359, y: 630}
+  m_AnchoredPosition: {x: 6, y: 1476}
+  m_SizeDelta: {x: 359, y: 47}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1898363802
 MonoBehaviour:
@@ -7731,14 +7838,12 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 1
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Soldier Text Element
-
-'
+  m_Text: Mission Log
 --- !u!222 &1898363803
 CanvasRenderer:
   m_ObjectHideFlags: 0
