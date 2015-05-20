@@ -30,12 +30,13 @@ public class EventController : MonoBehaviour {
 		}
 		Event_Battle Fight = new Event_Battle (MissionName);
 		Event_Grenade Grenade = new Event_Grenade (MissionName);
+		Event_Debrief MotherBase = new Event_Debrief();
 
 		//Give Mission Number to all!
 
 		foreach (SoldierController solttu in squad)
 		{
-			solttu.AddEvent("\n" + MissionName + ":\n");
+			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ": "  + "MissionName: \n");
 			solttu.missions++;
 			
 		}
@@ -58,7 +59,19 @@ public class EventController : MonoBehaviour {
 				//Everyone has enough processing power anyways.
 				manager.MoveDeadsAway ();
 			}
+
+
 		}
+
+		//DEBRIEFING FOR ALIVES!
+
+		foreach (SoldierController solttu in squad)
+		{
+			MotherBase.Handle(solttu);
+			
+		}
+
+
 	}
 
 
