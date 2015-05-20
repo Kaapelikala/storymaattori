@@ -153,7 +153,7 @@ public class SoldierView : MonoBehaviour {
 		{
 			Current++;
 			if (Current > ALIVE_SOLDIERS.soldiers.Count)
-			{Current = 0;
+			{Current = 1;
 				Debug.Log ("Currently at "+Current);
 				Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
 			}

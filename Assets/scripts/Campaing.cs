@@ -19,7 +19,9 @@ public class Campaing : MonoBehaviour {
 	public string PlanetType = "arid";
 	public string PlanetAdje = "dry";
 
+	//for notes
 	public int missionNumber = 0;
+	public int TimeStamp = 0;
 
 	// Use this for initialization
 	void Start () {
