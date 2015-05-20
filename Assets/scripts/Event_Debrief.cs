@@ -7,6 +7,7 @@ public class Event_Debrief : MonoBehaviour {
 	public SoldierController target;
 	public string MissionName = "";
 		
+	public string CookName = "";
 			
 
 	public void Handle (SoldierController NEWTARGET){
@@ -15,10 +16,16 @@ public class Event_Debrief : MonoBehaviour {
 
 		target.AddEvent("Debriefing: \n");
 
-		if (CheckTrait("wounded")){
+		if (CheckTrait("tough"))		//being tough helps a lot!
+			target.ChangeHealth(10);
+		if (CheckTrait("heroic"))		//being tough helps a lot!
+			target.ChangeMorale(10);
+		if (CheckTrait("coward"))		//being tough helps a lot!
+			target.ChangeMorale(-10);
 
-			if (CheckTrait("tough"))		//being tough helps a lot!
-			    target.ChangeHealth(10);
+
+		//HANDLING OF WOUNDEDS!
+		if (CheckTrait("wounded")){
 
 			int Roll = Random.Range(0, 100);
 
@@ -46,7 +53,7 @@ public class Event_Debrief : MonoBehaviour {
 					int ThirdRoll = Random.Range(0, 5);		//Chance for alcoholism
 					if (ThirdRoll >4)
 					{
-						result += " but " + target.callsign + " began to drink too much.\n";
+						result += " but " + target.callsign + " began to drink too much!\n";
 						target.AddAttribute("drunkard");
 					}
 					else
@@ -80,7 +87,7 @@ public class Event_Debrief : MonoBehaviour {
 				}
 				else
 				{
-					target.AddEvent(target.callsign + "Would have hoped better\n");
+					target.AddEvent(target.callsign + " would have hoped better\n");
 					target.ChangeMorale(5);
 				}
 			}
@@ -106,34 +113,162 @@ public class Event_Debrief : MonoBehaviour {
 				}
 				else
 				{
-					target.AddEvent(target.callsign + "It sucked royally.\n");
+					target.AddEvent("It sucked royally.\n");
 					target.ChangeMorale(-10);
 				}
 			}
 
 
+		}		
+		else
+		{
+			target.AddEvent("Did not need medical help.\n");
 		}
 
-		if (target.kills > 4 && target.GetRank() == "Recruit")
-		{}
 
+		//PROMOTIONS
+		if (this.target.kills > 4 && target.rank == 0)			//TROOPER
+		{
+			if (Random.Range(0, 100) > 70)
+			{
+				Promote(this.target);
+				target.ChangeMorale(10);
+			}
+			else
+			{
+				target.AddEvent("Did not get deserved promotion!\n");
+				target.ChangeMorale(-20);
+			}
+		}
+		else if (this.target.kills > 10 && target.rank == 1)		//CORP
+		{
+			if (Random.Range(0, 100) > 70)
+			{
+				Promote(this.target);
+				target.ChangeMorale(20);
+			}
+			else
+			{
+				target.AddEvent("Did not get deserved promotion!\n");
+				target.ChangeMorale(-40);
+			}
+		}
+		else if (this.target.kills > 20 && target.rank == 2)		//CAPT
+		{
+			if (Random.Range(0, 100) > 70)
+			{
+				Promote(this.target);
+				target.ChangeMorale(30);
+			}
+			else
+			{
+				target.AddEvent("Did not get deserved promotion!\n");
+				target.ChangeMorale(-60);
+			}
+		}
+		else if (this.target.kills > 40 && target.rank == 3)		//LIUTENANT
+		{
+			if (Random.Range(0, 100) > 70)
+			{
+				Promote(this.target);
+				target.ChangeMorale(40);
+			}
+			else
+			{
+				target.AddEvent("Did not get deserved promotion!\n");
+				target.ChangeMorale(-60);
+			}
+		}
+
+		//CHANCE TO BANG HIMSELF due to POOR MORALE
+		if (this.target.morale < 0){		
+
+			if (Random.Range(0, 100) > 70)
+			{
+				string Sexdiff = "";
+				if (this.target.sex == 'm')
+				{
+					Sexdiff = "him";
+				}
+				else 
+				{
+					Sexdiff = "her";
+				}
+					if (CheckTrait("inaccurate"))
+					    {
+						    this.target.AddEvent("Due to poor morale, " + target.callsign + "tried to shot " + Sexdiff + "self but missed!\n");
+					    }
+				else
+				{
+					target.AddEvent("Due to poor morale, " + target.callsign + "shot " + Sexdiff + "self!\n");
+					target.die("Killed " + Sexdiff + "self.");
+				}
+			}
+			else
+				target.AddEvent("Due to poor morale, " + target.callsign + "thought about self-termination.\n");
+		}
+
+
+		// CHANCE FOR NEW TRAITS
+		if (Random.Range(0, 100) > 70){
+
+
+			int traitRandomiser = Random.Range(0, 2);
 		
-			
-//
-//		    if (rank == 0)
-//		    return "Recruit";
-//		    
-//		    if (rank == 1)
-//		    return "Trooper";
-//		    
-//		    if (rank == 2)
-//		    return "Corporal";
-//		    
-//		    if (rank == 3)
-//		    return "Sergeant";
-//		    
-//		    if (rank == 4)
-//		    return "Liutenant";
+			switch (traitRandomiser)
+			{
+			case 0:
+			{
+				if (CheckTrait("coward")){
+					break;
+				}
+				target.AddEvent(target.callsign + " found new resolve!\n" );
+
+				this.target.AddAttribute("heroic");
+				break;
+				}
+			case 1:
+				{
+
+				target.AddEvent(target.callsign + " does not care about scratches anymore!\n" );
+				this.target.AddAttribute("tough");
+				break;
+				}
+			case 2:
+				{
+				if (CheckTrait("heroic")) {
+					break;
+				}
+				target.AddEvent(target.callsign + " began fear the dark!\n" );
+				this.target.AddAttribute("coward");
+				break;
+				}
+			}
+
+		}
+
+		if (CookName != ""){
+			this.target.ChangeMorale(10);
+			this.target.AddEvent("Cooking of " + CookName + "was splendid!\n"); 
+		}
+	}
+
+	void Promote (SoldierController Ylennettava)
+	{
+		string Sexdiff = "";
+		if (Ylennettava.sex == 'm')
+		{
+			Sexdiff = "his";
+		}
+		else 
+		{
+			Sexdiff = "her";
+		}
+		string FormerRank = Ylennettava.GetRank();
+		
+		Ylennettava.rank++;
+		
+		Ylennettava.AddEvent("Due to " + Sexdiff +" actions, " + FormerRank + " "+ Ylennettava.soldierLName +" was promoted to " + Ylennettava.GetRank() + "!\n");
 
 	}
 		

@@ -38,6 +38,10 @@ public class EventController : MonoBehaviour {
 		{
 			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ": "  + "MissionName: \n");
 			solttu.missions++;
+
+			if (solttu.HasAttribute("cook"))
+				MotherBase.CookName =  "'" + solttu.callsign +  "' " + solttu.soldierLName;
+
 			
 		}
 
@@ -71,6 +75,7 @@ public class EventController : MonoBehaviour {
 			
 		}
 
+		manager.MoveDeadsAway ();
 
 	}
 

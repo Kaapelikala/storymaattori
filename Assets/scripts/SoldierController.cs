@@ -23,7 +23,7 @@ public class SoldierController : ScriptableObject {
 	public int gear = 0;
 	public string[] gearList;
 	public bool alive=true;
-	private int rank = 0;
+	public int rank = 0;
 	public List<string> events = new List<string> ();
 
 	public string HowDied = "";

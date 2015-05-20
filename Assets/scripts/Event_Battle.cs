@@ -46,11 +46,11 @@ public class Event_Battle {
 
 
 		if (negative) {
-			returned = verb.ToUpper() +" by "+monstername + "\n";
+			returned = verb +" by "+monstername + "\n";
 		}
 		else
 		{
-			returned = verb.ToUpper() + " a " + monstername + "!\n";
+			returned = verb + " a " + monstername + "!\n";
 		}
 
 
