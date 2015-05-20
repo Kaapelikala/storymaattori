@@ -1294,7 +1294,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1923106973}
+      - m_Target: {fileID: 1923106975}
         m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
@@ -5381,7 +5381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1096308486
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5840,7 +5840,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1923106973}
+      - m_Target: {fileID: 1923106975}
         m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
@@ -7985,6 +7985,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1664425521}
+  - 114: {fileID: 1664425522}
   m_Layer: 0
   m_Name: AssistantObjects
   m_TagString: Untagged
@@ -8006,6 +8007,18 @@ Transform:
   - {fileID: 904350974}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1664425522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1664425520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81702c5492899ac4999d5eaa34e75c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menu: {fileID: 1923106972}
 --- !u!1001 &1680008415
 Prefab:
   m_ObjectHideFlags: 0
@@ -9566,7 +9579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856ba285fb882f14489ad631892bfeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: {fileID: 1858354526}
+  menu: {fileID: 1923106972}
 --- !u!1 &1924207969
 GameObject:
   m_ObjectHideFlags: 0
