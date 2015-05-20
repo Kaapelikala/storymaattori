@@ -6,8 +6,19 @@ public class UIMainMenu : MonoBehaviour {
 
     public Text campaignNameLabel;
 
+	public Image DESC_FADE;
+
+	public AudioSource BeginClick;
+
+
+
     public void ClickPlayButton()
     {
+		//DESC_FADE.IsActive(true);
+		//BeginClick.Play();
+
+		//new WaitForSeconds(10);
+
         Application.LoadLevel("scene");
     }
 
@@ -24,5 +35,7 @@ public class UIMainMenu : MonoBehaviour {
 	{
 		Application.Quit();
 	}
+
+
 
 }

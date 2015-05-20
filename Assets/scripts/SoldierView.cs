@@ -19,23 +19,34 @@ public class SoldierView : MonoBehaviour {
 
 	public Text View_Alive;			//is Soldier alive or dead?
 
-	public string History;			// All the history!
+	public Text History;			// All the history!
 
 	public SoldierHeadImage IMAGE;
 
 	public GameObject NoAlive;
 	public GameObject SomeAlive;
 
+
 	public GUIStyle Style;
-	
 
-	//public Vector2 scrollPosition = Vector2.zero;
-	void OnGUI() {
-		//scrollPosition = GUI.BeginScrollView(new Rect(10, 300, 100, 100), scrollPosition, new Rect(0, 0, 220, 200));
-		GUI.TextArea(new Rect(10, 300, 350, 100), History, Style);
+	public Vector2 scrollPosition;
 
-		//GUI.EndScrollView();
-	}
+	//public rect
+
+		
+//	//public Vector2 scrollPosition = Vector2.zero;
+//	void OnGUI() {
+//
+//
+//		//GUI.TextArea(new Rect(10, 300, 350, 100), History, Style);
+//
+//
+//		scrollPosition = GUI.BeginScrollView(new Rect(10, 290, 350, 100), scrollPosition, new Rect(0, 0, 220, Target.events.Count*20));
+//	
+//		GUILayout.Label(History, Style);
+//
+//		GUI.EndScrollView();
+//	}
 
 	/*
 	 * CheckAliveStatus checks if there are alive soldiers
@@ -135,7 +146,7 @@ public class SoldierView : MonoBehaviour {
 				this.View_Alive.text = "DEAD!";
  			}
 
-			this.History = Target.GetEvents();
+			this.History.text = Target.GetEvents();
 			
 		}
 
