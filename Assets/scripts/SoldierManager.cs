@@ -48,7 +48,11 @@ public class SoldierManager : MonoBehaviour {
 	}
 	public List<SoldierController> GetSquad ()
 	{
-		return GetSquad (squadIds);
+		//return GetSquad (squadIds);
+		//complicated
+
+		//for testing, ALL SOLDIERS ARE SENT
+		return soldiers;
 	}
 
 
@@ -56,6 +60,9 @@ public class SoldierManager : MonoBehaviour {
 	//gets a specific squad using given indexes
 	public List<SoldierController> GetSquad (int[] indexes)
 	{
+		if (soldiers.Count <4)
+			return null;
+
 		List<SoldierController> returned= new List<SoldierController> ();
 		for (int i =0;i<4;i++)
 		{

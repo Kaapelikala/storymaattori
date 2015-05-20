@@ -31,8 +31,11 @@ public class EventController : MonoBehaviour {
 		Event_Battle temp = new Event_Battle (MissionName);
 
 		//Give Mission Number to all!
-		for (int i =0; i<squad.Count; i++) {
-			squad [i].AddEvent("\n" + MissionName + ":\n");
+
+		foreach (SoldierController solttu in squad)
+		{
+			solttu.AddEvent("\n" + MissionName + ":\n");
+			
 		}
 
 		//Combat takes n rounds. 

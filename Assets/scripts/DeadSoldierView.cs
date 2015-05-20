@@ -18,7 +18,9 @@ public class DeadSoldierView : MonoBehaviour {
 	public Text View_Numbers; 		//Kills, missions, etc
 	
 	public Text View_Alive;			//is Soldier alive or dead?
-	
+
+	public Text History;			// All the history!
+
 	public SoldierHeadImage IMAGE;
 	
 	public GameObject NoAlive;
@@ -109,7 +111,9 @@ public class DeadSoldierView : MonoBehaviour {
 			
 			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath + "\n\n" + awards;
 			
-			this.View_Alive.text = Target.events[0];
+			this.View_Alive.text = Target.HowDied;
+
+			this.History.text = Target.GetEvents();
 
 			
 		}

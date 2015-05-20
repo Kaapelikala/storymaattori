@@ -6,6 +6,27 @@ public class Event_Battle {
 	public SoldierController target;
 	public string MissionName = "";
 
+	string[] monsternames= new string[] {"Mauler","Snotling","Waster","Kitten","Puppy","Green-Haired Screamer","Triclops","Duclops","Soldier"};
+	string [] verbs = new string[] {
+		"mauled",
+		"wasted",
+		"squashed",
+		"flattened",
+		"dematerialized",
+		"cooked",
+		"chewed",
+		"samurai sworded",
+		"packaged",
+		"smoshed",
+		"drowned",
+		"zapped",
+		"flamed",
+		"grilled",
+		"asskicked",
+		"freezed",
+		"nomnomed"
+	};
+
 	public Event_Battle()
 	{
 	}
@@ -18,26 +39,6 @@ public class Event_Battle {
 		public void addCombatEvent(bool negative)
 	{
 
-		string[] monsternames= new string[] {"Mauler","Snotling","Waster","Kitten","Puppy","Green-Haired Screamer","Triclops","Duclops"};
-		string [] verbs = new string[] {
-			"mauled",
-			"wasted",
-			"squashed",
-			"flattened",
-			"dematerialized",
-			"cooked",
-			"chewed",
-			"samurai sworded",
-			"packaged",
-			"smoshed",
-			"drowned",
-			"zapped",
-			"flamed",
-			"grilled",
-			"asskicked",
-			"freezed",
-			"nomnomed"
-		};
 		string returned="";
 		//int temp;
 		string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
@@ -117,6 +118,7 @@ public class Event_Battle {
 		}
 		else if (Roll < SoldierHitChance)
 		{
+
 			target.ChangeHealth(-10);
 			target.ChangeMorale(-20);
 			target.AddAttribute("wounded");
@@ -125,6 +127,11 @@ public class Event_Battle {
 				addCombatEvent (true);
 				return (target.callsign + " Died!");
 			}
+
+			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
+
+			Debug.Log(target.callsign + " was wounded by a " + monstername + "!\n");
+			target.AddEvent(target.callsign + " was wounded by a " + monstername + "!\n");
 
 			return (target.callsign + " was hit by enemy!");
 
