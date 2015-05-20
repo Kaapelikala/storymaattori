@@ -7,16 +7,10 @@ public class MissionLog : MonoBehaviour {
 	
 	public Text missionText;
 	public List<Mission> missions = new List<Mission>();
-	public int currentlyAdded;
+	public int currentlyAdded=0;
 	public SoldierManager manager;
 	private Mission mission;
-	
-	// Use this for initialization
-	void Start () {
-		currentlyAdded = 0;
 
-		missionText.text="";
-	}
 
 	public void AddMission ()
 	{if (manager.soldiers.Count > 3) {
@@ -41,6 +35,7 @@ public class MissionLog : MonoBehaviour {
 	{
 		string temp=missions [currentlyAdded].ToString();
 		missionText.text = missionText.text+temp;
+		missionText.text += "\n\n";
 		Debug.Log (missionText.text);
 		Debug.Log (temp);
 		
