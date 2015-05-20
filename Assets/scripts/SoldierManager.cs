@@ -101,7 +101,7 @@ public class SoldierManager : MonoBehaviour {
 	{
 		SoldierController RECRUIT = new SoldierController(SoldierID);
 			
-		string JoiningEvent = "Joined " + campaing.SquadName + " in TS" + campaing.TimeStamp + "\n";
+		string JoiningEvent = "TS:" + campaing.TimeStamp + ": Joined " + campaing.SquadName + "\n";
 
 		RECRUIT.AddEvent(JoiningEvent);
 

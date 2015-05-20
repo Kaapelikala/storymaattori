@@ -194,7 +194,7 @@ public class SoldierController : ScriptableObject {
 
 		this.AddAttribute("newbie");	//every soldier has this - goes away after first kill or wound!
 
-		int traitRandomiser = Random.Range(0, 11);
+		int traitRandomiser = Random.Range(0, 12);
 
 		switch (traitRandomiser)
 		{
@@ -298,11 +298,27 @@ public class SoldierController : ScriptableObject {
 
 	public void ChangeMorale(int changedAmount){
 		this.morale += changedAmount;
+		if (this.morale > 150)
+		{
+			this.morale = 150;
+		}
 	}
 
 	public void ChangeHealth(int healed)
 	{
 		this.health += healed;
+		if (this.health > 150)
+		{
+			this.health = 150;
+		}
+	}
+	public void ChangeSkill(int howMuch)
+	{
+		this.skill += howMuch;
+		if (this.skill > 150)
+		{
+			this.skill = 150;
+		}
 	}
 
 	public int SkillTotal()
