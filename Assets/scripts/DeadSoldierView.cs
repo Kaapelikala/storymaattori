@@ -119,7 +119,7 @@ public class DeadSoldierView : MonoBehaviour {
 			this.View_Alive.text = Target.HowDied;
 
 			this.History.text = Target.GetEvents();
-			this.History.rectTransform.sizeDelta = new Vector2( 520, Target.events.Count*20);
+			this.History.rectTransform.sizeDelta = new Vector2( 500, Target.events.Count*20);
 
 			
 		}

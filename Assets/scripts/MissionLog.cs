@@ -15,7 +15,44 @@ public class MissionLog : MonoBehaviour {
 	public void AddMission ()
 	{if (manager.soldiers.Count > 3) {
 			Debug.Log ("Adding a mission...");
-			mission = new Mission ("jungle", "raid", 0);
+
+			string target = "";
+
+			int targetSelect = Random.Range(0, 100);
+
+			if (targetSelect< 50)
+			{
+				target = "Canyon #" + Random.Range(101, 999);
+			}
+			else if (targetSelect< 75)
+			{
+				target = "Farm #" + Random.Range(101, 999);
+			}
+			else
+			{
+				target = "Cavern #" + Random.Range(101, 999);
+			}
+
+			string missionSelect = "";
+
+			int missionRoll = Random.Range(0, 100);
+			
+			if (missionRoll< 50)
+			{
+				missionSelect = "liberation";
+			}
+			else if (missionRoll< 75)
+			{
+				missionSelect = "attack";
+			}
+			else
+			{
+				missionSelect = "raid";
+			}
+
+
+
+			mission = new Mission (target, missionSelect, 0);
 			missions.Add (mission);
 			Debug.Log(missions.IndexOf(mission));
 		}

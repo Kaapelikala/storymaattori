@@ -10,6 +10,8 @@ public class Mission : MonoBehaviour {
 	public int difficulty;
 	int killsStart=0;
 
+	public bool victory;
+
 	public Mission (string location, string type, int difficulty)
 	{
 		this.location=location;
@@ -41,23 +43,40 @@ public class Mission : MonoBehaviour {
 			foreach (SoldierController soldier in squad) {
 				returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 			}
-			returned += "During the mission soldiers wasted: ";
+			returned += "During the mission soldiers killed: ";
 			int killsNow = 0;
 			foreach (SoldierController soldier in squad) {
 				killsNow += soldier.kills;
 			}
 			returned += killsNow - killsStart + "\n";
 			bool wastedPrinted = false;
+			int soldiersDead = 0;
 			foreach (SoldierController soldier in squad) {
 				if (!soldier.alive) {
 					if (!wastedPrinted) {
 						returned += "During the mission died: \n";
 						wastedPrinted=true;
 					}
-
+					soldiersDead++;
 					returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 				}
 			}
+			if (squad.Count == soldiersDead)
+			{
+				returned += "Mission was a DEFEAT!\n";
+				this.victory = false;
+			}
+			else if (killsNow < soldiersDead)
+			{
+				returned += "Mission was an AMBARRASMENT!\n";
+				this.victory = false;
+			}
+			else
+			{
+				returned += "Mission was A VICTORY!\n";
+				this.victory = true;
+			}
+
 			return returned;
 		}
 }

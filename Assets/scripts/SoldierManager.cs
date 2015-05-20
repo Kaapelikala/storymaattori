@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System;
 
 
+
+/// <summary>
+/// Manages Soldiers. Creates new for each dead (begins at 6).
+/// </summary>
 public class SoldierManager : MonoBehaviour {
 
 	public int SoldierID = 42001;
@@ -18,7 +22,13 @@ public class SoldierManager : MonoBehaviour {
 
 	void Start () {
 		squadIds=new int[4]{-2,-2,-2,-2};
-		//for testing. DELETE PRIOR TO LAUNCH
+		//At start: six soldiers!
+		this.CreateNewSoldier();
+		this.CreateNewSoldier();
+
+		this.CreateNewSoldier();
+		this.CreateNewSoldier();
+
 		this.CreateNewSoldier();
 		this.CreateNewSoldier();
 
@@ -161,6 +171,8 @@ public class SoldierManager : MonoBehaviour {
 					dead.Add (soldiers[i]);
 					soldiers.RemoveAt(i);
 
+					this.CreateNewSoldier();		//YES, NEW SOLDIER PER EACH DEAD!
+
 				}
 			}
 
@@ -192,12 +204,12 @@ public class SoldierManager : MonoBehaviour {
         return this.soldiers;
     }*/
 
-	void OnGUI () {
+	/*void OnGUI () {			//FOR QUICK GENERATION OF SOLDIERS
 		if (GUI.Button (new Rect (0,0,200,20), "NEW SOLTTU")) {
 			this.CreateNewSoldier();
 
 		}
-	}
+	}*/
 
 
 	/*public void checkSizes() {		//pitäs auttaa siin ettei mennä yli jos tulee paljon sotilaita

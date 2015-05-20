@@ -36,7 +36,7 @@ public class EventController : MonoBehaviour {
 
 		foreach (SoldierController solttu in squad)
 		{
-			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ": "  + "MissionName: \n");
+			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ":" + MissionName +":\n");
 			solttu.missions++;
 
 			if (solttu.HasAttribute("cook"))
