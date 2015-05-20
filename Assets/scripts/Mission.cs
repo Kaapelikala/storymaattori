@@ -52,7 +52,9 @@ public class Mission : MonoBehaviour {
 				if (!soldier.alive) {
 					if (!wastedPrinted) {
 						returned += "During the mission died: \n";
+						wastedPrinted=true;
 					}
+
 					returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 				}
 			}

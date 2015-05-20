@@ -16,6 +16,8 @@ public class SoldierSelectionView : MonoBehaviour {
 	public Text textField;
 	public SoldierManager manager;
 
+
+
 	public void ShowSoldierAmount()
 	{
 		textField.text =   manager.inSquadCurrently.ToString();

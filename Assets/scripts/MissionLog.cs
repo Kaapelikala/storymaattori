@@ -10,7 +10,7 @@ public class MissionLog : MonoBehaviour {
 	public int currentlyAdded=0;
 	public SoldierManager manager;
 	private Mission mission;
-
+	public EventController control;
 
 	public void AddMission ()
 	{if (manager.soldiers.Count > 3) {
@@ -27,8 +27,13 @@ public class MissionLog : MonoBehaviour {
 		Debug.Log (currentlyAdded);
  		Debug.Log ("mission @ "+missions[currentlyAdded]);
 		missions[currentlyAdded].AddSquad (manager.GetSquad(manager.squadIds));
+		Debug.Log ("Fighting....");
+		control.Fight (manager.squadIds);
+		
 		Debug.Log ("writing to log...");
 		UpdateLog ();
+		manager.squadIds = new int[4]{-2,-2,-2,-2};
+		manager.inSquadCurrently = 0;
 	}
 	
 	public void UpdateLog()

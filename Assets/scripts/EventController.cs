@@ -81,16 +81,16 @@ public class EventController : MonoBehaviour {
 
 
 
-	void OnGUI () {
+	/*void OnGUI () {
 		if (GUI.Button (new Rect (30,250,250,20), "!!!TAPPELU!!!")) {
 			this.Fight();
 			
-		}
+		}*/
 		/*if (GUI.Button (new Rect (50,250,200,40), "CHECK DEAD")) {
 			this.MoveDeadsAway();
 			
 		}*/
-	}
+	//}
 
 
 }

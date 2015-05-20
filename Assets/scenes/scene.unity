@@ -5635,6 +5635,7 @@ MonoBehaviour:
   missions: []
   currentlyAdded: 0
   manager: {fileID: 101941925}
+  control: {fileID: 101941923}
 --- !u!1 &1354126794
 GameObject:
   m_ObjectHideFlags: 0
