@@ -46,11 +46,11 @@ public class Event_Battle {
 
 
 		if (negative) {
-			returned = verb +" by "+monstername + "\n";
+			returned = verb.ToUpper() +" by "+monstername + "\n";
 		}
 		else
 		{
-			returned = target.callsign + " " + verb + " a " + monstername + "!\n";
+			returned = verb.ToUpper() + " a " + monstername + "!\n";
 		}
 
 
@@ -131,7 +131,7 @@ public class Event_Battle {
 			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
 
 			Debug.Log(target.callsign + " was wounded by a " + monstername + "!\n");
-			target.AddEvent(target.callsign + " was wounded by a " + monstername + "!\n");
+			target.AddEvent("Was wounded by a " + monstername + "!\n");
 
 			return (target.callsign + " was hit by enemy!");
 

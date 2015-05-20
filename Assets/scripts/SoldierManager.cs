@@ -9,13 +9,16 @@ public class SoldierManager : MonoBehaviour {
 	public int[] squadIds=new int[4];
 	public int inSquadCurrently=0;
 
+	public Campaing campaing;
+
 	//public SoldierController[] soldiers = new SoldierController[25];
 	public List<SoldierController> soldiers = new List<SoldierController> (0);
 	public List<SoldierController> dead = new List<SoldierController> (0);
 
 	void Start () {
 		//for testing. DELETE PRIOR TO LAUNCH
-		//
+		this.CreateNewSoldier();
+		this.CreateNewSoldier();
 
 	}
 
@@ -94,7 +97,15 @@ public class SoldierManager : MonoBehaviour {
 
 	public void CreateNewSoldier() //creates new soldier!!
 	{
-		soldiers.Add(new SoldierController(SoldierID));
+		SoldierController RECRUIT = new SoldierController(SoldierID);
+			
+		string JoiningEvent = "Joined " + campaing.SquadName + " in TS" + campaing.TimeStamp + "\n";
+
+		RECRUIT.AddEvent(JoiningEvent);
+
+		soldiers.Add(RECRUIT);
+
+
 		Debug.Log ("Added soldier " + SoldierID + ". Size now " + soldiers.Count);
 		SoldierID++;
 		this.MoveDeadsAway();

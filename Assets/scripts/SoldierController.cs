@@ -281,7 +281,6 @@ public class SoldierController : ScriptableObject {
 		foreach (string item in attributes)
 		{
 			returnoitava += item + ", ";
-
 		}
 
 		return returnoitava;
@@ -349,7 +348,7 @@ public class SoldierController : ScriptableObject {
 		
 		foreach (string item in events)
 		{
-			returnoitava += item + ", ";
+			returnoitava += item;
 			
 		}
 		

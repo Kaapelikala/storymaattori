@@ -11,8 +11,8 @@ public class MissionLog : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		missions = new List<Mission>;
-		missionText.text="";
+		//missions = new List<Mission>;
+		//missionText.text="";
 	}
 	
 	// Update is called once per frame

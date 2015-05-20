@@ -28,20 +28,33 @@ public class EventController : MonoBehaviour {
 		{
 			squad = manager.GetSquad(indexes);
 		}
-		Event_Battle temp = new Event_Battle (MissionName);
+		Event_Battle Fight = new Event_Battle (MissionName);
+		Event_Grenade Grenade = new Event_Grenade (MissionName);
 
 		//Give Mission Number to all!
 
 		foreach (SoldierController solttu in squad)
 		{
 			solttu.AddEvent("\n" + MissionName + ":\n");
+			solttu.missions++;
 			
 		}
 
 		//Combat takes n rounds. 
-		for (int j =0; j<(Mathf.FloorToInt(Random.Range(3,10))); j++) {
+		for (int j =0; j<(Mathf.FloorToInt(Random.Range(1,5))); j++) {
 			for (int i =0; i<squad.Count; i++) {
-				temp.FightRound (squad [i], 90 + (Mathf.FloorToInt (Random.Range (0, 20))));
+
+				int BattleEventRandomiser = Mathf.FloorToInt(Random.Range(0,100));
+				
+				if (BattleEventRandomiser < 80)
+					Fight.FightRound (squad [i], 90 + (Mathf.FloorToInt (Random.Range (0, 20))));
+				else {
+				Grenade.CheckGrenade (squad [i], 90 + (Mathf.FloorToInt (Random.Range (0, 20))));
+				}
+			
+				//squad [i].AddEvent("Missed a lot\n");
+
+
 				//Everyone has enough processing power anyways.
 				manager.MoveDeadsAway ();
 			}

@@ -19,29 +19,22 @@ public class SoldierView : MonoBehaviour {
 
 	public Text View_Alive;			//is Soldier alive or dead?
 
-	public Text History;			// All the history!
+	public string History;			// All the history!
 
 	public SoldierHeadImage IMAGE;
 
 	public GameObject NoAlive;
 	public GameObject SomeAlive;
 
-
-	public Vector2 scrollPosition;
-	public string longString = "This is a long-ish string";
-
-	void OnGUI() {
-
-		scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(100), GUILayout.Height(100));
-		GUILayout.Label("History");
-		if (GUILayout.Button("Clear"))
-			longString = "Here is another line";
-		
-		GUILayout.EndScrollView();
-		if (GUILayout.Button("Add More Text"))
-			longString += "\nHere is another line";
-
+	public GUIStyle Style;
 	
+
+	//public Vector2 scrollPosition = Vector2.zero;
+	void OnGUI() {
+		//scrollPosition = GUI.BeginScrollView(new Rect(10, 300, 100, 100), scrollPosition, new Rect(0, 0, 220, 200));
+		GUI.TextArea(new Rect(10, 300, 350, 100), History, Style);
+
+		//GUI.EndScrollView();
 	}
 
 	/*
@@ -142,7 +135,7 @@ public class SoldierView : MonoBehaviour {
 				this.View_Alive.text = "DEAD!";
  			}
 
-			this.History.text = Target.GetEvents();
+			this.History = Target.GetEvents();
 			
 		}
 

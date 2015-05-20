@@ -34,8 +34,10 @@ public class Campaing : MonoBehaviour {
 	public string GetNextMission(){
 
 		missionNumber++;
+		TimeStamp += 10;
 
 		return "M"+ missionNumber;
+
 	}
 
 	// Update is called once per frame
