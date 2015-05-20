@@ -27,6 +27,8 @@ public class Campaing : MonoBehaviour {
 	//for notes
 	public int missionNumber = 0;
 	public int TimeStamp = 0;
+	public int TotalKills = 0;
+	public int TotalDead = 0;
 
 	public Text BeginText;
 

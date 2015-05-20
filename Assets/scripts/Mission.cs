@@ -11,6 +11,8 @@ public class Mission : MonoBehaviour {
 	public int difficulty;
 	int killsStart=0;
 
+	public Campaing ReportToCampaing;
+
 	public bool victory;
 
 	public Mission (string location, string type, int difficulty)
@@ -43,14 +45,19 @@ public class Mission : MonoBehaviour {
 			returned += "--Members:\n";
 			bool[] dead = new bool[4];
 			foreach (SoldierController soldier in squad) {
-				returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
+				returned += soldier.GetRank() + " " + soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 			}
 			returned += "--During the mission soldiers killed: ";
 			int killsNow = 0;
 			foreach (SoldierController soldier in squad) {
 				killsNow += soldier.kills;
 			}
-			returned += killsNow - killsStart + "\n";
+			
+			int thisMissionKills = killsNow - killsStart;
+
+			ReportToCampaing.TotalKills += thisMissionKills;		//reports to Campaing the kills!
+
+			returned += thisMissionKills + "\n";
 			bool wastedPrinted = false;
 			int soldiersDead = 0;
 			foreach (SoldierController soldier in squad) {
@@ -60,7 +67,8 @@ public class Mission : MonoBehaviour {
 						wastedPrinted=true;
 					}
 					soldiersDead++;
-					returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
+					ReportToCampaing.TotalDead++;		//reports to Campaing the deads!!
+					returned += soldier.GetRank() + " " + soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 				}
 			}
 			if (squad.Count == soldiersDead)

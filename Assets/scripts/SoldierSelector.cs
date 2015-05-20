@@ -16,7 +16,11 @@ public class SoldierSelector : MonoBehaviour {
 	{
 
 		if (Int32.Parse(this.gameObject.name)<manager.soldiers.Count)
-		soldierName.text = manager.soldiers[Int32.Parse (this.gameObject.name)].soldierFName+manager.soldiers[Int32.Parse (this.gameObject.name)].callsign+manager.soldiers[Int32.Parse (this.gameObject.name)].soldierLName;
+		soldierName.text = 
+				manager.soldiers[Int32.Parse (this.gameObject.name)].GetRankShort() + " " +
+				manager.soldiers[Int32.Parse (this.gameObject.name)].soldierFName + " " +
+				manager.soldiers[Int32.Parse (this.gameObject.name)].callsign + " " +
+				manager.soldiers[Int32.Parse (this.gameObject.name)].soldierLName;
 		Array.Sort (manager.squadIds);
 		if (Array.BinarySearch(manager.squadIds,Int32.Parse(this.gameObject.name))<0)
 		{

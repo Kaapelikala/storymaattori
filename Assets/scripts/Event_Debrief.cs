@@ -129,7 +129,7 @@ public class Event_Debrief : MonoBehaviour {
 
 
 		//PROMOTIONS
-		if (this.target.kills > 4 && target.rank == 0)			//TROOPER
+		if (this.target.kills > 2 && target.rank == 0)			//TROOPER
 		{
 			if (Random.Range(0, 100) > 70)
 			{
@@ -142,7 +142,7 @@ public class Event_Debrief : MonoBehaviour {
 				target.ChangeMorale(-20);
 			}
 		}
-		else if (this.target.kills > 10 && target.rank == 1)		//CORP
+		else if (this.target.kills > 8 && target.rank == 1)		//CORP
 		{
 			if (Random.Range(0, 100) > 70)
 			{

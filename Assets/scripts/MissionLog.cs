@@ -14,6 +14,9 @@ public class MissionLog : MonoBehaviour {
 	private Mission mission;
 	public EventController control;
 
+	public RectTransform BG;
+
+
 	public void AddMission ()
 	{if (manager.soldiers.Count > 3) {
 			Debug.Log ("Adding a mission...");
@@ -55,7 +58,8 @@ public class MissionLog : MonoBehaviour {
 
 
 			mission = new Mission (target, missionSelect, 0);
-			mission.MissionName = "Mission";
+			mission.MissionName = "Mission " + (control.campaing.missionNumber+1) + "";
+			mission.ReportToCampaing = control.campaing;
 			missions.Add (mission);
 			Debug.Log(missions.IndexOf(mission));
 		}
@@ -82,7 +86,13 @@ public class MissionLog : MonoBehaviour {
 	{
 		string temp=missions [currentlyAdded].ToString();
 		missionText.text = missionText.text+temp;
+
+		this.missionText.rectTransform.sizeDelta = new Vector2(359, missionText.text.Length*2);
+
+		this.BG.sizeDelta = new Vector2( 0 , missionText.text.Length*2);
+
 		missionText.text += "\n\n";
+
 		Debug.Log (missionText.text);
 		Debug.Log (temp);
 		

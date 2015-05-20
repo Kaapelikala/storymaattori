@@ -395,6 +395,27 @@ public class SoldierController : ScriptableObject {
 		return "Recruit";
 
 	}
+	public string GetRankShort()
+	{
+		
+		if (rank == 0)
+			return "RCT";
+		
+		if (rank == 1)
+			return "TRP";
+		
+		if (rank == 2)
+			return "CRP";
+		
+		if (rank == 3)
+			return "SGT";
+		
+		if (rank == 4)
+			return "LTN";
+		
+		return "Recruit";
+		
+	}
 
 	public void AddEvent(string combatEvent)
 	{
