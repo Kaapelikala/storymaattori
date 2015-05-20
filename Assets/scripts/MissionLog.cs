@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
+//Creates text-based mission logs
 public class MissionLog : MonoBehaviour {
 	
 	public Text missionText;

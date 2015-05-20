@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+//After Battle : Rest!
 public class Event_Debrief : MonoBehaviour {
 
 

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Battle - Classical shootoff!
 public class Event_Battle {
 
 	public SoldierController target;

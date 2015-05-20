@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+//The Actual Soldier - Has stats and creation!
 public class SoldierController : ScriptableObject {
 
 	public string soldierFName="Flash";	//Fistname
@@ -52,7 +54,7 @@ public class SoldierController : ScriptableObject {
 				break;
 		}
 
-		int FNameRandomiser = Random.Range(0, 8);
+		int FNameRandomiser = Random.Range(0, 9);
 		
 		if (this.sex == 'm')
 		{
@@ -109,6 +111,12 @@ public class SoldierController : ScriptableObject {
 			case 5:
 				this. soldierLName = "Felixia";
 				break;
+			case 6:
+				this. soldierLName = "Alexandria";
+				break;
+			case 7:
+				this. soldierLName = "Gweythe";
+				break;
 			default:
 				this. soldierFName = "Lily";
 				break;
@@ -117,7 +125,7 @@ public class SoldierController : ScriptableObject {
 
 		this.pictureID = Random.Range(0, 5);
 
-		int LNameRandomiser = Random.Range(0, 7);
+		int LNameRandomiser = Random.Range(0, 21);
 
 		switch (LNameRandomiser)
 		{
@@ -128,7 +136,7 @@ public class SoldierController : ScriptableObject {
 			this. soldierLName = "Care";
 			break;
 		case 2:
-			this. soldierLName = "Who";
+			this. soldierLName = "Lien";
 			break;
 		case 3:
 			this. soldierLName = "Hamrond";
@@ -141,6 +149,45 @@ public class SoldierController : ScriptableObject {
 			break;
 		case 6:
 			this. soldierLName = "Mestos";
+			break;
+		case 7:
+			this. soldierFName = "Cotton";
+			break;
+		case 8:
+			this. soldierLName = "Bener";
+			break;
+		case 9:
+			this. soldierLName = "Fulgrimo";
+			break;
+		case 10:
+			this. soldierLName = "Zrobsson";
+			break;
+		case 11:
+			this. soldierLName = "Spielman";
+			break;
+		case 12:
+			this. soldierLName = "Vindictus";
+			break;
+		case 13:
+			this. soldierLName = "Tanwaukar";
+			break;
+		case 14:
+			this. soldierLName = "Swartz";
+			break;
+		case 15:
+			this. soldierLName = "Delifus";
+			break;
+		case 16:
+			this. soldierLName = "Grimm";
+			break;
+		case 17:
+			this. soldierLName = "Swartz";
+			break;
+		case 18:
+			this. soldierLName = "Fermen";
+			break;
+		case 19:
+			this. soldierLName = "Perho";
 			break;
 		default:
 			this. soldierFName = "Smith";

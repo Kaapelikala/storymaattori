@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+//Handles the many parts of UI.
 public class ButtonController : MonoBehaviour {
 
 	public GameObject soldierView;

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-//Shows details of Soldier at SQUADVIEW. 
+//Shows details of dead Soldier at GRAVEYARD. 
 
 public class DeadSoldierView : MonoBehaviour {
 	

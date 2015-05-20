@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 //using Events;
 
+
+//HANDLES ACTUAL EVENTS - FIGHTING GOES TROUGHT THIS!
 public class EventController : MonoBehaviour {
 
 	public SoldierManager manager;
@@ -71,8 +73,10 @@ public class EventController : MonoBehaviour {
 
 		foreach (SoldierController solttu in squad)
 		{
+			if (solttu.alive == true)
+			{
 			MotherBase.Handle(solttu);
-			
+			}
 		}
 
 		manager.MoveDeadsAway ();

@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
+
+//Main menu logics
 public class UIMainMenu : MonoBehaviour {
 
     public Text campaignNameLabel;

@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
+
+// Large and high up in hierarchy: it is supposed to be deposit of lore!
+// Now used mostly for timestamps and mission names
 public class Campaing : MonoBehaviour {
 
 	public int CampaingYear = 0;
 
 	public int SquadID = 4118;
-	public string SquadName = "Raccon Squad";
+	public string SquadName = "Raccoon Squad";
 
 	public string PlanetName = "Nucheron IV";
 	public string FriendName = "Human Empire";
@@ -23,10 +28,12 @@ public class Campaing : MonoBehaviour {
 	public int missionNumber = 0;
 	public int TimeStamp = 0;
 
+	public Text BeginText;
+
 	// Use this for initialization
 	void Start () {
 
-		this.Begin();
+		BeginText.text = this.Begin();
 	
 	}
 
