@@ -4554,7 +4554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soldierView: {fileID: 1288759406}
-  missionView: {fileID: 1862060932}
+  missionView: {fileID: 1234043746}
   deadSoldierView: {fileID: 2025240470}
   mainView: {fileID: 487207107}
   soldierSelectorView: {fileID: 633030517}
@@ -6371,7 +6371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1234043747
 Transform:
   m_ObjectHideFlags: 0
@@ -8969,7 +8969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1862060933
 RectTransform:
   m_ObjectHideFlags: 0
