@@ -12,6 +12,7 @@ public class SoldierSelector : MonoBehaviour {
 
 	void Update()
 	{
+		if (Int32.Parse(this.gameObject.name)<manager.soldiers.Count)
 		soldierName.text = manager.soldiers[Int32.Parse (this.gameObject.name)].soldierFName+manager.soldiers[Int32.Parse (this.gameObject.name)].callsign+manager.soldiers[Int32.Parse (this.gameObject.name)].soldierLName;
 	}
 
