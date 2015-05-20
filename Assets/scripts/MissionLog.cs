@@ -31,13 +31,18 @@ public class MissionLog : MonoBehaviour {
 		Debug.Log ("Adding squad...");
 		Debug.Log (missions.IndexOf(mission));
 		Debug.Log (currentlyAdded);
-		Debug.Log ("mission @ "+missions[currentlyAdded]);
+ 		Debug.Log ("mission @ "+missions[currentlyAdded]);
 		missions[currentlyAdded].AddSquad (manager.GetSquad(manager.squadIds));
+		Debug.Log ("writing to log...");
+		UpdateLog ();
 	}
 	
 	public void UpdateLog()
 	{
-		missionText.text+= missions [currentlyAdded].ToString();
+		string temp=missions [currentlyAdded].ToString();
+		missionText.text = missionText.text+temp;
+		Debug.Log (missionText.text);
+		Debug.Log (temp);
 		
 		currentlyAdded++;
 	}

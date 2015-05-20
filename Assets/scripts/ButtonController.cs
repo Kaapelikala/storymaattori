@@ -18,7 +18,6 @@ public class ButtonController : MonoBehaviour {
 
 	public void DeactivateSoldierSelectorView()
 	{
-		
 		soldierSelectorView.SetActive (false);
 		mainView.SetActive (true);
 	}

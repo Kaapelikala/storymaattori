@@ -22,13 +22,14 @@ public class Mission : MonoBehaviour {
 		this.squad=squad;
 		foreach (SoldierController s in squad) {
 			killsStart+=s.kills;
+			Debug.Log(killsStart);
 		}
 	}
 
 	override public string ToString()
 	{
 		if (squad == null) {
-			
+			Debug.Log ("NULL!!!");
 		return "";
 		}
 			else{

@@ -27,6 +27,7 @@ public class SoldierSelector : MonoBehaviour {
 			onMission.text = "On mission";
 		else 
 			onMission.text = "";
+
 	}
 
 
