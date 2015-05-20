@@ -2467,7 +2467,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 562753706}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 904350973}
+        m_MethodName: DeactivateSoldierSelectorView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1351749034}
+        m_MethodName: AddSquad
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &562753706
@@ -3773,6 +3797,7 @@ MonoBehaviour:
   missionView: {fileID: 1234043746}
   deadSoldierView: {fileID: 2025240470}
   mainView: {fileID: 487207107}
+  soldierSelectorView: {fileID: 633030517}
 --- !u!4 &904350974
 Transform:
   m_ObjectHideFlags: 0
@@ -5634,7 +5659,7 @@ MonoBehaviour:
   missionText: {fileID: 908303310}
   missions: []
   currentlyAdded: 0
-  manager: {fileID: 0}
+  manager: {fileID: 101941925}
 --- !u!1 &1354126794
 GameObject:
   m_ObjectHideFlags: 0
@@ -6613,7 +6638,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1590347133}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 904350973}
+        m_MethodName: ActivateSoldierSelectorView
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+      - m_Target: {fileID: 1351749034}
+        m_MethodName: AddMission
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1590347133

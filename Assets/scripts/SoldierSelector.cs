@@ -16,10 +16,6 @@ public class SoldierSelector : MonoBehaviour {
 		if (Int32.Parse(this.gameObject.name)<manager.soldiers.Count)
 		soldierName.text = manager.soldiers[Int32.Parse (this.gameObject.name)].soldierFName+manager.soldiers[Int32.Parse (this.gameObject.name)].callsign+manager.soldiers[Int32.Parse (this.gameObject.name)].soldierLName;
 	}
-	public void NewMission()
-	{
-		missions.AddMission ();
-	}
 
 	public void SetToMission()
 	{
@@ -31,13 +27,6 @@ public class SoldierSelector : MonoBehaviour {
 			onMission.text = "On mission";
 		else 
 			onMission.text = "";
-	}
-	public void LaunchMission()
-	{
-		if (manager.inSquadCurrently == 4) {
-			missions.AddSquad (manager.squadIds);
-		}
-
 	}
 
 

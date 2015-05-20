@@ -18,6 +18,7 @@ public class Mission : MonoBehaviour {
 	}
 	public void AddSquad(List<SoldierController> squad)
 	{	
+		Debug.Log ("Squad Size: "+squad.Count);
 		this.squad=squad;
 		foreach (SoldierController s in squad) {
 			killsStart+=s.kills;
@@ -26,32 +27,35 @@ public class Mission : MonoBehaviour {
 
 	override public string ToString()
 	{
-		string returned = "";
-		returned += "Location: " + location + "\n";
-		returned += "Operation: " + type + "\n";
-		returned += "Members:\n";
-		bool[]dead = new bool[4];
-		foreach (SoldierController soldier in squad) {
-			returned +=soldier.soldierFName+" '"+soldier.callsign+"' "+soldier.soldierLName+"\n";
+		if (squad == null) {
+			
+		return "";
 		}
-		returned += "During the mission soldiers wasted: ";
-		int killsNow = 0;
-		foreach (SoldierController soldier in squad) {
-			killsNow+=soldier.kills;
-		}
-		returned += killsNow - killsStart+"\n";
-		bool wastedPrinted = false;
-		foreach(SoldierController soldier in squad)
-		{
-			if (!soldier.alive)
-			{
-				if (!wastedPrinted)
-				{
-					returned+="During the mission died: \n";
-				}
-				returned+=soldier.soldierFName+" '"+soldier.callsign+"' "+soldier.soldierLName+"\n";
+			else{
+			string returned = "";
+			returned += "Location: " + location + "\n";
+			returned += "Operation: " + type + "\n";
+			returned += "Members:\n";
+			bool[] dead = new bool[4];
+			foreach (SoldierController soldier in squad) {
+				returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 			}
+			returned += "During the mission soldiers wasted: ";
+			int killsNow = 0;
+			foreach (SoldierController soldier in squad) {
+				killsNow += soldier.kills;
+			}
+			returned += killsNow - killsStart + "\n";
+			bool wastedPrinted = false;
+			foreach (SoldierController soldier in squad) {
+				if (!soldier.alive) {
+					if (!wastedPrinted) {
+						returned += "During the mission died: \n";
+					}
+					returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
+				}
+			}
+			return returned;
 		}
-		return returned;
-	}
+}
 }

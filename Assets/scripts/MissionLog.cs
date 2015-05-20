@@ -6,30 +6,39 @@ using System.Collections.Generic;
 public class MissionLog : MonoBehaviour {
 	
 	public Text missionText;
-	public List<Mission> missions;
+	public List<Mission> missions = new List<Mission>();
 	public int currentlyAdded;
 	public SoldierManager manager;
+	private Mission mission;
 	
 	// Use this for initialization
 	void Start () {
-		currentlyAdded = -1;
-		missions = new List<Mission>();
+		currentlyAdded = 0;
+
 		missionText.text="";
 	}
 
 	public void AddMission ()
-	{
-		Mission mission = new Mission ("jungle", "raid", 0);
-		missions.Add(mission);
+	{if (manager.soldiers.Count > 3) {
+			Debug.Log ("Adding a mission...");
+			mission = new Mission ("jungle", "raid", 0);
+			missions.Add (mission);
+			Debug.Log(missions.IndexOf(mission));
+		}
 	}
-	public void AddSquad(int[] ids)
+	public void AddSquad()
 	{
-		missions [currentlyAdded + 1].AddSquad (manager.GetSquad(ids));
+		Debug.Log ("Adding squad...");
+		Debug.Log (missions.IndexOf(mission));
+		Debug.Log (currentlyAdded);
+		Debug.Log ("mission @ "+missions[currentlyAdded]);
+		missions[currentlyAdded].AddSquad (manager.GetSquad(manager.squadIds));
 	}
 	
-	public void UpdataLog()
+	public void UpdateLog()
 	{
-		currentlyAdded++;
 		missionText.text+= missions [currentlyAdded].ToString();
+		
+		currentlyAdded++;
 	}
 }

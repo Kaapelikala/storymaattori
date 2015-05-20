@@ -69,7 +69,9 @@ public class SoldierManager : MonoBehaviour {
 		List<SoldierController> returned= new List<SoldierController> ();
 		for (int i =0;i<4;i++)
 		{
+			Debug.Log("i: "+i+", index: "+indexes[i]);
 			returned.Add(soldiers[indexes[i]]);
+
 		}
 		return returned;
 	}

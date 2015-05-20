@@ -7,6 +7,21 @@ public class ButtonController : MonoBehaviour {
 	public GameObject missionView;
 	public GameObject deadSoldierView;
 	public GameObject mainView;
+	public GameObject soldierSelectorView;
+
+
+	public void ActivateSoldierSelectorView()
+	{
+		soldierSelectorView.SetActive (true);
+		mainView.SetActive (false);
+	}
+
+	public void DeactivateSoldierSelectorView()
+	{
+		
+		soldierSelectorView.SetActive (false);
+		mainView.SetActive (true);
+	}
 
 
 	public void ActivateSoldierViewButton(){
