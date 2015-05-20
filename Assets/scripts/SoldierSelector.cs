@@ -10,6 +10,11 @@ public class SoldierSelector : MonoBehaviour {
 	public Text soldierName;
 	public Text onMission;
 
+	void Update()
+	{
+		soldierName.text = manager.soldiers[Int32.Parse (this.gameObject.name)].soldierFName+manager.soldiers[Int32.Parse (this.gameObject.name)].callsign+manager.soldiers[Int32.Parse (this.gameObject.name)].soldierLName;
+	}
+
 	public void SetToMission()
 	{
 		Debug.Log ("This name: "+this.gameObject.name);
