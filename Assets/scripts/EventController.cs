@@ -5,11 +5,19 @@ using System.Collections.Generic;
 public class EventController : MonoBehaviour {
 
 	public SoldierManager manager;
+	public Campaing campaing;
 	
 	public void Fight()
 {
+		string MissionName = campaing.GetNextMission();
 		List<SoldierController> squad = manager.GetSquad ();
-		Event_Battle temp = new Event_Battle ();
+		Event_Battle temp = new Event_Battle (MissionName);
+
+		//Give Mission Number to all!
+		for (int i =0; i<squad.Count; i++) {
+			squad [i].AddEvent("\n" + MissionName + ":\n");
+		}
+
 		//Combat takes n rounds. 
 		for (int j =0; j<(Mathf.FloorToInt(Random.Range(3,10))); j++) {
 			for (int i =0; i<squad.Count; i++) {

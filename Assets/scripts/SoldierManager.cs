@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,9 +10,10 @@ public class SoldierManager : MonoBehaviour {
 	//public SoldierController[] soldiers = new SoldierController[25];
 	public List<SoldierController> soldiers = new List<SoldierController> (0);
 	public List<SoldierController> dead = new List<SoldierController> (0);
+
 	void Start () {
 		//for testing. DELETE PRIOR TO LAUNCH
-//		this.CreateNewSoldier();
+		this.CreateNewSoldier();
 
 	}
 
@@ -39,8 +40,9 @@ public class SoldierManager : MonoBehaviour {
 	public void CreateNewSoldier() //creates new soldier!!
 	{
 		soldiers.Add(new SoldierController(SoldierID));
+		Debug.Log ("Added soldier " + SoldierID + ". Size now " + soldiers.Count);
 		SoldierID++;
-		Debug.Log ("Added soldier. Size now " + soldiers.Count);
+		this.MoveDeadsAway();
 	
 	}
 
@@ -94,10 +96,10 @@ public class SoldierManager : MonoBehaviour {
 			this.CreateNewSoldier();
 
 		}
-		/*if (GUI.Button (new Rect (50,250,200,40), "CHECK DEAD")) {
+		if (GUI.Button (new Rect (50,250,200,40), "CHECK DEAD")) {
 			this.MoveDeadsAway();
 			
-		}*/
+		}
 	}
 
 

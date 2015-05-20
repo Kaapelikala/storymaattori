@@ -274,6 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 101941925}
+  campaing: {fileID: 1710327571}
 --- !u!114 &101941924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,7 +482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &212114467
 RectTransform:
   m_ObjectHideFlags: 0
@@ -499,6 +500,7 @@ RectTransform:
   - {fileID: 1887683285}
   - {fileID: 1183708056}
   - {fileID: 760310721}
+  - {fileID: 300344828}
   - {fileID: 2122600093}
   - {fileID: 1405566349}
   - {fileID: 1424256108}
@@ -867,9 +869,78 @@ MonoBehaviour:
   View_Traits: {fileID: 1887683286}
   View_Numbers: {fileID: 760310722}
   View_Alive: {fileID: 1405566350}
+  History: {fileID: 300344829}
   IMAGE: {fileID: 1158360636}
   NoAlive: {fileID: 1247665668}
   SomeAlive: {fileID: 212114466}
+  scrollPosition: {x: 0, y: 0}
+  longString: This is a long-ish string
+--- !u!1 &300344827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 300344828}
+  - 222: {fileID: 300344830}
+  - 114: {fileID: 300344829}
+  m_Layer: 5
+  m_Name: HISTORY
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &300344828
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 300344827}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 212114467}
+  m_RootOrder: 7
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -51, y: -161}
+  m_SizeDelta: {x: 525, y: 200}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &300344829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 300344827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: .970588207, g: .421063989, b: .421063989, a: 1}
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 2354fcbfe2a36bf4fbc448dcc5798b4d, type: 3}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1.39999998
+  m_Text: 
+--- !u!222 &300344830
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 300344827}
 --- !u!1 &357674605
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,7 +1310,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 212114467}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -13, y: -10}
@@ -4062,7 +4133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1247665669
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4126,7 +4197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1288759407
 Transform:
   m_ObjectHideFlags: 0
@@ -4400,7 +4471,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 212114467}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 263, y: 34}
@@ -4454,7 +4525,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1424256108
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4466,7 +4537,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 212114467}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_AnchorMin: {x: 0, y: .5}
   m_AnchorMax: {x: 0, y: .5}
   m_AnchoredPosition: {x: -138, y: -227}
@@ -5286,6 +5357,7 @@ GameObject:
   - 92: {fileID: 1710327568}
   - 124: {fileID: 1710327567}
   - 81: {fileID: 1710327566}
+  - 114: {fileID: 1710327571}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5358,6 +5430,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1710327571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1710327565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab275a5a5c16244f893fb226cd33c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CampaingYear: 0
+  SquadID: 4118
+  SquadName: Raccon Squad
+  PlanetName: Nucheron IV
+  FriendName: Human Empire
+  EnemyName: Maulers of Ghan
+  HumanAttacker: 1
+  CauseOfWar: 
+  PlanetType: arid
+  PlanetAdje: dry
+  missionNumber: 0
 --- !u!1 &1732423576
 GameObject:
   m_ObjectHideFlags: 0
@@ -6458,7 +6552,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 212114467}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 263, y: 46}

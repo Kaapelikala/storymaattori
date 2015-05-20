@@ -4,11 +4,16 @@ using System.Collections;
 public class Event_Battle {
 
 	public SoldierController target;
+	public string MissionName = "";
 
 	public Event_Battle()
 	{
 	}
 
+	public Event_Battle(string NameInsert)
+	{
+		this.MissionName = NameInsert;
+	}
 
 		public void addCombatEvent(bool negative)
 	{
@@ -34,18 +39,18 @@ public class Event_Battle {
 			"nomnomed"
 		};
 		string returned="";
-		int temp;
-		string monstername = monsternames[(Mathf.RoundToInt(Random.value*monsternames.GetLength(0)))];
-		string verb = verbs[(Mathf.RoundToInt(Random.value*verbs.GetLength(0)))];
+		//int temp;
+		string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
+		string verb = verbs[(Mathf.RoundToInt(Random.value*(verbs.GetLength(0)-1)))];
 
 
 		if (negative) {
-			returned = "Got "+verb+" by "+monstername;
+			returned = verb +" by "+monstername + "\n";
 		}
-		/*else 
+		else
 		{
-			returned = ("Foe "+monstername+" was "+verb);
-		}*/
+			returned = target.callsign + " " + verb + " a " + monstername + "!\n";
+		}
 
 
 
@@ -101,6 +106,7 @@ public class Event_Battle {
 		if (Roll < HitChance)
 		{
 			target.AddKills(1);
+			addCombatEvent (false);
 			target.AddExperience(Enemy_difficulty/10);
 			return (target.callsign + " killed enemy!");
 		}
@@ -116,7 +122,7 @@ public class Event_Battle {
 			target.AddAttribute("wounded");
 
 			if (target.health < 0){
-				target.die ("Died in battle");
+				addCombatEvent (true);
 				return (target.callsign + " Died!");
 			}
 
@@ -143,6 +149,7 @@ public class Event_Battle {
 		return 0;
 
 	}
+
 }
 
 

@@ -339,6 +339,23 @@ public class SoldierController : ScriptableObject {
 		events.Add(combatEvent);
 	}
 
+	/// <summary>
+	/// Prints list of all events of the Soldier
+	/// </summary>
+	/// <returns>list of events.</returns>
+	public string GetEvents ()	
+	{
+		string returnoitava = "";
+		
+		foreach (string item in events)
+		{
+			returnoitava += item + ", ";
+			
+		}
+		
+		return returnoitava;
+	}
+
 
 	//As character dying should quite big thing, this function SHOULD FIRE OFF MORE THIGNS - Depression in comrades, move from active soldiers to burial ground etc!
 	public void die(string how){

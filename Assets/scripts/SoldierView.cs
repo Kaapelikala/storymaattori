@@ -19,17 +19,37 @@ public class SoldierView : MonoBehaviour {
 
 	public Text View_Alive;			//is Soldier alive or dead?
 
+	public Text History;			// All the history!
+
 	public SoldierHeadImage IMAGE;
 
 	public GameObject NoAlive;
 	public GameObject SomeAlive;
+
+
+	public Vector2 scrollPosition;
+	public string longString = "This is a long-ish string";
+
+	void OnGUI() {
+
+		scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(100), GUILayout.Height(100));
+		GUILayout.Label("History");
+		if (GUILayout.Button("Clear"))
+			longString = "Here is another line";
+		
+		GUILayout.EndScrollView();
+		if (GUILayout.Button("Add More Text"))
+			longString += "\nHere is another line";
+
+	
+	}
+
 	/*
 	 * CheckAliveStatus checks if there are alive soldiers
 	 * If yes, returns true and sets "alive soldiers view" on
 	 * If no, returns false and sets "no soldiers view" on
 	 * 
 	 */
-
 	public void CheckAliveMessage()
 	{
 		Debug.Log ("Current: " + Current);
@@ -51,6 +71,8 @@ public class SoldierView : MonoBehaviour {
 			return true;
 		}
 	}
+
+
 
 	public void ShowSoldier (){
 		Debug.Log ("Current: " + Current + ", size " + ALIVE_SOLDIERS.soldiers.Count);
@@ -119,6 +141,8 @@ public class SoldierView : MonoBehaviour {
 			{
 				this.View_Alive.text = "DEAD!";
  			}
+
+			this.History.text = Target.GetEvents();
 			
 		}
 
@@ -129,7 +153,7 @@ public class SoldierView : MonoBehaviour {
 		{
 			Current++;
 			if (Current > ALIVE_SOLDIERS.soldiers.Count)
-			{Current = ALIVE_SOLDIERS.soldiers.Count;
+			{Current = 0;
 				Debug.Log ("Currently at "+Current);
 				Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
 			}
@@ -149,7 +173,7 @@ public class SoldierView : MonoBehaviour {
 			Current --;
 			if (Current <1)
 			{
-				Current =  1;
+				Current =  ALIVE_SOLDIERS.soldiers.Count;
 			}
 			
 			Debug.Log ("Currently at "+Current);
@@ -160,4 +184,6 @@ public class SoldierView : MonoBehaviour {
 		
 		
 	}
+
+
 }
