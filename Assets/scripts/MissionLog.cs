@@ -8,7 +8,7 @@ public class MissionLog : MonoBehaviour {
 	public Text missionText;
 	public List<Mission> missions;
 	public int currentlyAdded;
-	
+	public SoldierManager manager;
 	
 	// Use this for initialization
 	void Start () {
@@ -16,10 +16,20 @@ public class MissionLog : MonoBehaviour {
 		missions = new List<Mission>();
 		missionText.text="";
 	}
+
+	public void AddMission ()
+	{
+		Mission mission = new Mission ("jungle", "raid", 0);
+		missions.Add(mission);
+	}
+	public void AddSquad(int[] ids)
+	{
+		missions [currentlyAdded + 1].AddSquad (manager.GetSquad(ids));
+	}
 	
 	public void UpdataLog()
 	{
 		currentlyAdded++;
-		missionText.text = missionText.text + missions [0].ToString;
+		missionText.text+= missions [currentlyAdded].ToString();
 	}
 }
