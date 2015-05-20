@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Mission : MonoBehaviour {
 
+	public string MissionName = "";
 	public string location;
 	public List<SoldierController> squad;
 	public string type;
@@ -36,14 +37,15 @@ public class Mission : MonoBehaviour {
 		}
 			else{
 			string returned = "";
-			returned += "Location: " + location + "\n";
-			returned += "Operation: " + type + "\n";
-			returned += "Members:\n";
+			returned += MissionName;
+			returned += "--Location: " + location + "\n";
+			returned += "--Operation: " + type + "\n";
+			returned += "--Members:\n";
 			bool[] dead = new bool[4];
 			foreach (SoldierController soldier in squad) {
 				returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 			}
-			returned += "During the mission soldiers killed: ";
+			returned += "--During the mission soldiers killed: ";
 			int killsNow = 0;
 			foreach (SoldierController soldier in squad) {
 				killsNow += soldier.kills;
@@ -54,7 +56,7 @@ public class Mission : MonoBehaviour {
 			foreach (SoldierController soldier in squad) {
 				if (!soldier.alive) {
 					if (!wastedPrinted) {
-						returned += "During the mission died: \n";
+						returned += "--During the mission died: \n";
 						wastedPrinted=true;
 					}
 					soldiersDead++;

@@ -15,17 +15,21 @@ public class ButtonController : MonoBehaviour {
 	
 	public void CheckDeactivateSoldierSelectionView()
 	{
+
 		if (manager.inSquadCurrently == 4) {
 			missions.AddMission();
 			missions.AddSquad();
+			this.ActivateMissionViewButton();
 			DeactivateSoldierSelectorView();
 		}
+
 	}
 	
 	public void ActivateSoldierSelectorView()
 	{
 		soldierSelectorView.SetActive (true);
 		mainView.SetActive (false);
+		missionView.SetActive (false);
 	}
 	
 	public void DeactivateSoldierSelectorView()

@@ -55,6 +55,7 @@ public class MissionLog : MonoBehaviour {
 
 
 			mission = new Mission (target, missionSelect, 0);
+			mission.MissionName = "Mission";
 			missions.Add (mission);
 			Debug.Log(missions.IndexOf(mission));
 		}
