@@ -32,6 +32,8 @@ public class Campaing : MonoBehaviour {
 
 	public Text BeginText;
 
+	public Text WarLog;
+
 	// Use this for initialization
 	void Start () {
 
@@ -51,7 +53,22 @@ public class Campaing : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+
+		WarLog.text = 
+				"TimeStamp:" + "\n" + TimeStamp + "\n" +
+				"Missions:" + "\n" + missionNumber + "\n" +
+				"Total Kills:" + "\n" + TotalKills + "\n" +
+				"Total Deaths:" + "\n" + TotalDead+ "\n" +
+				"Kills/Deaths:" + "\n";	
+
+		if (TotalDead == 0)
+		{
+			WarLog.text += "?!?";
+		}
+		else
+		{
+			WarLog.text += ""+ TotalKills/TotalDead;
+		}
 	}
 	
 
