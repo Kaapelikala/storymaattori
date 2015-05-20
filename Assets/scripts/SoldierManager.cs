@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 
 public class SoldierManager : MonoBehaviour {
 
 	public int SoldierID = 42001;
-	public int[] squadIds=new int[4];
+	public int[] squadIds=new int[4]{-2,-2,-2,-2};
 	public int inSquadCurrently=0;
 
 	public Campaing campaing;
@@ -16,6 +17,7 @@ public class SoldierManager : MonoBehaviour {
 	public List<SoldierController> dead = new List<SoldierController> (0);
 
 	void Start () {
+		squadIds=new int[4]{-2,-2,-2,-2};
 		//for testing. DELETE PRIOR TO LAUNCH
 		this.CreateNewSoldier();
 		this.CreateNewSoldier();
@@ -24,31 +26,62 @@ public class SoldierManager : MonoBehaviour {
 
 	public void EmptySquad()
 	{
-		squadIds = new int[4];
+		for (int i = 0; i<4; i++) {
+			squadIds [i] = -1;
+		}
 		inSquadCurrently = 0;
 	}
 
 	public bool SetToMission (int i)
 	{
-		Debug.Log ("Setting to mission: " + i);
+		Array.Sort (squadIds);
+
+		//If we are trying to add a soldier that does not exit.
 		if (i >= soldiers.Count)
 			return false;
-		if (inSquadCurrently < 4) {
-			bool ok=true;
-			for (int j=0;j<inSquadCurrently;j++)
-			{if (squadIds[j]==i)
-				ok=false;
-			}
-			if (ok)
+		//does this one belong to the squad already?
+		//If yes, remove from squad.
+		bool found = false;
+		int amount = 0;
+		for (int k=0;k<4;k++)
+		{
+			if (squadIds[k]==i)
 			{
-				squadIds [inSquadCurrently] = i;
-				inSquadCurrently++;
-				return true;
+				Debug.Log ("Deleting "+i+" from "+k);
+				amount++;
+				Debug.Log ("Amount of found: "+amount);
+				found=true;
+				squadIds[k]=-2;
+
 			}
+		}
+		if (found) {
+			if (amount>1)
+			{
+				inSquadCurrently-=amount;
+			}
+			else
+			{
+				inSquadCurrently--;
+			}
+
+			return false;
+		}
+		Debug.Log ("checking room...");
+
+		//If there is room for soldiers.
+		if (inSquadCurrently < 4) {
+			Debug.Log("Adding "+i+" to "+inSquadCurrently);
+			squadIds [0] = i;
+			inSquadCurrently++;
 			Debug.Log ("Currently in squad: "+inSquadCurrently);
+			return true;
 		}
 		return false;
 	}
+
+
+
 	public List<SoldierController> GetSquad ()
 	{
 		//return GetSquad (squadIds);
@@ -82,7 +115,7 @@ public class SoldierManager : MonoBehaviour {
 		List<int> listOfNumbers=new List<int>();
 		while (listOfNumbers.Count!=4&&listOfNumbers.Count<soldiers.Count)
 		{
-			int temp = Mathf.FloorToInt(Random.Range(0,soldiers.Count));
+			int temp = Mathf.FloorToInt(UnityEngine.Random.Range(0,soldiers.Count));
 			if (!listOfNumbers.Contains(temp))
 			{
 				listOfNumbers.Add(temp);
@@ -160,13 +193,9 @@ public class SoldierManager : MonoBehaviour {
     }*/
 
 	void OnGUI () {
-		if (GUI.Button (new Rect (30,200,200,20), "NEW SOLTTU")) {
+		if (GUI.Button (new Rect (0,0,200,20), "NEW SOLTTU")) {
 			this.CreateNewSoldier();
 
-		}
-		if (GUI.Button (new Rect (50,250,200,40), "CHECK DEAD")) {
-			this.MoveDeadsAway();
-			
 		}
 	}
 

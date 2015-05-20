@@ -5,6 +5,10 @@ using System;
 
 public class SoldierSelectionView : MonoBehaviour {
 
+	public MissionLog log;
+
+
+
 	void Update () {
 		ShowSoldierAmount ();
 	}
@@ -12,13 +16,11 @@ public class SoldierSelectionView : MonoBehaviour {
 	public Text textField;
 	public SoldierManager manager;
 
+
+
 	public void ShowSoldierAmount()
 	{
 		textField.text =   manager.inSquadCurrently.ToString();
 	}
 
-	public void SendOnMission()
-	{
-
-	}
 }

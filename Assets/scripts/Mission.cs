@@ -22,13 +22,14 @@ public class Mission : MonoBehaviour {
 		this.squad=squad;
 		foreach (SoldierController s in squad) {
 			killsStart+=s.kills;
+			Debug.Log(killsStart);
 		}
 	}
 
 	override public string ToString()
 	{
 		if (squad == null) {
-			
+			Debug.Log ("NULL!!!");
 		return "";
 		}
 			else{
@@ -51,7 +52,9 @@ public class Mission : MonoBehaviour {
 				if (!soldier.alive) {
 					if (!wastedPrinted) {
 						returned += "During the mission died: \n";
+						wastedPrinted=true;
 					}
+
 					returned += soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
 				}
 			}
