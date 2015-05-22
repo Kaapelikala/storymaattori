@@ -483,6 +483,14 @@ public class SoldierController : ScriptableObject {
 				+ this.callsign + "' " 
 				+ this.soldierLName + "\n";
 
+		Returnoitava += "Missions:" + this.missions + "\n"
+			+ "Kills:" + this.kills + "\n";
+
+		Returnoitava += "Attributes: " + this.GetAttributes() + "\n";
+
+		Returnoitava += "History: " + this.GetEvents() + "\n";
+
+
 
 		return Returnoitava;
 

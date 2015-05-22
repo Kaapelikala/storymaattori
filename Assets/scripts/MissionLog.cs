@@ -103,6 +103,10 @@ public class MissionLog : MonoBehaviour {
 	{
 		string returnoitava = "";
 
+		returnoitava += "Total Kills: " + control.campaing.TotalKills;
+		returnoitava += "Total Deaths: " + control.campaing.TotalDead;
+		returnoitava += "Total Missions: " + control.campaing.missionNumber;
+
 		returnoitava += control.campaing.alkuteksti;
 
 		returnoitava += "\n\n\n +++MISSIONS+++\n";
@@ -113,14 +117,16 @@ public class MissionLog : MonoBehaviour {
 
 		foreach (SoldierController solttu in control.manager.soldiers)
 		{
-			returnoitava += solttu.toString();
+			returnoitava += "\n\n";
+			returnoitava += "--" + solttu.soldierID + "\n" + solttu.toString();
 		}
 		
 		returnoitava += "\n\n\n +++DEAD SOLDIERS+++\n";
 
 		foreach (SoldierController solttu in control.manager.dead)
 		{
-			returnoitava += solttu.toString();
+			returnoitava += "\n\n";
+			returnoitava += "--" + solttu.soldierID + "\n" + solttu.toString();
 		}
 
 		returnoitava = returnoitava.Replace("\n", System.Environment.NewLine);

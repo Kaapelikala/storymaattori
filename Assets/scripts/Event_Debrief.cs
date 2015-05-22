@@ -156,7 +156,7 @@ public class Event_Debrief : MonoBehaviour {
 		{
 			if (Random.Range(0, 100) > 70)
 			{
-				target.pictureID = Random.Range(0, 5); // gets picture only after Trooper!
+				target.pictureID = (Mathf.RoundToInt(Random.Range(0, 5))); // gets picture only after Trooper!
 				Promote(this.target);
 				target.ChangeMorale(10);
 				target.skill++;

@@ -12,11 +12,18 @@ public class ButtonController : MonoBehaviour {
 	public GameObject soldierSelectorView;
 	public SoldierManager manager;
 	public MissionLog missions;
+
+	public AudioSource BOOM;
+
+	public AudioSource NO;
 	
 	public void CheckDeactivateSoldierSelectionView()
 	{
 
 		if (manager.inSquadCurrently == 4) {
+
+			BOOM.Play ();
+
 			missions.AddMission();
 			missions.AddSquad();
 			
@@ -24,6 +31,13 @@ public class ButtonController : MonoBehaviour {
 			DeactivateSoldierSelectorView();
 			mainView.SetActive(false);
 		}
+		else
+
+		{
+
+			NO.Play();
+		}
+
 
 	}
 	
