@@ -6,9 +6,9 @@ using System.Collections.Generic;
 //The Actual Soldier - Has stats and creation!
 public class SoldierController : ScriptableObject {
 
-	public string soldierFName="Flash";	//Fistname
+	public string soldierFName="";	//Fistname
 	public string soldierLName="Batman";	//Lastname
-	public string callsign="Superman";
+	public string callsign="";
 	public char sex = 'm';
 	public int pictureID;
 	public int soldierID;
@@ -38,6 +38,8 @@ public class SoldierController : ScriptableObject {
 
 		this.soldierID = IDimput;
 
+		this.skill = 90 + Random.Range(0, 10) + Random.Range(0, 10); //Average of 100
+
 		int SexRandomiser = Random.Range(0, 2);
 
 		switch (SexRandomiser)
@@ -54,7 +56,11 @@ public class SoldierController : ScriptableObject {
 				break;
 		}
 
-		int FNameRandomiser = Random.Range(0, 9);
+
+		this.pictureID = 0;
+
+		
+		int FNameRandomiser = Random.Range(0, 11);
 		
 		if (this.sex == 'm')
 		{
@@ -73,16 +79,25 @@ public class SoldierController : ScriptableObject {
 				this. soldierFName = "Bolton";
 				break;
 			case 4:
-				this. soldierLName = "Arken";
+				this. soldierFName = "Arken";
 				break;
 			case 5:
-				this. soldierLName = "Damien";
+				this. soldierFName = "Damien";
 				break;
 			case 6:
-				this. soldierLName = "Piper";
+				this. soldierFName = "Piper";
 				break;
 			case 7:
-				this. soldierLName = "Tybalt";
+				this. soldierFName = "Tybalt";
+				break;
+			case 8:
+				this. soldierFName = "Torres";
+				break;
+			case 9:
+				this. soldierFName = "G.";
+				break;
+			case 10:
+				this. soldierFName = "B.";
 				break;
 			default:
 				this. soldierFName = "Jerry";
@@ -106,24 +121,22 @@ public class SoldierController : ScriptableObject {
 				this. soldierFName = "Emily";
 				break;
 			case 4:
-				this. soldierLName = "Vyce";
+				this. soldierFName = "Vyce";
 				break;
 			case 5:
-				this. soldierLName = "Felixia";
+				this. soldierFName = "Felixia";
 				break;
 			case 6:
-				this. soldierLName = "Alexandria";
+				this. soldierFName = "Alexandria";
 				break;
 			case 7:
-				this. soldierLName = "Gweythe";
+				this. soldierFName = "Gweythe";
 				break;
 			default:
 				this. soldierFName = "Lily";
 				break;
 			}
 		}
-
-		this.pictureID = Random.Range(0, 5);
 
 		int LNameRandomiser = Random.Range(0, 21);
 
@@ -149,6 +162,7 @@ public class SoldierController : ScriptableObject {
 			break;
 		case 6:
 			this. soldierLName = "Mestos";
+			this.skill++;		//easter egg!
 			break;
 		case 7:
 			this. soldierFName = "Cotton";
@@ -194,50 +208,7 @@ public class SoldierController : ScriptableObject {
 			break;
 		}
 
-		int CallsignNameRandomiser = Random.Range(0, 12);
-		
-		switch (CallsignNameRandomiser)
-		{
-		case 0:
-			this. callsign = "Skull";
-			break;
-		case 1:
-			this. callsign = "Fughenson";
-			break;
-		case 2:
-			this. callsign = "Mad";
-			break;
-		case 3:
-			this. callsign = "Red";
-			break;
-		case 4:
-			this. callsign = "Tobacco";
-			break;
-		case 5:
-			this. callsign = "Noob";
-			break;
-		case 6:
-			this. callsign = "Charlie";
-			break;
-		case 7:
-			this. callsign = "Blue";
-			break;
-		case 8:
-			this. callsign = "Kova";
-			break;
-		case 9:
-			this. callsign = "Easy";
-			break;
-		case 10:
-			this. callsign = "TV";
-			break;
-		case 11:
-			this. callsign = "Feral";
-			break;
-		default:
-			this. callsign = "Dwarf";
-			break;
-		}
+
 
 		this.AddAttribute("newbie");	//every soldier has this - goes away after first kill or wound!
 
@@ -416,7 +387,60 @@ public class SoldierController : ScriptableObject {
 		return "Recruit";
 		
 	}
+	
+	public string GenerateCallSign(){
 
+		if (this.callsign != "")
+			return this.callsign;
+
+
+		int CallsignNameRandomiser = Random.Range(0, 12);
+		
+		switch (CallsignNameRandomiser)
+		{
+		case 0:
+			this. callsign = "Skull";
+			break;
+		case 1:
+			this. callsign = "Fughenson";
+			break;
+		case 2:
+			this. callsign = "Mad";
+			break;
+		case 3:
+			this. callsign = "Red";
+			break;
+		case 4:
+			this. callsign = "Tobacco";
+			break;
+		case 5:
+			this. callsign = "Noob";
+			break;
+		case 6:
+			this. callsign = "Charlie";
+			break;
+		case 7:
+			this. callsign = "Blue";
+			break;
+		case 8:
+			this. callsign = "Kova";
+			break;
+		case 9:
+			this. callsign = "Easy";
+			break;
+		case 10:
+			this. callsign = "TV";
+			break;
+		case 11:
+			this. callsign = "Feral";
+			break;
+		default:
+			this. callsign = "Dwarf";
+			break;
+		}
+
+	return this.callsign;
+}
 	public void AddEvent(string combatEvent)
 	{
 		events.Add(combatEvent);
@@ -446,6 +470,21 @@ public class SoldierController : ScriptableObject {
 		this.HowDied = how;
 
 	
+
+
+	}
+
+	public string toString(){
+
+		string Returnoitava = "";
+
+		Returnoitava += this.GetRank() + " " 
+			+ this.soldierFName + " '" 
+				+ this.callsign + "' " 
+				+ this.soldierLName + "\n";
+
+
+		return Returnoitava;
 
 
 	}

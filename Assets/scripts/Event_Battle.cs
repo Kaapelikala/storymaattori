@@ -47,7 +47,7 @@ public class Event_Battle {
 
 
 		if (negative) {
-			returned = verb +" by "+monstername + "\n";
+			returned ="Was " + verb +" by "+monstername + "!!\n";		//more drama!
 		}
 		else
 		{
@@ -120,7 +120,7 @@ public class Event_Battle {
 		else if (Roll < SoldierHitChance)
 		{
 
-			target.ChangeHealth(-10);
+			target.ChangeHealth(-20);
 			target.ChangeMorale(-20);
 			target.AddAttribute("wounded");
 

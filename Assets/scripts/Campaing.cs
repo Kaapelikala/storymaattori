@@ -34,6 +34,8 @@ public class Campaing : MonoBehaviour {
 
 	public Text WarLog;
 
+	public string alkuteksti = "";
+
 	// Use this for initialization
 	void Start () {
 
@@ -74,7 +76,7 @@ public class Campaing : MonoBehaviour {
 
 	public string Begin(){
 
-		string alkuteksti = "In the year ";
+		alkuteksti = "In the year ";
 
 	 	CampaingYear =	Random.Range(4100, 4998);
 		SquadID = Random.Range(1901, 2299);

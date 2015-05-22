@@ -40,23 +40,28 @@ public class Event_Grenade : MonoBehaviour {
 		//Negative modifier = Bad = rolls higher.
 		
 		target.RemoveAttribute("newbie");
-		
+
+		if (CheckTrait("lucky", 1) == 1)	//lucky helps to dodge!
+		{
+			Roll += -10;
+		}
 		if (Roll < SoldierSkill)
 		{
 			target.AddExperience(Enemy_difficulty/10);
 			target.AddEvent ("Dodged enemy grenade!\n");
 		}
-		
 
-		target.ChangeHealth(-5);
-		target.ChangeMorale(-10);
+
+
+		target.ChangeHealth(Random.Range(-5, -20) + Random.Range(-5, -20));	//nasty!
+		target.ChangeMorale(-20);
 		target.AddAttribute("wounded");
 
 
 		if (target.health < 0){
 			target.die("Blown up by grenade");
 			target.AddEvent ("Was blown up by enemy grenade!\n");
-			return (target.callsign + " Died!");
+			return (target.callsign + " was blown up by enemy grenade!");
 		}
 
 		target.AddEvent ("Was wounded by enemy grenade scrapnel!\n");

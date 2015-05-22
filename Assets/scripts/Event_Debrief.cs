@@ -16,14 +16,37 @@ public class Event_Debrief : MonoBehaviour {
 			
 		this.target = NEWTARGET;
 
-		target.AddEvent("Debriefing: \n");
+		target.AddEvent("--Debriefing: \n");
 
 		if (CheckTrait("tough"))		//being tough helps a lot!
 			target.ChangeHealth(10);
-		if (CheckTrait("heroic"))		//being tough helps a lot!
+		if (CheckTrait("heroic"))		//being heroic helps a lot!
 			target.ChangeMorale(10);
-		if (CheckTrait("coward"))		//being tough helps a lot!
+		if (CheckTrait("coward"))		//being coward doesn't help a lot...
 			target.ChangeMorale(-10);
+
+		if (target.callsign == "" && target.kills > 2 && (Random.Range(0, 10) > 2))		//Small chance it does not happen for now
+		{
+			string NewCallsign = target.GenerateCallSign();
+
+			string Sexdiff = "";
+
+			if (target.sex == 'm')
+			{
+				Sexdiff = "He";
+			}
+			else 
+			{
+				Sexdiff = "She";
+			}
+
+			target.AddEvent(Sexdiff + " was given callsign '" + target.callsign + "!\n");
+
+			target.skill ++;
+			target.ChangeMorale(10);
+
+		}
+
 
 
 		//HANDLING OF WOUNDEDS!
@@ -77,7 +100,7 @@ public class Event_Debrief : MonoBehaviour {
 			{
 				target.AddEvent("Was given basic medical treatment.\n");
 				target.RemoveAttribute("wounded");		//Wound goes away!
-				target.ChangeHealth(20);
+				target.ChangeHealth(10);
 
 				int SecRoll = Random.Range(0, 100);
 
@@ -96,7 +119,7 @@ public class Event_Debrief : MonoBehaviour {
 			else if (Roll < 90)			// NO REST
 			{
 				target.AddEvent("There was no time for medical help.\n");
-				target.ChangeHealth(10);
+				target.ChangeHealth(5);
 
 				int SecRoll = Random.Range(0, 100);
 				
@@ -116,7 +139,7 @@ public class Event_Debrief : MonoBehaviour {
 				else
 				{
 					target.AddEvent("It sucked royally.\n");
-					target.ChangeMorale(-10);
+					target.ChangeMorale(-20);
 				}
 			}
 
@@ -129,12 +152,14 @@ public class Event_Debrief : MonoBehaviour {
 
 
 		//PROMOTIONS
-		if (this.target.kills > 2 && target.rank == 0)			//TROOPER
+		if (this.target.kills > 4 && target.rank == 0)			//TROOPER
 		{
 			if (Random.Range(0, 100) > 70)
 			{
+				target.pictureID = Random.Range(0, 5); // gets picture only after Trooper!
 				Promote(this.target);
 				target.ChangeMorale(10);
+				target.skill++;
 			}
 			else
 			{
@@ -215,7 +240,7 @@ public class Event_Debrief : MonoBehaviour {
 		if (Random.Range(0, 100) > 70){
 
 
-			int traitRandomiser = Random.Range(0, 2);
+			int traitRandomiser = Mathf.RoundToInt(Random.Range(0, 2));
 		
 			switch (traitRandomiser)
 			{
@@ -251,7 +276,7 @@ public class Event_Debrief : MonoBehaviour {
 
 		if (CookName != ""){
 			this.target.ChangeMorale(10);
-			this.target.AddEvent("Cooking of " + CookName + "was splendid!\n"); 
+			this.target.AddEvent("Cooking of " + CookName + " was splendid!\n"); 
 		}
 	}
 

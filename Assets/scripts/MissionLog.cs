@@ -98,4 +98,35 @@ public class MissionLog : MonoBehaviour {
 		
 		currentlyAdded++;
 	}
+
+	public void EXPORT()
+	{
+		string returnoitava = "";
+
+		returnoitava += control.campaing.alkuteksti;
+
+		returnoitava += "\n\n\n +++MISSIONS+++\n";
+
+		returnoitava += missionText.text;
+
+		returnoitava += "\n\n\n +++ALIVE SOLDIERS+++\n";
+
+		foreach (SoldierController solttu in control.manager.soldiers)
+		{
+			returnoitava += solttu.toString();
+		}
+		
+		returnoitava += "\n\n\n +++DEAD SOLDIERS+++\n";
+
+		foreach (SoldierController solttu in control.manager.dead)
+		{
+			returnoitava += solttu.toString();
+		}
+
+		returnoitava = returnoitava.Replace("\n", System.Environment.NewLine);
+
+		System.IO.File.WriteAllText(@"D:\Storymaattori_HistoryExport_" + control.campaing.CampaingYear + "+" + control.campaing.TimeStamp + ".txt", returnoitava);
+
+
+	}
 }

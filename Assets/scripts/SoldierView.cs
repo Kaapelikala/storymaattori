@@ -129,11 +129,33 @@ public class SoldierView : MonoBehaviour {
 			{
 				ReturnHeath = "Dangerous";
 			}
-			
+
+			string ReturnSkill ="";
+			if (Target.skill >= 105)
+			{
+				ReturnSkill = "Great";
+			}
+			else if (Target.skill > 102)
+			{
+				ReturnSkill = "Good";
+			}
+			else if (Target.skill > 98)
+			{
+				ReturnSkill = "Average";
+			}
+			else if (Target.skill > 95)
+			{
+				ReturnSkill = "Poor";
+			}
+			else
+			{
+				ReturnSkill = "Bad";
+			}
+
 			
 			int awards = Target.awards.Count;   
 			
-			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath + "\n\n" + awards;
+			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath +"\n" + ReturnSkill +"\n" + awards;
 			
 			
 			

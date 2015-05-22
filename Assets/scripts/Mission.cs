@@ -10,6 +10,7 @@ public class Mission : MonoBehaviour {
 	public string type;
 	public int difficulty;
 	int killsStart=0;
+	int thisMissionKills = 0;
 
 	public Campaing ReportToCampaing;
 
@@ -45,7 +46,14 @@ public class Mission : MonoBehaviour {
 			returned += "--Members:\n";
 			bool[] dead = new bool[4];
 			foreach (SoldierController soldier in squad) {
-				returned += soldier.GetRank() + " " + soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
+				if (soldier.callsign != "")
+				{
+					returned += soldier.GetRank() + " " + soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
+				}
+				else
+				{
+					returned += soldier.GetRank() + " " + soldier.soldierFName + " " + soldier.soldierLName + "\n";
+				}
 			}
 			returned += "--During the mission soldiers killed: ";
 			int killsNow = 0;
@@ -53,7 +61,7 @@ public class Mission : MonoBehaviour {
 				killsNow += soldier.kills;
 			}
 			
-			int thisMissionKills = killsNow - killsStart;
+			thisMissionKills = killsNow - killsStart;
 
 			ReportToCampaing.TotalKills += thisMissionKills;		//reports to Campaing the kills!
 
@@ -68,22 +76,34 @@ public class Mission : MonoBehaviour {
 					}
 					soldiersDead++;
 					ReportToCampaing.TotalDead++;		//reports to Campaing the deads!!
-					returned += soldier.GetRank() + " " + soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
+					if (soldier.callsign != "")
+					{
+						returned += soldier.GetRank() + " " + soldier.soldierFName + " '" + soldier.callsign + "' " + soldier.soldierLName + "\n";
+					}
+					else
+					{
+						returned += soldier.GetRank() + " " + soldier.soldierFName + " " + soldier.soldierLName + "\n";
+					}
 				}
 			}
-			if (squad.Count == soldiersDead)
+			if (squad.Count == soldiersDead)	//all are dead
 			{
-				returned += "Mission was a DEFEAT!\n";
+				returned += "--Mission was a DEFEAT!\n";
 				this.victory = false;
 			}
-			else if (killsNow < soldiersDead)
+			else if (thisMissionKills < soldiersDead)
 			{
-				returned += "Mission was an AMBARRASMENT!\n";
+				returned += "--Mission was an AMBARRASMENT!\n";
+				this.victory = false;
+			}
+			else if (thisMissionKills == soldiersDead)
+			{
+				returned += "--Mission was a DRAW!\n";
 				this.victory = false;
 			}
 			else
 			{
-				returned += "Mission was A VICTORY!\n";
+				returned += "--Mission was A VICTORY!\n";
 				this.victory = true;
 			}
 
