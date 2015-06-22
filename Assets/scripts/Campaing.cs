@@ -30,6 +30,8 @@ public class Campaing : MonoBehaviour {
 	public int TotalKills = 0;
 	public int TotalDead = 0;
 
+	public int Campaing_Difficulty = 100; //used to determine current front difficulty. AFFECTS ALL BATTLES
+
 	public Text BeginText;
 
 	public Text WarLog;

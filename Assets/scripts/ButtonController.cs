@@ -16,15 +16,20 @@ public class ButtonController : MonoBehaviour {
 	public AudioSource BOOM;
 
 	public AudioSource NO;
-	
-	public void CheckDeactivateSoldierSelectionView()
+
+	public void Start()
+	{
+		missions.AddMission();
+
+	}
+
+	public void CheckDeactivateSoldierSelectionView()		//This is the GO signal, sends Soldiers to MISSION!
 	{
 
 		if (manager.inSquadCurrently == 4) {
 
 			BOOM.Play ();
 
-			missions.AddMission();
 			missions.AddSquad();
 			
 			this.ActivateMissionViewButton();

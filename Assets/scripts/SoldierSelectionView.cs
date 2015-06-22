@@ -9,10 +9,25 @@ public class SoldierSelectionView : MonoBehaviour {
 
 	public Mission Current;
 
-	public Text teksti;
+	public Text MissionInfoText;
+	public Text MissionDifText;
 
 	void Update () {
 		ShowSoldierAmount ();
+		MissionInfoText.text = log.mission.type + " " + log.mission.location;
+
+		if (log.mission.difficulty < 90)
+		{
+			MissionDifText.text = "Easy";
+		}
+		else if (log.mission.difficulty > 110)
+		{
+			MissionDifText.text = "Hard";
+		}
+		else
+		{
+			MissionDifText.text = "Normal";
+		}
 	}
 
 	public Text textField;

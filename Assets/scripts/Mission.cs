@@ -7,7 +7,7 @@ public class Mission : MonoBehaviour {
 	public string MissionName = "";
 	public string location;
 	public List<SoldierController> squad;
-	public string type;
+	public string type;		//what kind of mission this is!
 	public int difficulty;
 	int killsStart=0;
 	int thisMissionKills = 0;

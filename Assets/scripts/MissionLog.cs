@@ -11,14 +11,15 @@ public class MissionLog : MonoBehaviour {
 	public List<Mission> missions = new List<Mission>();
 	public int currentlyAdded=0;
 	public SoldierManager manager;
-	private Mission mission;
+	public Mission mission;
 	public EventController control;
 
 	public RectTransform BG;
 
 
 	public void AddMission ()
-	{if (manager.soldiers.Count > 3) {
+	{
+		if (manager.soldiers.Count > 3) {
 			Debug.Log ("Adding a mission...");
 
 			string target = "";
@@ -57,23 +58,27 @@ public class MissionLog : MonoBehaviour {
 
 
 
-			mission = new Mission (target, missionSelect, 0);
+			int Mission_DIFF = Random.Range((control.campaing.Campaing_Difficulty - 20), (control.campaing.Campaing_Difficulty + 20));
+
+			mission = new Mission (target, missionSelect, Mission_DIFF);
 			mission.MissionName = "Mission " + (control.campaing.missionNumber+1) + "";
 			mission.ReportToCampaing = control.campaing;
-			missions.Add (mission);
-			Debug.Log(missions.IndexOf(mission));
 		}
 	}
-	public void AddSquad()
+	public void AddSquad()		//LADS GO TO BATTLE!BATTLE!
 	{
 		if (manager.inSquadCurrently == 4) {
+
+			missions.Add (mission);
+			Debug.Log(missions.IndexOf(mission));
+
 			Debug.Log ("Adding squad...");
 			Debug.Log (missions.IndexOf (mission));
 			Debug.Log (currentlyAdded);
 			Debug.Log ("mission @ " + missions [currentlyAdded]);
 			missions [currentlyAdded].AddSquad (manager.GetSquad (manager.squadIds));
 			Debug.Log ("Fighting....");
-			control.Fight (manager.squadIds);
+			control.Fight (manager.squadIds, mission.difficulty);
 		
 			Debug.Log ("writing to log...");
 			UpdateLog ();

@@ -11,14 +11,14 @@ public class EventController : MonoBehaviour {
 
 
 
-	public void Fight ()
+	public void Fight (int Difficulty)
 	{
 		int[] indexes = {-1,-1,-1,-1};
-		Fight (indexes);
+		Fight (indexes, Difficulty);
 	}
 
 
-	public void Fight(int [] indexes)
+	public void Fight(int [] indexes, int Difficulty)
 {
 		string MissionName = campaing.GetNextMission();
 		List<SoldierController> squad;
@@ -70,10 +70,10 @@ public class EventController : MonoBehaviour {
 					int BattleEventRandomiser = Mathf.FloorToInt(Random.Range(0,100));
 					
 					if (BattleEventRandomiser < 80)
-						Fight.FightRound (squad [i], 90 + (Mathf.FloorToInt (Random.Range (0, 20))) - GreatestRank);
+						Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
 					else 
 					{
-						Grenade.CheckGrenade (squad [i], 90 + (Mathf.FloorToInt (Random.Range (0, 20))) - GreatestRank);
+						Grenade.CheckGrenade (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
 					}
 				}
 			

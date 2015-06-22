@@ -115,7 +115,7 @@ RectTransform:
   m_Children:
   - {fileID: 1871526364}
   m_Father: {fileID: 1807681304}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 0, y: -60}
@@ -1022,7 +1022,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1807681304}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -12.1999998, y: 106.099998}
@@ -3387,7 +3387,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   log: {fileID: 1351749034}
   Current: {fileID: 0}
-  teksti: {fileID: 0}
+  MissionInfoText: {fileID: 1495611196}
+  MissionDifText: {fileID: 2020968712}
   textField: {fileID: 1250833482}
   manager: {fileID: 101941925}
 --- !u!1 &669098657
@@ -6155,7 +6156,7 @@ GameObject:
   - 222: {fileID: 1160241359}
   - 114: {fileID: 1160241358}
   m_Layer: 0
-  m_Name: MissionTEXT 1
+  m_Name: MissionTEXT DIFF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6175,7 +6176,7 @@ RectTransform:
   m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -152, y: 159}
+  m_AnchoredPosition: {x: -152, y: 173}
   m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1160241358
@@ -6925,7 +6926,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1807681304}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 32, y: 100.699997}
@@ -7183,6 +7184,7 @@ MonoBehaviour:
   missions: []
   currentlyAdded: 0
   manager: {fileID: 101941925}
+  mission: {fileID: 0}
   control: {fileID: 101941923}
   BG: {fileID: 1401374701}
 --- !u!1 &1354126794
@@ -7613,7 +7615,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1807681304}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 145.100006, y: 106.099998}
@@ -7982,9 +7984,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'IMPUT COMES HERE
-
-'
+  m_Text: IMPUT COMES HERE
 --- !u!222 &1495611197
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9095,6 +9095,7 @@ MonoBehaviour:
   TimeStamp: 0
   TotalKills: 0
   TotalDead: 0
+  Campaing_Difficulty: 100
   BeginText: {fileID: 1148743629}
   WarLog: {fileID: 1399527830}
   alkuteksti: 
@@ -9414,6 +9415,7 @@ RectTransform:
   - {fileID: 1632106031}
   - {fileID: 1495611195}
   - {fileID: 1160241357}
+  - {fileID: 2020968711}
   - {fileID: 171245456}
   - {fileID: 1250833481}
   - {fileID: 6193834}
@@ -10611,6 +10613,72 @@ MonoBehaviour:
   rank: 0
   events: []
   HowDied: 
+--- !u!1 &2020968710
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 2020968711}
+  - 222: {fileID: 2020968713}
+  - 114: {fileID: 2020968712}
+  m_Layer: 0
+  m_Name: MissionDifIMPUT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2020968711
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2020968710}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1807681304}
+  m_RootOrder: 6
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: -73.5999985, y: 171.5}
+  m_SizeDelta: {x: 80, y: 20}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &2020968712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2020968710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: .705882311, g: .550172985, b: .550172985, a: 1}
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: b4689167078dc2b4cb72d2aa4d9d1ef2, type: 3}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: DOFF
+--- !u!222 &2020968713
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2020968710}
 --- !u!1 &2025240470
 GameObject:
   m_ObjectHideFlags: 0
