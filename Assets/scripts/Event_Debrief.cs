@@ -25,7 +25,7 @@ public class Event_Debrief : MonoBehaviour {
 		if (CheckTrait("coward"))		//being coward doesn't help a lot...
 			target.ChangeMorale(-10);
 
-		if (target.callsign == "" && target.kills > 2 && (Random.Range(0, 10) > 2))		//Small chance it does not happen for now
+		if (target.callsign == "" && target.kills > 4 && (Random.Range(0, 10) > 2))		//Small chance it does not happen for now
 		{
 			string NewCallsign = target.GenerateCallSign();
 
@@ -66,7 +66,14 @@ public class Event_Debrief : MonoBehaviour {
 				{
 					target.AddEvent("Heavy drinking commerced.\n");
 					target.ChangeMorale(40);
-					target.ChangeHealth(-10);
+					target.ChangeHealth(-30);
+
+					string Sexdiff = "";
+					if (this.target.health < 0)
+					{
+						target.AddEvent(target.callsign + " drank way too much and died!!\n");
+						target.die("Partied to death!");
+					}
 				}
 				else if (SecRoll < 50)
 				{
@@ -152,7 +159,7 @@ public class Event_Debrief : MonoBehaviour {
 
 
 		//PROMOTIONS
-		if (this.target.kills > 4 && target.rank == 0)			//TROOPER
+		if (this.target.kills > 2 && target.rank == 0)			//TROOPER
 		{
 			if (Random.Range(0, 100) > 70)
 			{
