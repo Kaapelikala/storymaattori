@@ -7,7 +7,9 @@ public class SoldierSelectionView : MonoBehaviour {
 
 	public MissionLog log;
 
+	public Mission Current;
 
+	public Text teksti;
 
 	void Update () {
 		ShowSoldierAmount ();

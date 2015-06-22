@@ -29,18 +29,16 @@ public class Event_Debrief : MonoBehaviour {
 		{
 			string NewCallsign = target.GenerateCallSign();
 
-			string Sexdiff = "";
+			string sexdiff = "";
 
-			if (target.sex == 'm')
+			if (this.target.sex == 'm')
 			{
-				Sexdiff = "He";
+				sexdiff = "He";
 			}
-			else 
-			{
-				Sexdiff = "She";
-			}
+			else
+				sexdiff = "She";
 
-			target.AddEvent(Sexdiff + " was given callsign '" + target.callsign + "!\n");
+			target.AddEvent(sexdiff + " was given callsign '" + target.callsign + "!\n");
 
 			target.skill ++;
 			target.ChangeMorale(10);
@@ -56,6 +54,7 @@ public class Event_Debrief : MonoBehaviour {
 
 			if (Roll < 50)			//NICE EXTENDED REST, did Character enjoy it?
 			{
+				CheckForBionics();
 				target.AddEvent("Was sent to an extended rest.\n");
 				target.RemoveAttribute("wounded");		//Wound goes away!
 				target.ChangeHealth(20);
@@ -68,10 +67,18 @@ public class Event_Debrief : MonoBehaviour {
 					target.ChangeMorale(40);
 					target.ChangeHealth(-30);
 
-					string Sexdiff = "";
+					string sexdiff = "";
+					
+					if (this.target.sex == 'm')
+					{
+						sexdiff = "He";
+					}
+					else
+						sexdiff = "She";
+
 					if (this.target.health < 0)
 					{
-						target.AddEvent(target.callsign + " drank way too much and died!!\n");
+						target.AddEvent(sexdiff + " drank way too much and suffocated!!\n");
 						target.die("Partied to death!");
 					}
 				}
@@ -105,6 +112,7 @@ public class Event_Debrief : MonoBehaviour {
 			}
 			else if (Roll < 75)			// NORMAL REST
 			{
+				CheckForBionics();
 				target.AddEvent("Was given basic medical treatment.\n");
 				target.RemoveAttribute("wounded");		//Wound goes away!
 				target.ChangeHealth(10);
@@ -220,14 +228,14 @@ public class Event_Debrief : MonoBehaviour {
 			if (Random.Range(0, 100) > 70)
 			{
 				string Sexdiff = "";
+				
 				if (this.target.sex == 'm')
 				{
 					Sexdiff = "him";
 				}
-				else 
-				{
+				else
 					Sexdiff = "her";
-				}
+
 					if (CheckTrait("inaccurate"))
 					    {
 						    this.target.AddEvent("Due to poor morale, " + target.callsign + "tried to shot " + Sexdiff + "self but missed!\n");
@@ -287,6 +295,7 @@ public class Event_Debrief : MonoBehaviour {
 		}
 	}
 
+
 	void Promote (SoldierController Ylennettava)
 	{
 		string Sexdiff = "";
@@ -314,6 +323,173 @@ public class Event_Debrief : MonoBehaviour {
 		}
 		return false;
 			
+	}
+
+	void CheckForBionics()
+	{
+		if (CheckTrait("wounded")){
+
+			bool AddedNewThing = false;
+
+			string Sexdiff = "";
+			if (target.sex == 'm')
+			{
+				Sexdiff = "His";
+			}
+			else 
+			{
+				Sexdiff = "Her";
+			}
+
+			int Roll = Random.Range(0, 100);
+
+
+			if (Roll < 70)
+			{
+			}
+			else if (Roll < 80)
+			{				
+				if (target.HasAttribute("robo-movement"))
+				{
+				}
+				else if (target.HasAttribute("robo-leg"))
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " remaining leg was replaced with robotic one too.\n");
+					target.AddAttribute("robo-movement");
+					target.RemoveAttribute("robo-leg");
+					target.skill++;		//as currently legs do not do much this helps at least!
+				}
+				else
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " wounded leg was replaced with robotic one.\n");
+					target.AddAttribute("robo-leg");
+					target.skill++;		//as currently legs do not do much this helps at least!
+				}
+			}
+			else if (Roll < 90)
+			{
+				if (target.HasAttribute("robo-manipulators"))
+				{
+				}
+				else if (target.HasAttribute("robo-arm"))
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " remaining arm was replaced with robotic one too.\n");
+					target.AddAttribute("robo-manipulators");
+					target.RemoveAttribute("robo-arm");
+					target.skill++;
+				}
+				else
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " shredded arm was replaced with robotic one.\n");
+					target.AddAttribute("robo-arm");
+					target.skill++;
+				}
+			}
+			else if (Roll < 95)
+			{	
+				if (target.HasAttribute("robo-organs"))
+				{
+				}
+				else if (target.HasAttribute("robo-heart"))
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " leftover organs were replaced too.\n");
+					target.AddAttribute("robo-organs");
+					target.RemoveAttribute("robo-heart");
+					target.ChangeHealth(20);
+				}
+				else
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " damaged heart was replaced with robotic one.\n");
+					target.AddAttribute("robo-heart");
+					target.ChangeHealth(10);
+				}
+
+			}
+			else 
+			{
+				if (target.HasAttribute("robo-vision"))
+				{
+				}
+				else if (target.HasAttribute("robo-eye"))
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " remaining eye was replaced with robotic one also.\n");
+					target.AddAttribute("robo-vision");
+					target.RemoveAttribute("robo-eye");
+				}
+				else
+				{
+					AddedNewThing = true;
+					target.AddEvent(Sexdiff + " blasted eye was replaced with robotic one.\n");
+					target.AddAttribute("robo-eye");
+				}
+			}
+
+
+
+
+			if (AddedNewThing == true)
+			{
+				//Does Soldier like the new metal
+
+				
+				Roll = Random.Range(0, 100);
+				int SecondRoll = Random.Range(0, 5);
+
+				if (target.sex == 'm')
+				{
+					Sexdiff = "He";
+				}
+				else 
+				{
+					Sexdiff = "She";
+				}
+
+
+				if (CheckTrait ("techie"))
+				{
+					target.AddEvent(Sexdiff + " was overjoyed by the new metal!\n");
+					target.ChangeMorale(20);
+				}
+				else if (Roll < 33)
+				{
+					target.AddEvent(Sexdiff + " hated the new addition!!\n");
+					target.ChangeMorale(-10);
+				}
+				else if (Roll < 66) 
+				{
+					target.AddEvent("Replacement felt better than the old one.\n");
+					target.ChangeMorale(+10);
+
+					if (SecondRoll > 3)
+					{
+						target.AddEvent(Sexdiff + " began to appreciate technology more");
+						target.AddAttribute("techie");
+					}
+				}
+				else
+				{
+					target.AddEvent(Sexdiff + " did not care\n");
+				}
+
+
+
+
+
+				
+			}
+
+
+		}
+
+
+
 	}
 		
 

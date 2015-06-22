@@ -94,7 +94,11 @@ public class SoldierView : MonoBehaviour {
 			
 			// ei anneta suoraa numeraalisia arvoja pelaajille nähtäviksi
 			string ReturnMorale;
-			if (Target.morale >= 100)
+			if (Target.morale >= 120)
+			{
+				ReturnMorale = "Heroic";
+			}
+			else if (Target.morale >= 100)
 			{
 				ReturnMorale = "Great";
 			}
@@ -113,7 +117,11 @@ public class SoldierView : MonoBehaviour {
 			
 			
 			string ReturnHeath;
-			if (Target.health >= 100)
+			if (Target.health >= 120)
+			{
+				ReturnHeath = "Super";
+			}
+			else if (Target.health >= 100)
 			{
 				ReturnHeath = "Great";
 			}

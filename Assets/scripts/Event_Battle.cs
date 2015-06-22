@@ -80,6 +80,9 @@ public class Event_Battle {
 		modifier +=  CheckTrait("idiot", -10);
 		modifier +=  CheckTrait("newbie", -5);
 		modifier +=  CheckTrait("wounded", -10);
+		modifier +=  CheckTrait("robo-eye", 5);
+		modifier +=  CheckTrait("robo-vision", 10);
+		modifier +=  CheckTrait("robo-manipulators", 5);
 
 		HitChance +=  CheckTrait("accurare", 5);
 

@@ -60,7 +60,7 @@ public class SoldierController : ScriptableObject {
 		this.pictureID = 0;
 
 		
-		int FNameRandomiser = Random.Range(0, 11);
+		int FNameRandomiser = Random.Range(0, 12);
 		
 		if (this.sex == 'm')
 		{
@@ -98,6 +98,9 @@ public class SoldierController : ScriptableObject {
 				break;
 			case 10:
 				this. soldierFName = "B.";
+				break;
+			case 11:
+				this. soldierFName = "Bort";
 				break;
 			default:
 				this. soldierFName = "Jerry";
@@ -138,7 +141,7 @@ public class SoldierController : ScriptableObject {
 			}
 		}
 
-		int LNameRandomiser = Random.Range(0, 21);
+		int LNameRandomiser = Random.Range(0, 22);
 
 		switch (LNameRandomiser)
 		{
@@ -202,6 +205,12 @@ public class SoldierController : ScriptableObject {
 			break;
 		case 19:
 			this. soldierLName = "Perho";
+			break;
+		case 20:
+			this. soldierLName = "Bortsson";
+			break;
+		case 21:
+			this. soldierLName = "Langred";
 			break;
 		default:
 			this. soldierFName = "Smith";

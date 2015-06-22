@@ -14,7 +14,7 @@ PlayerSettings:
   companyName: Valtter Taipale
   productName: Storymaattori
   cloudProjectId: 
-  defaultCursor: {fileID: 2800000, guid: 745259c04df5df84a9b8cbfc118323aa, type: 3}
+  defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   defaultScreenWidth: 1024
   defaultScreenHeight: 768
@@ -136,7 +136,10 @@ PlayerSettings:
     m_Icons:
     - m_Icon: {fileID: 2800000, guid: dfed5639839689148b3b0c28b4632145, type: 3}
       m_Size: 128
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: Standalone
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
   actionOnDotNetUnhandledException: 1

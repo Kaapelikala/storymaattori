@@ -63,7 +63,7 @@ public class EventController : MonoBehaviour {
 
 
 		//Combat takes n rounds. 
-		for (int j =0; j<(Mathf.FloorToInt(Random.Range(1,(6+GreatestRank)))); j++) {
+		for (int j =0; j<(Mathf.FloorToInt(Random.Range((1+GreatestRank),(6+GreatestRank)))); j++) {
 			for (int i =0; i<squad.Count; i++) {
 
 				if (squad [i].alive == true){		//dead do not fight!

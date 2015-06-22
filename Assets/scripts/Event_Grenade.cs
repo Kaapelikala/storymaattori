@@ -41,20 +41,53 @@ public class Event_Grenade : MonoBehaviour {
 		
 		target.RemoveAttribute("newbie");
 
-		if (CheckTrait("lucky", 1) == 1)	//lucky helps to dodge!
-		{
-			Roll += -10;
-		}
-		if (Roll < SoldierSkill)
+
+		Roll += CheckTrait("lucky", -10);	//lucky helps to dodge!
+		Roll += CheckTrait("robo-leg", -5);	//robo-leg too!
+		Roll += CheckTrait("robo-leg", -5);	//if both legs robotic its the best!
+		Roll += CheckTrait("coward", -5);	//cowardism has some beneficts..
+		Roll += CheckTrait("idiot", 10);	//but idiots just die
+
+		
+		if (Roll < SoldierSkill -20)
 		{
 			target.AddExperience(Enemy_difficulty/10);
-			target.AddEvent ("Dodged enemy grenade!\n");
+
+			int DodgeRandomiser = (Mathf.RoundToInt(Random.Range(0, 6)));
+			
+			string Dodgetype = "";
+			
+			switch (DodgeRandomiser)
+			{
+			case 0:
+				Dodgetype = "Dodged";
+				break;
+			case 1:
+				Dodgetype = "Evaded";
+				break;
+			case 2:
+				Dodgetype = "Ignored";
+				break;
+			case 3:
+				Dodgetype = "Ducked away from";
+				break;
+			case 4:
+				Dodgetype = "Sidestepped";
+				break;
+			case 5:
+				Dodgetype = "Parried";
+				break;
+			default:
+				Dodgetype = "Avoided";
+				break;
+			}
+
+			target.AddEvent (Dodgetype + " enemy grenade!\n");
+			return (target.callsign + "Dodged enemy grenade!");
 		}
 
-
-
-		target.ChangeHealth(Random.Range(-5, -20) + Random.Range(-5, -20));	//nasty!
-		target.ChangeMorale(-20);
+		target.ChangeHealth(Random.Range(-20, -5) + Random.Range(-20, -5));	//nasty!
+		target.ChangeMorale(-30);
 		target.AddAttribute("wounded");
 
 
@@ -64,8 +97,38 @@ public class Event_Grenade : MonoBehaviour {
 			return (target.callsign + " was blown up by enemy grenade!");
 		}
 
-		target.AddEvent ("Was wounded by enemy grenade scrapnel!\n");
+		int TextRandomiser = (Mathf.RoundToInt(Random.Range(0, 6)));
+
+		string damagetype = "";
+
+		switch (TextRandomiser)
+		{
+		case 0:
+			damagetype = "wounded";
+			break;
+		case 1:
+			damagetype = "rended";
+			break;
+		case 2:
+			damagetype = "thrown";
+			break;
+		case 3:
+			damagetype = "hit";
+			break;
+		case 4:
+			damagetype = "plasmad";
+			break;
+		case 5:
+			damagetype = "grazed";
+			break;
+		default:
+			damagetype = "burned";
+			break;
+		}
+
+		target.AddEvent ("Was "+ damagetype + " by enemy grenade scrapnel!\n");
 		return (target.callsign + "Was hit by scrapnel!");
+
 
 	}
 	
