@@ -14,7 +14,25 @@ public class SoldierSelectionView : MonoBehaviour {
 
 	void Update () {
 		ShowSoldierAmount ();
-		MissionInfoText.text = log.mission.type + " " + log.mission.location;
+
+		String Returnoitava = "";
+
+		Returnoitava += log.mission.type + " " + log.mission.location + "\n";
+
+		if (log.mission.type == "Vacation")
+		{
+			Returnoitava += "  Long deserved R&R!";
+		}
+		else if (log.mission.type == "Assault")
+		{
+			Returnoitava += "  Priority target! \n  Expect heavy casualties!";
+		}
+		else 
+		{
+			Returnoitava += "  Neutralise all hostiles.";
+		}
+
+		MissionInfoText.text = Returnoitava;
 
 		if (log.mission.difficulty < 90)
 		{

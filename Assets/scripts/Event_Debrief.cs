@@ -18,13 +18,17 @@ public class Event_Debrief : MonoBehaviour {
 
 		target.AddEvent("--Debriefing: \n");
 
+		AddAward("Campaing Medal");
+
 		if (CheckTrait("tough"))		//being tough helps a lot!
 			target.ChangeHealth(10);
 		if (CheckTrait("heroic"))		//being heroic helps a lot!
 			target.ChangeMorale(10);
 		if (CheckTrait("coward"))		//being coward doesn't help a lot...
 			target.ChangeMorale(-10);
-
+		if (CheckTrait("depressed"))		//being depressed sucks.
+			target.ChangeMorale(-10);
+		
 		if (target.callsign == "" && target.kills > 4 && (Random.Range(0, 10) > 2))		//Small chance it does not happen for now
 		{
 			string NewCallsign = target.GenerateCallSign();
@@ -43,6 +47,17 @@ public class Event_Debrief : MonoBehaviour {
 			target.skill ++;
 			target.ChangeMorale(10);
 
+		}
+
+		if (target.missions > 8 && target.kills > 10 && (Random.Range(0, 10) > 2))		//Veteranship!!
+		{
+
+			target.AddEvent("Soldiers call " + this.target.callsign + " a veteran!\n");
+			target.AddAttribute("veteran");
+
+			target.skill ++;
+			target.ChangeMorale(20);
+			
 		}
 
 
@@ -157,7 +172,8 @@ public class Event_Debrief : MonoBehaviour {
 					target.ChangeMorale(-20);
 				}
 			}
-
+			
+			AddAward("Wound Badge");
 
 		}		
 		else
@@ -167,9 +183,9 @@ public class Event_Debrief : MonoBehaviour {
 
 
 		//PROMOTIONS
-		if (this.target.kills > 2 && target.rank == 0)			//TROOPER
+		if (this.target.kills > 1 && target.rank == 0)			//TROOPER
 		{
-			if (Random.Range(0, 100) > 70)
+			if ((Random.Range(0, 100)+ CheckTrait("heroic",10)+ CheckTrait("drunkard",-20)) > 40)
 			{
 				target.pictureID = (Mathf.RoundToInt(Random.Range(0, 5))); // gets picture only after Trooper!
 				Promote(this.target);
@@ -184,33 +200,35 @@ public class Event_Debrief : MonoBehaviour {
 		}
 		else if (this.target.kills > 8 && target.rank == 1)		//CORP
 		{
-			if (Random.Range(0, 100) > 70)
+			if ((Random.Range(0, 100)+CheckTrait("young",-10)+CheckTrait("heroic",10)+CheckTrait("drunkard",-20)) > 50)
 			{
 				Promote(this.target);
 				target.ChangeMorale(20);
+				target.skill++;
 			}
 			else
 			{
 				target.AddEvent("Did not get deserved promotion!\n");
-				target.ChangeMorale(-40);
+				target.ChangeMorale(-30);
 			}
 		}
 		else if (this.target.kills > 20 && target.rank == 2)		//CAPT
 		{
-			if (Random.Range(0, 100) > 70)
+			if ((Random.Range(0, 100)+CheckTrait("young",-10)+CheckTrait("heroic",10)+CheckTrait("drunkard",-20)) > 60)
 			{
 				Promote(this.target);
 				target.ChangeMorale(30);
+				target.skill++;
 			}
 			else
 			{
 				target.AddEvent("Did not get deserved promotion!\n");
-				target.ChangeMorale(-60);
+				target.ChangeMorale(-50);
 			}
 		}
 		else if (this.target.kills > 40 && target.rank == 3)		//LIUTENANT
 		{
-			if (Random.Range(0, 100) > 70)
+			if ((Random.Range(0, 100)+CheckTrait("young",-10)+CheckTrait("heroic",10)+CheckTrait("drunkard",-20)) > 70)
 			{
 				Promote(this.target);
 				target.ChangeMorale(40);
@@ -220,6 +238,19 @@ public class Event_Debrief : MonoBehaviour {
 				target.AddEvent("Did not get deserved promotion!\n");
 				target.ChangeMorale(-60);
 			}
+		}
+
+		if (target.kills > 5 && !target.HasAward("Kill Award") && !target.HasAward("Kill Award 2nd Rank"))
+		{
+			AddAward("Kill Award");
+		}
+		if (target.kills > 10 && !target.HasAward("Kill Award"))
+		{
+			AddAward("Kill Award");
+		}
+		if (target.kills > 10 && !target.HasAward("Kill Award"))
+		{
+			AddAward("Kill Award");
 		}
 
 		//CHANCE TO BANG HIMSELF due to POOR MORALE
@@ -323,6 +354,16 @@ public class Event_Debrief : MonoBehaviour {
 		}
 		return false;
 			
+	}
+
+	int CheckTrait (string TraitName, int modifier)
+	{
+		if (target.HasAttribute(TraitName))
+		{
+			return modifier;
+		}
+		return 0;
+		
 	}
 
 	void CheckForBionics()
@@ -489,6 +530,47 @@ public class Event_Debrief : MonoBehaviour {
 		}
 
 
+
+	}
+
+	public void AddAward(string AwardName)
+	{
+		if (!target.HasAward(AwardName))
+		{
+			string Sexdiff = "";
+
+			if (target.sex == 'm')
+			{
+				Sexdiff = "He";
+			}
+			else 
+			{
+				Sexdiff = "She";
+			}
+			target.AddEvent(Sexdiff + " was awarded the " + AwardName + "\n");
+			target.AddAward(AwardName);
+
+			if (AwardName != "Campaing Medal" || AwardName !="Wound Badge")
+			{
+				int Roll = Random.Range(0, 10);
+
+				if (Roll < 33)
+				{
+					target.AddEvent("It felt great!\n");
+					target.ChangeMorale(10);
+				}
+				else if (Roll < 66)
+				{
+					target.AddEvent(target.soldierFName + " did not care!\n");
+				}
+				else
+				{
+					target.AddEvent("It was not worth all the losses.\n");
+					target.ChangeMorale(-20);
+				}
+			}
+
+		}
 
 	}
 		

@@ -64,158 +64,106 @@ public class SoldierController : ScriptableObject {
 		
 		if (this.sex == 'm')
 		{
-			switch (FNameRandomiser)
-			{
-			case 0:
-				this. soldierFName = "Smirnov";
-				break;
-			case 1:
-				this. soldierFName = "Henrik";
-				break;
-			case 2:
-				this. soldierFName = "James";
-				break;
-			case 3:
-				this. soldierFName = "Bolton";
-				break;
-			case 4:
-				this. soldierFName = "Arken";
-				break;
-			case 5:
-				this. soldierFName = "Damien";
-				break;
-			case 6:
-				this. soldierFName = "Piper";
-				break;
-			case 7:
-				this. soldierFName = "Tybalt";
-				break;
-			case 8:
-				this. soldierFName = "Torres";
-				break;
-			case 9:
-				this. soldierFName = "G.";
-				break;
-			case 10:
-				this. soldierFName = "B.";
-				break;
-			case 11:
-				this. soldierFName = "Bort";
-				break;
-			default:
-				this. soldierFName = "Jerry";
-				break;
-			}
+			string [] MaleFirstNames = new string[] {
+				"Smirnov",
+				"Henrik",
+				"James",
+				"Bolton",
+				"Arken",
+				"Damien",
+				"Piper",
+				"Tybalt",
+				"Torres",
+				"Gavais",
+				"Bort",
+				"Jerry",
+				"Bathul",
+				"Ketil",
+				"Erue",
+				"Frogor",
+				"Karhu",
+				"Wolfie",
+				"Reba"
+			};
+
+			this.soldierFName = MaleFirstNames[(Mathf.RoundToInt(Random.value*(MaleFirstNames.GetLength(0)-1)))];
 		}
-		if (this.sex == 'f')
+		else
 		{
-			switch (FNameRandomiser)
-			{
-			case 0:
-				this. soldierFName = "Jane";
-				break;
-			case 1:
-				this. soldierFName = "Mary";
-				break;
-			case 2:
-				this. soldierFName = "Rose";
-				break;
-			case 3:
-				this. soldierFName = "Emily";
-				break;
-			case 4:
-				this. soldierFName = "Vyce";
-				break;
-			case 5:
-				this. soldierFName = "Felixia";
-				break;
-			case 6:
-				this. soldierFName = "Alexandria";
-				break;
-			case 7:
-				this. soldierFName = "Gweythe";
-				break;
-			default:
-				this. soldierFName = "Lily";
-				break;
-			}
+			string [] FemaleFirstNames = new string[] {
+				"Jane",
+				"Mary",
+				"Rose",
+				"Emily",
+				"Vyce",
+				"Felixia",
+				"Alexandria",
+				"Gweythe",
+				"Lily",
+				"Catherine",
+				"Oceania",
+				"Laura",
+				"Balia",
+				"Nelma",
+				"Ice",
+				"Saurela"
+			};
+			
+			this.soldierFName = FemaleFirstNames[(Mathf.RoundToInt(Random.value*(FemaleFirstNames.GetLength(0)-1)))];
+
 		}
 
+		string [] LastNames = new string[] {
+			"Barrow",
+			"Care",
+			"Lien",
+			"Hamrond",
+			"Berren",
+			"Fury",
+			"Mestos",
+			"Cotton",
+			"Bener",
+			"Fulgrimo",
+			"Zrobsson",
+			"Spielman",
+			"Vindictus",
+			"Tanwaukar",
+			"Swartz",
+			"Delifus",
+			"Grimm",
+			"Swartz",
+			"Fermen",
+			"Perho",
+			"Bortsson",
+			"Langred",
+			"Smith",
+			"Legerd",
+			"Fromeo",
+			"King", 
+			"Orrala",
+			"Nukkula",
+			"Muno",
+			"Wazabi",
+			"Kurosava",
+			"Major",
+			"Captain",
+			"Oligarki",
+			"Van Saarek",
+			"Piggi",
+			"McKilligan",
+			"Kerrigan",
+			"Muro",
+			"Keksi",
+			"Dinner",
+			"Sharpe",
+			"Wulf",
+			"Xero",
+			"Ikina"
+		};
+	
+		this.soldierLName = LastNames[(Mathf.RoundToInt(Random.value*(LastNames.GetLength(0)-1)))];
+	
 		int LNameRandomiser = Random.Range(0, 22);
-
-		switch (LNameRandomiser)
-		{
-		case 0:
-			this. soldierLName = "Barrow";
-			break;
-		case 1:
-			this. soldierLName = "Care";
-			break;
-		case 2:
-			this. soldierLName = "Lien";
-			break;
-		case 3:
-			this. soldierLName = "Hamrond";
-			break;
-		case 4:
-			this. soldierLName = "Berren";
-			break;
-		case 5:
-			this. soldierLName = "Fury";
-			break;
-		case 6:
-			this. soldierLName = "Mestos";
-			this.skill++;		//easter egg!
-			break;
-		case 7:
-			this. soldierFName = "Cotton";
-			break;
-		case 8:
-			this. soldierLName = "Bener";
-			break;
-		case 9:
-			this. soldierLName = "Fulgrimo";
-			break;
-		case 10:
-			this. soldierLName = "Zrobsson";
-			break;
-		case 11:
-			this. soldierLName = "Spielman";
-			break;
-		case 12:
-			this. soldierLName = "Vindictus";
-			break;
-		case 13:
-			this. soldierLName = "Tanwaukar";
-			break;
-		case 14:
-			this. soldierLName = "Swartz";
-			break;
-		case 15:
-			this. soldierLName = "Delifus";
-			break;
-		case 16:
-			this. soldierLName = "Grimm";
-			break;
-		case 17:
-			this. soldierLName = "Swartz";
-			break;
-		case 18:
-			this. soldierLName = "Fermen";
-			break;
-		case 19:
-			this. soldierLName = "Perho";
-			break;
-		case 20:
-			this. soldierLName = "Bortsson";
-			break;
-		case 21:
-			this. soldierLName = "Langred";
-			break;
-		default:
-			this. soldierFName = "Smith";
-			break;
-		}
 
 
 
@@ -223,7 +171,7 @@ public class SoldierController : ScriptableObject {
 
 		int traitRandomiser = Random.Range(0, 12);
 
-		switch (traitRandomiser)
+		switch(traitRandomiser)
 		{
 		case 0:
 			this.AddAttribute("heroic");
@@ -313,6 +261,42 @@ public class SoldierController : ScriptableObject {
 		return returnoitava;
 	}
 
+	public void AddAward (string awardToAdd)
+	{
+		if (this.HasAttribute(awardToAdd) == false)
+		{
+			awards.Add (awardToAdd);
+		}
+		
+	}
+	
+	public void RemoveAward (string awardToRemove)
+	{
+		this.awards.Remove (awardToRemove);
+	}
+	
+	public bool HasAward (string question)
+	{
+		return awards.Contains(question);
+	}
+
+	public string GetAwards ()	
+	{
+		string returnoitava = "";
+		
+		foreach (string item in awards)
+		{
+			returnoitava += item + ", ";
+		}
+		
+		return returnoitava;
+	}
+
+
+	public void AddEvent(string combatEvent)
+	{
+		events.Add(combatEvent);
+	}
 
 	public void AddExperience(int experience){
 		this.experience += experience;
@@ -450,11 +434,7 @@ public class SoldierController : ScriptableObject {
 
 	return this.callsign;
 }
-	public void AddEvent(string combatEvent)
-	{
-		events.Add(combatEvent);
-	}
-
+	
 	/// <summary>
 	/// Prints list of all events of the Soldier
 	/// </summary>
@@ -496,6 +476,8 @@ public class SoldierController : ScriptableObject {
 			+ "Kills:" + this.kills + "\n";
 
 		Returnoitava += "Attributes: " + this.GetAttributes() + "\n";
+
+		Returnoitava += "Awards: " + this.GetAwards() + "\n";
 
 		Returnoitava += "History: " + this.GetEvents() + "\n";
 

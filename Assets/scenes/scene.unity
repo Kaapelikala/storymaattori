@@ -587,6 +587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 101941925}
   campaing: {fileID: 1710327571}
+  targetlocation: {fileID: 0}
 --- !u!114 &101941924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3360,7 +3361,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &633030518
 Transform:
   m_ObjectHideFlags: 0
@@ -3620,7 +3621,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &694432973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9105,7 +9106,7 @@ AudioSource:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1710327565}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1567688f20f32f54cb440cccbc888df1, type: 3}

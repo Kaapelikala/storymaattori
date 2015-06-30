@@ -4,7 +4,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 
-//Creates text-based mission logs
+//Creates missions and handles them : MISSION SEND IS IN HERE!
+
 public class MissionLog : MonoBehaviour {
 	
 	public Text missionText;
@@ -23,42 +24,94 @@ public class MissionLog : MonoBehaviour {
 			Debug.Log ("Adding a mission...");
 
 			string target = "";
-
-			int targetSelect = Random.Range(0, 100);
-
-			if (targetSelect< 50)
-			{
-				target = "Canyon #" + Random.Range(101, 999);
-			}
-			else if (targetSelect< 75)
-			{
-				target = "Farm #" + Random.Range(101, 999);
-			}
-			else
-			{
-				target = "Cavern #" + Random.Range(101, 999);
-			}
-
 			string missionSelect = "";
-
-			int missionRoll = Random.Range(0, 100);
-			
-			if (missionRoll< 50)
-			{
-				missionSelect = "liberation";
-			}
-			else if (missionRoll< 75)
-			{
-				missionSelect = "attack";
-			}
-			else
-			{
-				missionSelect = "raid";
-			}
-
-
-
 			int Mission_DIFF = Random.Range((control.campaing.Campaing_Difficulty - 20), (control.campaing.Campaing_Difficulty + 20));
+
+			int MissionTypeChance = Random.Range(0, 100); 
+
+			if (MissionTypeChance > 90)	//Partyparty!
+			{
+				int targetSelect = Random.Range(0, 100);
+				
+				if (targetSelect< 50)
+				{
+					target = "Beach #" + Random.Range(101, 999);
+				}
+				else if (targetSelect< 75)
+				{
+					target = "Base #" + Random.Range(101, 999);
+				}
+				else
+				{
+					target = "Bar #" + Random.Range(101, 999);
+				}
+
+				missionSelect = "Vacation";
+
+
+			}
+			else if (MissionTypeChance < 10)		// ENEMY HQ ASSAULT MISSION! 
+			{
+				int targetSelect = Random.Range(0, 100);
+				
+				if (targetSelect< 25)
+				{
+					target = "Enemy HQ #" + Random.Range(101, 999);
+				}
+				else if (targetSelect< 50)
+				{
+					target = "Hill #" + Random.Range(101, 999);
+				}
+				else if (targetSelect< 75)
+				{
+					target = "Fuel Depot #" + Random.Range(101, 999);
+				}
+				else
+				{
+					target = "Bunker #" + Random.Range(101, 999);
+				}
+				
+				missionSelect = "Assault";
+			}
+			else  // Normal mission aka battlemission!
+			{
+
+				int targetSelect = Random.Range(0, 100);
+
+				if (targetSelect< 50)
+				{
+					target = "Canyon #" + Random.Range(101, 999);
+				}
+				else if (targetSelect< 75)
+				{
+					target = "Farm #" + Random.Range(101, 999);
+				}
+				else
+				{
+					target = "Cavern #" + Random.Range(101, 999);
+				}
+
+				
+
+				int missionRoll = Random.Range(0, 100);
+				
+				if (missionRoll< 50)
+				{
+					missionSelect = "liberation";
+					Mission_DIFF += 5;
+				}
+				else if (missionRoll< 75)
+				{
+					missionSelect = "attack";
+				}
+				else
+				{
+					missionSelect = "raid";
+				}
+			}
+
+
+
 
 			mission = new Mission (target, missionSelect, Mission_DIFF);
 			mission.MissionName = "Mission " + (control.campaing.missionNumber+1) + "";
@@ -72,16 +125,46 @@ public class MissionLog : MonoBehaviour {
 			missions.Add (mission);
 			Debug.Log(missions.IndexOf(mission));
 
+			bool VictoryMatters = false;
+
 			Debug.Log ("Adding squad...");
 			Debug.Log (missions.IndexOf (mission));
 			Debug.Log (currentlyAdded);
 			Debug.Log ("mission @ " + missions [currentlyAdded]);
-			missions [currentlyAdded].AddSquad (manager.GetSquad (manager.squadIds));
+			missions [currentlyAdded].AddSquad (manager.GetSquad (manager.squadIds));		// Actual BATTLE
 			Debug.Log ("Fighting....");
-			control.Fight (manager.squadIds, mission.difficulty);
-		
+
+			if (this.mission.type == "Vacation")
+			{
+				control.Vacate (manager.squadIds, mission.difficulty);
+
+			}
+			else if (this.mission.type == "Assault")
+			{
+				control.Fight (manager.squadIds, mission.difficulty, missions [currentlyAdded]);	//needs its own, not yet implemented!
+				VictoryMatters = true;
+			}
+			else  {
+				control.Fight (manager.squadIds, mission.difficulty, missions [currentlyAdded]);
+			}
+
 			Debug.Log ("writing to log...");
 			UpdateLog ();
+
+			if (VictoryMatters)
+			{
+				if (missions [currentlyAdded-1].victory == true)
+				{
+					control.campaing.Campaing_Difficulty--;
+					Debug.Log ("mission "+ mission.MissionName +"was VICTORY!");
+				}
+				else
+				{
+					control.campaing.Campaing_Difficulty++;
+					Debug.Log ("mission "+ mission.MissionName +" was defeat!");
+				}
+			}
+
 			manager.squadIds = new int[4]{-2,-2,-2,-2};
 			manager.inSquadCurrently = 0;
 		}
@@ -98,8 +181,8 @@ public class MissionLog : MonoBehaviour {
 
 		missionText.text += "\n\n";
 
-		Debug.Log (missionText.text);
-		Debug.Log (temp);
+		Debug.Log ("All Missions:" + missionText.text);
+		Debug.Log ("Current:" + temp);
 		
 		currentlyAdded++;
 	}
