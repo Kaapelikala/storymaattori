@@ -143,10 +143,143 @@ public class SoldierManager : MonoBehaviour {
 	public void CreateNewSoldier() //creates new soldier!!
 	{
 		SoldierController RECRUIT = new SoldierController(SoldierID);
+
+		bool NoSameName = true;
+
+		//NO TWO SOLDIERS WITH THE SAME NAME
+		while (NoSameName)
+		{
+			NoSameName = false;
+			foreach (SoldierController solttu in soldiers)
+			{
+				if ((solttu.soldierFName == RECRUIT.soldierFName) && (solttu.soldierLName == RECRUIT.soldierLName))
+				{
+					NoSameName = true;
+					RECRUIT = new SoldierController(SoldierID);
+				}
+			}
+		}
+
 			
 		string JoiningEvent = "TS:" + campaing.TimeStamp + ": Joined " + campaing.SquadName + "\n";
 
 		RECRUIT.AddEvent(JoiningEvent);
+
+		int traitRandomiser = UnityEngine.Random.Range(0, 12);
+
+		string SoldierStatsAnalyser = "Bootcamp report of RCT " + RECRUIT.soldierFName + ":\n Condition as ";
+
+		if (RECRUIT.health <= 90)
+		{
+			SoldierStatsAnalyser += "poor";
+		}
+		else if (RECRUIT.health >= 110)
+		{
+			SoldierStatsAnalyser += "good";
+		}
+		else
+		{
+			SoldierStatsAnalyser += "OK";
+		}
+
+
+		SoldierStatsAnalyser += ",\n Fighting spirit as ";
+
+		if (RECRUIT.morale <= 90)
+		{
+			SoldierStatsAnalyser += "poor";
+		}
+		else if (RECRUIT.morale >= 110)
+		{
+			SoldierStatsAnalyser += "good";
+		}
+		else
+		{
+			SoldierStatsAnalyser += "OK";
+		}
+
+		SoldierStatsAnalyser += ",\n Weapons Skills as ";
+
+		if (RECRUIT.skill <= 95)
+		{
+			SoldierStatsAnalyser += "poor";
+		}
+		else if (RECRUIT.skill >= 105)
+		{
+			SoldierStatsAnalyser += "good";
+		}
+		else
+		{
+			SoldierStatsAnalyser += "OK";
+		}
+		
+		RECRUIT.AddEvent(SoldierStatsAnalyser + ".\n");
+
+
+
+
+		string sexdiff = "";
+		
+		if (RECRUIT.sex == 'm')
+		{
+			sexdiff = "his";
+		}
+		else
+			sexdiff = "her";
+		
+		switch(traitRandomiser)
+		{
+		case 0:
+			RECRUIT.AddAttribute("heroic");
+			RECRUIT.AddEvent("Recruit seems to have bit of heroic blood!\n");
+			break;
+		case 1:
+			RECRUIT.AddAttribute("accurate");
+			RECRUIT.AddEvent("Recruit has good eyesight!\n");
+			break;
+		case 2:
+			RECRUIT.AddAttribute("inaccurate");
+			RECRUIT.AddEvent("Recruit scored poorly on weapon tests!\n");
+			break;
+		case 3:
+			RECRUIT.AddAttribute("idiot");
+			RECRUIT.AddEvent("Recruit was not the smartest of " + sexdiff+ " class!\n");
+			break;
+		case 4:
+			RECRUIT.AddAttribute("loner");
+			RECRUIT.AddEvent("Recruit enjoys time alone.\n");
+			break;
+		case 5:
+			RECRUIT.AddAttribute("cook");
+			RECRUIT.AddEvent("Recruit can create wonderful dinners from barely no ingridients!\n");
+			break;
+		case 6:
+			RECRUIT.AddAttribute("tough");
+			RECRUIT.AddEvent("Recruit almost enjoyed the hardships of the bootcamp!\n");
+			break;
+		case 7:
+			RECRUIT.AddAttribute("young");
+			RECRUIT.AddEvent("Recruit looks like a teenager!\n");
+			break;
+		case 8:
+			RECRUIT.AddAttribute ("drunkard");
+			RECRUIT.AddEvent("Recruit likes the bottle bit too much..\n");
+			break;
+		case 9:
+			RECRUIT.AddAttribute("coward");
+			RECRUIT.AddEvent("Recruit is REALLY easy to spook!\n");
+			break;
+		case 10:
+			RECRUIT.AddAttribute("techie");
+			RECRUIT.AddEvent("Recruit likes machines more than people!\n");
+			break;
+		default:
+			RECRUIT.AddAttribute("lucky");
+			RECRUIT.AddEvent("Nothing bad ever happens to this recruit!\n");
+			break;
+		}
+
+		// IDEA: BOOTCAMP??
 
 		soldiers.Add(RECRUIT);
 

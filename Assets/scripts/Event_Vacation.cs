@@ -44,12 +44,12 @@ public class Event_Vacation : MonoBehaviour {
 
 		if (CheckTrait("wounded") && Random.Range(0,10) > target.health)
 		{
-			target.AddEvent(target.soldierFName + "was too wounded to actually enjoy the vacation");
+			target.AddEvent(target.soldierFName + "was too wounded to actually enjoy the vacation!\n");
 			target.ChangeMorale(-40);
 		}
 		else if (CheckTrait("depressed") && Random.Range(0,10) > target.health)
 		{
-			target.AddEvent("Terrors of the battlefield were too strong: " + target.soldierFName + " spent most of the vacation withdrawn.");
+			target.AddEvent("Terrors of the battlefield were too strong: " + target.soldierFName + " spent most of the vacation withdrawn.\n");
 			target.ChangeMorale(-40);
 		}
 		else 
@@ -161,67 +161,85 @@ public class Event_Vacation : MonoBehaviour {
 		else if (target.health > BeginHealth && target.morale > BeginMorale)
 		{
 			target.AddEvent("JUST SO RIGHT!\n");
-			target.ChangeMorale(20);
+			target.ChangeMorale(40);
 		}
 		else
 		{
 			target.AddEvent("EUGH!\n");
 
-			int BadLuck = Random.Range(0, 6);
+			bool SomethingHappened = false;
+
+			while (!SomethingHappened)
+			{
+			int BadLuck = Random.Range(0, 7);
 
 			switch (BadLuck)
 			{
-			case 0:
-				if (Random.Range(0,10) > 7)
-				{
-					target.AddAttribute("loner");
-					target.AddEvent("The shadows begin to whisper...\n");
-				}
-				break;
-			case 1:
-				if (Random.Range(0,10) > 7)
-				{
-					target.AddAttribute("techie");
-					target.AddEvent("Machines are so nice!\n");
-				}
-				break;
-			case 2:
-				if (Random.Range(0,10) > 7)
-				{
-					target.AddAttribute("cook");
-					target.AddEvent("No clue what it was, but tasted amazing!\n");
-				}
-				break;
-			case 3:
-				if (Random.Range(0,10) > 7)
-				{
-					target.AddEvent("No memory, but... A Bravery Medal?\n");
-					target.AddAward("Bravery Medal");
-				}
-				break;
-			case 4:
-				if (Random.Range(0,10) > 7)
-				{
-					target.AddAttribute("tough");
-					target.AddEvent("How did " + target.soldierFName + "survive all that?\n");
-				}
-				break;
-		
-			default:
-				if (Random.Range(0,10) > 8)
-				{
-					target.AddAttribute("idiot");
-					target.AddEvent("Brain felt fizzyyy....\n");
-					if (Random.Range (0,120) > target.health)
+				case 0:
+					if (Random.Range(0,10) > 7)
 					{
-						target.die("Brain melted");
-						target.AddEvent("... too fizzy.\n");
+						SomethingHappened = true;
+						target.AddAttribute("loner");
+						target.AddEvent("The shadows begin to whisper...\n");
 					}
+					break;
+				case 1:
+					if (Random.Range(0,10) > 7)
+					{
+						SomethingHappened = true;
+						target.AddAttribute("techie");
+						target.AddEvent("Machines are so nice!\n");
+					}
+					break;
+				case 2:
+					if (Random.Range(0,10) > 7)
+					{
+						SomethingHappened = true;
+						target.AddAttribute("cook");
+						target.AddEvent("No clue what it was, but tasted amazing!\n");
+					}
+					break;
+				case 3:
+					if (Random.Range(0,10) > 7)
+					{
+						SomethingHappened = true;
+						target.AddEvent("No memory, but... A Bravery Medal?\n");
+						target.AddAward("Bravery Medal");
+					}
+					break;
+				case 4:
+					if (Random.Range(0,10) > 7)
+					{
+						SomethingHappened = true;
+						target.AddAttribute("wounded");
+						target.AddAttribute("tough");
+						target.AddEvent("How did " + target.soldierFName + "survive all that?\n");
+					}
+					break;
+				case 5:
+					if (Random.Range(0,10) > 7)
+					{
+						SomethingHappened = true;
+						target.AddAttribute("wounded");
+						target.AddEvent("Shot your own leg? Why you were waiving your gun around?\n");
+					}
+					break;
+				default:
+					if (Random.Range(0,10) > 8)
+					{
+						SomethingHappened = true;
+						target.AddAttribute("idiot");
+						target.AddEvent("Brain felt fizzyyy....\n");
+						if (Random.Range (0,120) > target.health)
+						{
+							target.die("Brain melted");
+							target.AddEvent("... too fizzy.\n");
+						}
 
+					}
+					break;
 				}
-				break;
 			}
-
 
 
 		}
@@ -248,6 +266,11 @@ public class Event_Vacation : MonoBehaviour {
 			target.AddEvent("Oh well then. Another try!\n");
 			this.Handle(target, Difficulty, GreatestRank);
 		}
+		else
+		{
+			target.AddEvent(target.soldierFName + " had no time to do anything else. It sucked.\n");
+			target.ChangeMorale(-20);
+		}
 
 	}
 
@@ -265,7 +288,7 @@ public class Event_Vacation : MonoBehaviour {
 			{
 				if (Random.Range (0, 10) > 6 )
 				{
-					target.AddEvent("Some of the night terrors even went away.");
+					target.AddEvent("Some of the night terrors even went away.\n");
 					target.RemoveAttribute("depressed");
 				}
 
@@ -326,6 +349,13 @@ public class Event_Vacation : MonoBehaviour {
 				target.AddAttribute("accurate");
 				target.ChangeMorale(40);
 			}
+			else if (CheckTrait ("accurate"))
+			{
+				target.AddEvent(target.soldierFName + " won the shooting competition!\n");
+				this.AddAward("Markmanship Metal");
+				target.ChangeMorale(30);
+			}
+
 		}
 		else if (Roll > 50)
 		{
@@ -338,7 +368,7 @@ public class Event_Vacation : MonoBehaviour {
 		{
 			target.AddEvent("Training was hell. "+ target.soldierFName + " did not learn much.\n");
 			target.skill--;
-			target.ChangeHealth(-10);
+			target.ChangeHealth(-30);
 			target.ChangeMorale(-40);
 
 			if (target.health < 0)
@@ -525,7 +555,7 @@ public class Event_Vacation : MonoBehaviour {
 				else // NOT THAT GOOD NIGHT
 				{
 					target.AddEvent("Maybe it was not that smart\n");
-					target.ChangeHealth(-shotAmount);
+					target.ChangeHealth(-10-shotAmount);
 					target.ChangeMorale(-shotAmount);
 				}
 

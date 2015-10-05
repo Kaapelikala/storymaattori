@@ -38,6 +38,8 @@ public class SoldierController : ScriptableObject {
 
 		this.soldierID = IDimput;
 
+		this.health = 90 + Random.Range(0, 10) + Random.Range(0, 10);
+		this.morale = 90 + Random.Range(0, 10) + Random.Range(0, 10);
 		this.skill = 90 + Random.Range(0, 10) + Random.Range(0, 10); //Average of 100
 
 		int SexRandomiser = Random.Range(0, 2);
@@ -83,7 +85,8 @@ public class SoldierController : ScriptableObject {
 				"Frogor",
 				"Karhu",
 				"Wolfie",
-				"Reba"
+				"Reba",
+				"Kala"
 			};
 
 			this.soldierFName = MaleFirstNames[(Mathf.RoundToInt(Random.value*(MaleFirstNames.GetLength(0)-1)))];
@@ -106,7 +109,8 @@ public class SoldierController : ScriptableObject {
 				"Balia",
 				"Nelma",
 				"Ice",
-				"Saurela"
+				"Saurela",
+				"Regina"
 			};
 			
 			this.soldierFName = FemaleFirstNames[(Mathf.RoundToInt(Random.value*(FemaleFirstNames.GetLength(0)-1)))];
@@ -145,8 +149,8 @@ public class SoldierController : ScriptableObject {
 			"Muno",
 			"Wazabi",
 			"Kurosava",
-			"Major",
-			"Captain",
+			"Majora",
+			"Capu",
 			"Oligarki",
 			"Van Saarek",
 			"Piggi",
@@ -169,6 +173,8 @@ public class SoldierController : ScriptableObject {
 
 		this.AddAttribute("newbie");	//every soldier has this - goes away after first kill or wound!
 
+
+		/*	MOVED TO SOLDIERMANAGER CREATE NEW SOLDIER!
 		int traitRandomiser = Random.Range(0, 12);
 
 		switch(traitRandomiser)
@@ -209,7 +215,7 @@ public class SoldierController : ScriptableObject {
 		default:
 			this.AddAttribute("lucky");
 			break;
-		}
+		} */
 		 
 		Debug.Log("Luotu " +  soldierID + " '" + this.soldierFName + " '" + this.callsign + "' " + this.soldierLName);
 
@@ -224,6 +230,29 @@ public class SoldierController : ScriptableObject {
 		this.soldierID = IDimput;
 		Debug.Log("Luotu  " + soldierID + " '" + this.soldierFName + " '" + this.callsign + "' " + this.soldierLName);
 
+	}
+
+	public string getCallsignOrFirstname(){
+		if (this.callsign == "")
+			return this.soldierFName;
+		return this.callsign;
+
+	}
+
+	public string FullName(){
+
+		string returnoitava = "";
+		
+		if (this.callsign == "")
+		{
+			returnoitava = this.GetRank() + " " + this.soldierFName +" "+ this.soldierLName;
+		}
+		else
+		{
+			returnoitava = this.GetRank() + " '" + this.callsign +"' "+ this.soldierLName;
+		}
+
+		return returnoitava;
 	}
 
 	//ATTRIBUTES
@@ -263,7 +292,7 @@ public class SoldierController : ScriptableObject {
 
 	public void AddAward (string awardToAdd)
 	{
-		if (this.HasAttribute(awardToAdd) == false)
+		if (this.HasAward(awardToAdd) == false)
 		{
 			awards.Add (awardToAdd);
 		}

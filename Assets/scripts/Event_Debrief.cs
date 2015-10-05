@@ -49,7 +49,7 @@ public class Event_Debrief : MonoBehaviour {
 
 		}
 
-		if (target.missions > 8 && target.kills > 10 && (Random.Range(0, 10) > 2))		//Veteranship!!
+		if (target.missions > 8 && target.kills > 10 && (Random.Range(0, 10) > 2) && !CheckTrait("veteran"))		//Veteranship!!
 		{
 
 			target.AddEvent("Soldiers call " + this.target.callsign + " a veteran!\n");
@@ -155,7 +155,7 @@ public class Event_Debrief : MonoBehaviour {
 				
 				if (SecRoll < 25)
 				{
-					target.AddEvent(target.callsign + " 'found' a medkit anyway\n");
+					target.AddEvent(target.getCallsignOrFirstname() + " 'found' a medkit anyway\n");
 					target.ChangeHealth(5);
 					target.ChangeMorale(10);
 					
@@ -179,6 +179,27 @@ public class Event_Debrief : MonoBehaviour {
 		else
 		{
 			target.AddEvent("Did not need medical help.\n");
+
+			int SecRoll = Random.Range(0, 100);
+			
+			if (SecRoll < 25)
+			{
+				target.AddEvent("Time to rest anyway!\n");
+				target.ChangeHealth(5);
+				target.ChangeMorale(20);
+				
+			} 
+			else if (SecRoll < 50)
+			{
+				target.AddEvent("Yey!\n");
+				target.ChangeMorale(10);
+				
+			}
+			else
+			{
+				target.AddEvent("Meh.\n");
+				target.ChangeMorale(-5);
+			}
 		}
 
 
@@ -240,47 +261,26 @@ public class Event_Debrief : MonoBehaviour {
 			}
 		}
 
-		if (target.kills > 5 && !target.HasAward("Kill Award") && !target.HasAward("Kill Award 2nd Rank"))
-		{
-			AddAward("Kill Award");
-		}
 		if (target.kills > 10 && !target.HasAward("Kill Award"))
 		{
 			AddAward("Kill Award");
 		}
-		if (target.kills > 10 && !target.HasAward("Kill Award"))
+		if (target.kills > 20 && target.HasAward("Kill Sword"))
 		{
-			AddAward("Kill Award");
+			AddAward("Kill Sword");
 		}
-
-		//CHANCE TO BANG HIMSELF due to POOR MORALE
-		if (this.target.morale < 0){		
-
-			if (Random.Range(0, 100) > 70)
-			{
-				string Sexdiff = "";
-				
-				if (this.target.sex == 'm')
-				{
-					Sexdiff = "him";
-				}
-				else
-					Sexdiff = "her";
-
-					if (CheckTrait("inaccurate"))
-					    {
-						    this.target.AddEvent("Due to poor morale, " + target.callsign + "tried to shot " + Sexdiff + "self but missed!\n");
-					    }
-				else
-				{
-					target.AddEvent("Due to poor morale, " + target.callsign + "shot " + Sexdiff + "self!\n");
-					target.die("Killed " + Sexdiff + "self.");
-				}
-			}
-			else
-				target.AddEvent("Due to poor morale, " + target.callsign + "thought about self-termination.\n");
+		if (target.kills > 40 && !target.HasAward("Kill Bomb"))
+		{
+			AddAward("Kill Bomb");
 		}
-
+		if (target.kills > 80 && !target.HasAward("Kill Nuke"))
+		{
+			AddAward("Kill Nuke");
+		}
+		if (target.kills > 160 && !target.HasAward("Kill Armangeddon"))
+		{
+			AddAward("Kill Armangeddon");
+		}
 
 		// CHANCE FOR NEW TRAITS
 		if (Random.Range(0, 100) > 70){
@@ -316,6 +316,34 @@ public class Event_Debrief : MonoBehaviour {
 				this.target.AddAttribute("coward");
 				break;
 				}
+			}
+
+			//CHANCE TO BANG HIMSELF due to POOR MORALE
+			if (this.target.morale < 0){		
+				
+				if (Random.Range(0, 100) > 70)
+				{
+					string Sexdiff = "";
+					
+					if (this.target.sex == 'm')
+					{
+						Sexdiff = "him";
+					}
+					else
+						Sexdiff = "her";
+					
+					if (CheckTrait("inaccurate"))
+					{
+						this.target.AddEvent("Due to poor morale, " + target.callsign + "tried to shot " + Sexdiff + "self but missed!\n");
+					}
+					else
+					{
+						target.AddEvent("Due to poor morale, " + target.callsign + "shot " + Sexdiff + "self!\n");
+						target.die("Killed " + Sexdiff + "self.");
+					}
+				}
+				else
+					target.AddEvent("Due to poor morale, " + target.callsign + "thought about self-termination.\n");
 			}
 
 		}
@@ -510,7 +538,7 @@ public class Event_Debrief : MonoBehaviour {
 
 					if (SecondRoll > 3)
 					{
-						target.AddEvent(Sexdiff + " began to appreciate technology more");
+						target.AddEvent(Sexdiff + " began to appreciate technology more\n");
 						target.AddAttribute("techie");
 					}
 				}
@@ -550,9 +578,13 @@ public class Event_Debrief : MonoBehaviour {
 			target.AddEvent(Sexdiff + " was awarded the " + AwardName + "\n");
 			target.AddAward(AwardName);
 
-			if (AwardName != "Campaing Medal" || AwardName !="Wound Badge")
+			if (AwardName != "Campaing Medal")
+			{}
+			else if  (AwardName !="Wound Badge")
+			{}
+			else 
 			{
-				int Roll = Random.Range(0, 10);
+				int Roll = Random.Range(0, 100) + CheckTrait("depressed",20);
 
 				if (Roll < 33)
 				{

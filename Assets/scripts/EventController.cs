@@ -35,6 +35,7 @@ public class EventController : MonoBehaviour {
 		Event_Battle Fight = new Event_Battle (MissionName);
 		Event_Grenade Grenade = new Event_Grenade (MissionName);
 		Event_Debrief MotherBase = new Event_Debrief();
+		Event_Burial Grave = new Event_Burial();
 
 		int soldierAmount = 0;
 		int deadAmount = 0;
@@ -65,6 +66,8 @@ public class EventController : MonoBehaviour {
 				MotherBase.CookName =  "'" + solttu.callsign +  "' " + solttu.soldierLName;
 				}
 			}
+
+			this.CheckSoldierMorale(solttu);
 			
 		}
 
@@ -124,17 +127,38 @@ public class EventController : MonoBehaviour {
 
 
 
-		//DEBRIEFING FOR ALIVES!
+		//DEBRIEFING FOR EACH!
 
 		foreach (SoldierController solttu in squad)
 		{
-			if (solttu.alive == true)
+			if (solttu.alive == true)	
 			{
-			MotherBase.Handle(solttu);
+				MotherBase.Handle(solttu);
 			}
 		}
-
-		manager.MoveDeadsAway ();
+		foreach (SoldierController solttu in squad)
+		{
+			if (solttu.alive == false)	
+			{
+				Grave.Bury(solttu,manager);
+			}
+		}
+		if (targetlocation.type == "Assault")
+			foreach (SoldierController solttu in squad)
+			{	
+				if (solttu.alive == true)
+				{
+					solttu.AddEvent("Having participated in mission crucial to the War Effort, " +solttu.soldierLName+ " was awarded the Bravery Medal.\n");
+					solttu.AddAward("Bravery Medal");
+				} 
+				else
+				{
+					solttu.AddEvent("Having participated in mission crucial to the War Effort, " +solttu.soldierLName+ " was awarded posthumorous Bravery Medal.\n");
+					solttu.AddAward("Bravery Medal");
+				} 
+				
+			}
+			manager.MoveDeadsAway ();
 
 	}
 
@@ -216,6 +240,102 @@ public class EventController : MonoBehaviour {
 		manager.MoveDeadsAway ();
 		
 	}
+
+	private void CheckSoldierMorale(SoldierController solttu)	//How this soldier likes this mission?
+
+	{
+
+		
+		int MoraleRoll = Random.Range(0, 100);
+	
+		if (solttu.morale > MoraleRoll)
+		{
+			if (solttu.HasAttribute("veteran") && solttu.HasAttribute("heroic"))
+		{
+			solttu.AddEvent("Come on you apes, who wants to live forever?\n");
+			solttu.ChangeMorale(20);
+		}
+		else if ((solttu.HasAttribute("newbie") || solttu.HasAttribute("coward")) && !solttu.HasAttribute("heroic"))
+		{
+			if (Random.Range (0,10) > 5)
+			{
+				solttu.AddEvent(solttu.soldierLName + " was afraid to leave the base\n");
+				solttu.ChangeMorale(-10);
+			}
+			else if (Random.Range (0,10) > 3)
+			{
+				solttu.AddEvent("This is not Kansas anymore..\n");
+				solttu.ChangeMorale(-20);
+			}
+			else
+			{
+				solttu.AddEvent(solttu.GetRank() + " missed home!\n");
+				solttu.ChangeMorale(-20);
+			}
+		}
+		else if (solttu.HasAttribute("heroic") && (Random.Range (0,10) > 3))
+		{
+			solttu.AddEvent("Onward to glory!\n");
+			solttu.ChangeMorale(10);
+		}
+		else if (Random.Range (0,10) > 7)
+		{
+			solttu.AddEvent(solttu.soldierLName + " looked forward to the mission!\n");
+		}
+		else if (Random.Range (0,10) > 7)
+		{
+			solttu.AddEvent("This one will be OK\n");
+		}
+		else
+		{
+			solttu.AddEvent("Lets do this!\n");
+		}
+		}
+		else if (solttu.morale-20 < MoraleRoll) // minor fail
+		{
+			if (solttu.HasAttribute("veteran") && (Random.Range (0,10) > 3) )
+			{
+				solttu.AddEvent("One more.\n");
+			}
+			else if (solttu.missions > 6 && solttu.HasAttribute("veteran") && (Random.Range (0,10) > 6))
+			{
+				solttu.AddEvent("Still more missions.\n");
+				solttu.ChangeMorale(-10);
+			}
+			else if (solttu.missions > 3 && !solttu.HasAttribute("veteran") && (Random.Range (0,10) > 6))
+			{
+				solttu.AddEvent("Urgh, another mission.\n");
+				solttu.ChangeMorale(-10);
+			}
+			else if ((solttu.HasAttribute("newbie") || solttu.HasAttribute("coward")) && !solttu.HasAttribute("heroic"))
+			{
+				solttu.AddEvent("It was hard to leave the base.\n");
+				solttu.ChangeMorale(-25);
+			}
+			else
+			{
+				solttu.AddEvent("It was not fun to go to mission.\n");
+				solttu.ChangeMorale(-20);
+			}
+		}
+		else if (solttu.morale < MoraleRoll) // minor fail
+		{
+			if (solttu.HasAttribute("veteran"))
+			{
+				solttu.AddEvent("One more. Who dies this time?\n");
+				solttu.ChangeMorale(-10);
+			}
+			else if ((solttu.HasAttribute("coward") || solttu.HasAttribute("newbie")) && !solttu.HasAttribute("heroic"))
+			{
+				solttu.AddEvent("No! I am gona die out there! \n");
+				solttu.ChangeMorale(-40);
+			}
+			else {
+				solttu.AddEvent("Leaving for the mission was hell.\n");
+				solttu.ChangeMorale(-30);
+			}
+		}			
+}
 
 	private void HandleOnlySurvivor(List<SoldierController> squad){
 

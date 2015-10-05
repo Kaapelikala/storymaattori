@@ -98,7 +98,7 @@ public class SoldierView : MonoBehaviour {
 			{
 				ReturnMorale = "Heroic";
 			}
-			else if (Target.morale >= 100)
+			else if (Target.morale > 105)
 			{
 				ReturnMorale = "Great";
 			}
@@ -121,7 +121,7 @@ public class SoldierView : MonoBehaviour {
 			{
 				ReturnHeath = "Super";
 			}
-			else if (Target.health >= 100)
+			else if (Target.health > 105)
 			{
 				ReturnHeath = "Great";
 			}

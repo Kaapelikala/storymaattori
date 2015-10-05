@@ -25,7 +25,10 @@ public class Event_Battle {
 		"grilled",
 		"asskicked",
 		"freezed",
-		"nomnomed"
+		"nomnomed",
+		"shot",
+		"blazed",
+		"blamed"
 	};
 
 	public Event_Battle()

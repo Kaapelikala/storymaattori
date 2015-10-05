@@ -167,6 +167,8 @@ public class MissionLog : MonoBehaviour {
 
 			manager.squadIds = new int[4]{-2,-2,-2,-2};
 			manager.inSquadCurrently = 0;
+
+			this.AddMission();
 		}
 	}
 	
