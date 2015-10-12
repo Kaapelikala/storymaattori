@@ -69,7 +69,7 @@ public class Event_Burial : MonoBehaviour {
 		
 		if (RandomRoll < (60 + (100-soldiers.campaing.Campaing_Difficulty)))
 		{
-			if (((Random.Range(1, 10)) < 5) && (corpse.rank > 1)){
+			if (((Random.Range(1, 10)) < 5) && (corpse.rank >= 1)){
 				corpse.AddEvent("The body of " + corpse.AllNames() + " was buried with full honours at the motherbase.\n");
 				ChanceMod += 10;
 			}

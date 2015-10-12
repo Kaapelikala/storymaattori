@@ -12,6 +12,9 @@ public class Mission : MonoBehaviour {
 	int killsStart=0;
 	int thisMissionKills = 0;
 
+	public int Hostiles = 0;
+	public int kills = 0;
+
 	public Campaing ReportToCampaing;
 
 	int soldiersDead = 0;
@@ -19,13 +22,21 @@ public class Mission : MonoBehaviour {
 	public bool victory = false;
 	public bool LOCKED = false;		//LOCKS SO IT IS NOT CALCULATED AGAIN!
 
-	public Mission (string location, string type, int difficulty)
+	public Mission (string location, string type, int difficulty, Campaing CampaingImput)
 	{
 		this.location=location;
 		this.type=type;
 		this.difficulty=difficulty;
+		this.ReportToCampaing = CampaingImput;
+		this.Hostiles= Mathf.FloorToInt(Random.Range(1,3) + Random.Range(1,3));
 
-		//this.name = ReportToCampaing.missionNumber + "";
+		//int EnemyNumber = 4; // for easier testing!
+		
+		if (Mathf.FloorToInt(ReportToCampaing.Campaing_Difficulty/20) > 5)
+			Hostiles ++;
+
+		//this.name = "M:" + this.ReportToCampaing.missionNumber + "";
+		//this.name = "";
 	}
 	public void AddSquad(List<SoldierController> squad)
 	{	
@@ -114,7 +125,7 @@ public class Mission : MonoBehaviour {
 	//IS THIS MISSION VICTORY?
 	public bool IsVictory()
 		{
-
+		
 			if (LOCKED == true)
 				return this.victory;
 
@@ -157,6 +168,43 @@ public class Mission : MonoBehaviour {
 			this.LOCKED = true;
 			return this.victory;
 		}
+
+	public int AddKills(int HowMany)
+	{
+
+		//return HowMany;
+
+		if (HowMany <= 0)
+			return 0;
+		else if (this.kills >= this.Hostiles)
+		{
+			this.kills = this.Hostiles;
+			return 0;
+		}
+		else if (this.kills + HowMany >= this.Hostiles)	// goes over, remaining are killed!
+		{
+			int calculation = this.Hostiles - this.kills;
+			kills += calculation;
+			return calculation;
+		}
+		else if (HowMany <= this.Hostiles)
+		{
+			kills += HowMany;
+			return HowMany;
+		}
+
+
+		return 0; 
+	}
+
+	public bool StillSomethingToKill()
+	{
+		if (kills < Hostiles)
+		{
+			return true;
+		}
+		return false;
+	}
 
 		
 

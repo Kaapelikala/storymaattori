@@ -374,9 +374,22 @@ public class SoldierController : ScriptableObject {
 	{
 		string returnoitava = "";
 
+		bool firstAdd = true;
+
 		foreach (string item in attributes)
 		{
-			returnoitava += item + ", ";
+			if (item != "newbie")
+			{
+
+				if (firstAdd)
+				{
+					returnoitava += item;
+					firstAdd = false;
+				}
+				else {
+					returnoitava +=  ", " +item;
+				}
+			}
 		}
 
 		return returnoitava;
@@ -404,10 +417,19 @@ public class SoldierController : ScriptableObject {
 	public string GetAwards ()	
 	{
 		string returnoitava = "";
-		
+
+		bool firstAdd = true;
+
 		foreach (string item in awards)
 		{
-			returnoitava += item + ", ";
+			if (firstAdd)
+			{
+				returnoitava += item;
+				firstAdd = false;
+			}
+			else {
+				returnoitava +=  ", " +item;
+			}returnoitava += item + ", ";
 		}
 		
 		return returnoitava;
@@ -532,7 +554,10 @@ public class SoldierController : ScriptableObject {
 
 	public string GetRank()
 	{
-			
+
+		if (this.HasAttribute("newbie"))
+			return "Newbie";
+
 		if (rank == 0)
 			return "Recruit";
 
@@ -553,6 +578,8 @@ public class SoldierController : ScriptableObject {
 	}
 	public string GetRankShort()
 	{
+		if (this.HasAttribute("newbie"))
+			return "NEW";
 		
 		if (rank == 0)
 			return "RCT";
@@ -688,3 +715,40 @@ public class SoldierController : ScriptableObject {
 	}
 
 }
+
+/* WEAPON PLANNS
+
+		Ranges:
+	CLOSE
+	NEAR
+	FAR
+
+	WORSE	--		-40
+	BAD		-		-20
+	OK		K		0
+	GOOD	+		+20
+	GREAT	++		+40
+
+				C	N	F
+Basics
+	Gun			K	K	K
+	Shotgun		+	K	-
+	Rifle		-	K	+
+
+Specials
+	Flamer		++	-	--
+	Sniper		--	-	++
+	Machinegun	-	++	-
+
+Meleee
+	Pistol		+	-	--
+	Sword		++	--	--
+
+Heavy
+	Minigun		K	++	--
+	Rocket		--	+	++
+	Missile		--	-	++
+	Autocannon	-	+	K
+
+ */ 
+

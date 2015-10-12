@@ -113,9 +113,8 @@ public class MissionLog : MonoBehaviour {
 
 
 
-			mission = new Mission (target, missionSelect, Mission_DIFF);
-			mission.MissionName = "Mission " + (control.campaing.missionNumber+1) + "";
-			mission.ReportToCampaing = control.campaing;
+			this.mission = new Mission (target, missionSelect, Mission_DIFF, control.campaing);
+			this.mission.MissionName = "Mission " + (control.campaing.missionNumber+1) + "";
 		}
 	}
 	public void AddSquad()		//LADS GO TO BATTLE!BATTLE!

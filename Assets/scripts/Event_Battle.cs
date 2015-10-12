@@ -62,7 +62,7 @@ public class Event_Battle {
 		target.AddEvent(returned);
 	}
 
-		public string FightRound (SoldierController NEWTARGET, int Enemy_difficulty){
+		public int FightRound (SoldierController NEWTARGET, int Enemy_difficulty){
 
 			this.target = NEWTARGET;
 
@@ -113,15 +113,17 @@ public class Event_Battle {
 
 		if (Roll < HitChance)
 		{
-			target.AddKills(1);
+			//target.AddKills(1); // this is done in EVENTCONTROLLER THESE DAYS!
 			addCombatEvent (false);
-			target.AddExperience(Enemy_difficulty/10);
-			return (target.callsign + " killed enemy!");
+			target.AddExperience(Enemy_difficulty/10);		//EXP NOT USED FOR NOW BUT IT IS THERE
+			//return (target.callsign + " killed enemy!");
+			return 1;
 		}
 
-		else if (Roll < BothMissChance)
+		else if (Roll < BothMissChance)		// THIS SHOULD HAVE SOMETHING ELSE AS WELL!!! EVENT OR SOMETHING?
 		{
-			return (target.callsign + " missed!");
+			return 0;
+			//return (target.callsign + " missed!");
 		}
 		else if (Roll < SoldierHitChance)
 		{
@@ -132,7 +134,8 @@ public class Event_Battle {
 
 			if (target.health < 0){
 				addCombatEvent (true);
-				return (target.callsign + " Died!");
+				return 0;
+				//return (target.callsign + " Died!");
 			}
 
 			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
@@ -140,15 +143,16 @@ public class Event_Battle {
 			Debug.Log(target.callsign + " was wounded by a " + monstername + "!\n");
 			target.AddEvent("Was wounded by a " + monstername + "!\n");
 
-			return (target.callsign + " was hit by enemy!");
+			//return (target.callsign + " was hit by enemy!");
+			return 0;
 
 		}
 
 		
 		target.die ("Died in battle");
 		addCombatEvent (true);
-		return (target.callsign + " Died!");
-		
+		//return (target.callsign + " Died!");
+		return 0;
 
 
 

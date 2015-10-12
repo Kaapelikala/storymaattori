@@ -76,51 +76,61 @@ public class EventController : MonoBehaviour {
 		if (GreatestRank == 1)		//troopers do not affect gameplay yet!
 			GreatestRank = 0;
 
-		//IDEA not implemented: Enemies have NUMBER, successfull kills reduce this. Combat lasts until other side flees / is wiped out?
+		//Enemies have NUMBER, successfull kills reduce this. Combat lasts until other side flees / is wiped out?
 
 		bool MissionTargetDone = false;
+		bool Retreat = false;
 
-		//Combat takes n rounds. 
-		for (int j =0; j<(Mathf.FloorToInt(Random.Range((1+GreatestRank),(6+GreatestRank)))); j++) {
-			for (int i =0; i<squad.Count; i++) {
+		// ENEMY NUMBERS ARE CALCULATED IN MISSION ITSELF!
 
-				if (squad [i].alive == true){		//dead do not fight!
+		//while (missionImput.StillSomethingToKill() && (squad.Count > 0) && !Retreat)
+		while (missionImput.StillSomethingToKill() == true && (squad.Count > 0) && (Retreat == false))
+		{
+
+			//randomising the soldier!
+
+			int SoldierRandomiser = Mathf.FloorToInt(Random.Range(0,(squad.Count-1)));
+
+			int i =	SoldierRandomiser;
+			
+			Debug.Log("Currently FIGHTING: " + squad[i].soldierID + "KILLS: " + missionImput.kills + "HOSTILES: " + missionImput.Hostiles + "\nCurrently SOMETHING TO KILL: " + missionImput.StillSomethingToKill() + "COUNT: " + (squad.Count > 0) + "RETREAT: " + Retreat);
+
+			if (squad [i].alive == true){		//dead do not fight!
 					int BattleEventRandomiser = Mathf.FloorToInt(Random.Range(0,100));
-
-					//Other ideas : Enemy heavy  gun fire, OUR heavy gun fire?
-
-					if (BattleEventRandomiser < 80)
-
-						Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
-
-
-					else if (targetlocation.type == "Assault" && BattleEventRandomiser > 90 && !MissionTargetDone)
+					
+					//Other ideas : Enemy heavy  gun fire, OUR heavy gun fire?	CHANCE TO RETREAT!
+					
+					if (BattleEventRandomiser < 70)		// THE BASIC ATTACK
 					{
-						//The HQ attack special here?
-
-						// Only one chance to do it properly?
-
-					}
+						squad [i].AddKills(	missionImput.AddKills(	Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
+					}					
+//					else if (targetlocation.type == "Assault" && BattleEventRandomiser > 90 && !MissionTargetDone)
+//					{
+//						//The HQ attack special here?
+//						
+//						// Only one chance to do it properly?
+//						
+//					}
 					else 
 					{
 						if (Random.Range(0, 100) < 50){
-							EnemyBunker.Encounter(squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
+							squad [i].AddKills(	missionImput.AddKills(	EnemyBunker.Encounter(squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
 						}
 						else{
 							Grenade.CheckGrenade (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
 						}
 					}
 				}
-			
-				//squad [i].AddEvent("Missed a lot\n");
-
-
+			else
+				Retreat = true; // needs event of its own but works for now!
+				
+				
+				
 				//Everyone has enough processing power anyways.
-				manager.MoveDeadsAway ();
-			}
-
+			manager.MoveDeadsAway ();
 
 		}
+
 
 		//Extra angst if only survivor
 		foreach (SoldierController solttu in squad)
@@ -138,7 +148,12 @@ public class EventController : MonoBehaviour {
 
 		// MISSION CALCULATES RESULTS - Was it victorius?
 
-		bool Victory = missionImput.IsVictory();
+		bool Victory;
+
+		if (Retreat == true)
+			Victory = false;
+		else
+			bool Victory = missionImput.IsVictory();
 
 
 

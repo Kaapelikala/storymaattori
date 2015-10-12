@@ -16,6 +16,8 @@ public class Event_Debrief : MonoBehaviour {
 			
 		this.target = NEWTARGET;
 
+		target.RemoveAttribute("newbie");
+
 		target.AddEvent("--Debriefing: \n");
 
 		if (victory)

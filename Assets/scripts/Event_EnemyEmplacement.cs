@@ -46,7 +46,7 @@ public class Event_EnemyEmplacement : MonoBehaviour {
 	/// </summary>
 	/// <param name="NEWTARGET">NEWTARGE.</param>
 	/// <param name="Enemy_difficulty">Enemy_difficulty.</param>
-	public void Encounter (SoldierController NEWTARGET, int Enemy_difficulty){
+	public int Encounter (SoldierController NEWTARGET, int Enemy_difficulty){
 		
 		this.target = NEWTARGET;
 		
@@ -73,29 +73,32 @@ public class Event_EnemyEmplacement : MonoBehaviour {
 
 		if ((Random.Range(0, 100) + InitiativeModifier) > 60) //Slightly more chance for ENEMY to go first - nasty!
 		{
-			this.FirstSoldier();	//Lucky soldier!
+			return this.FirstSoldier();	//Lucky soldier!
 
 		}
-		else
-		{
-			this.EnemyFirst();	//Uh oh
 
-		}
+		return this.EnemyFirst();	//Uh oh
+
 	}
 
-	private void FirstSoldier(){
+	private int FirstSoldier(){
 
 		string gunInsert = gunTypes[(Mathf.RoundToInt(Random.value*(gunTypes.GetLength(0)-1)))];
 		string emplacementInsert = emplacementNames[(Mathf.RoundToInt(Random.value*(emplacementNames.GetLength(0)-1)))];
 		string verbInsert = verbs[(Mathf.RoundToInt(Random.value*(verbs.GetLength(0)-1)))];
 
 		target.AddEvent("Stumbled upon an enemy "  + gunInsert + " " + emplacementInsert + " and " + verbInsert + " it!\n" );
-		target.AddKills((Mathf.RoundToInt(Random.Range(1, 4))));
+
+		int Kills = (Mathf.RoundToInt(Random.Range(1, 4)));
+
+		//target.AddKills(Kills);		//THIS DONE IN EVENTRONTROLLER NOW!
+
+		return Kills;
 
 	}
 
 
-	private void EnemyFirst(){
+	private int EnemyFirst(){
 
 		string gunInsert = gunTypes[(Mathf.RoundToInt(Random.value*(gunTypes.GetLength(0)-1)))];
 		string emplacementInsert = emplacementNames[(Mathf.RoundToInt(Random.value*(emplacementNames.GetLength(0)-1)))];
@@ -113,6 +116,8 @@ public class Event_EnemyEmplacement : MonoBehaviour {
 		{
 			target.die("Killed by " + gunInsert);
 		}
+
+		return 0;
 	}
 
 	
