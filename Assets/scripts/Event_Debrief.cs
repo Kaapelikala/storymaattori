@@ -12,11 +12,44 @@ public class Event_Debrief : MonoBehaviour {
 	public string CookName = "";
 			
 
-	public void Handle (SoldierController NEWTARGET){
+	public void Handle (SoldierController NEWTARGET, bool victory, bool AwardBraveryMedal){
 			
 		this.target = NEWTARGET;
 
 		target.AddEvent("--Debriefing: \n");
+
+		if (victory)
+		{
+			target.AddEvent("Mission was a success!\n");
+			target.ChangeMorale(10);
+		}
+			else
+		{
+			target.AddEvent("Mission was a defeat.");
+			target.ChangeMorale(-10);
+
+			if (CheckTrait("coward") && ((Random.Range(10, 100)) < 70))
+			{
+				target.AddEvent(" It was horrific.\n");
+				target.ChangeMorale(-30);
+			}
+			else if (CheckTrait("depressed")&& ((Random.Range(10, 100)) < 60))		//being depressed sucks royally
+			{
+				target.AddEvent(" It was crumbling.\n");
+				target.ChangeMorale(-40);
+			}
+			else if ((Random.Range(10, 100)) < 50)
+			{
+				target.AddEvent(" It felt shitty.\n");
+				target.ChangeMorale(-20);
+			}
+			else
+			{
+				target.AddEvent("\n");
+			}
+
+		}
+
 
 		AddAward("Campaing Medal");
 
@@ -52,13 +85,22 @@ public class Event_Debrief : MonoBehaviour {
 		if (target.missions > 8 && target.kills > 10 && (Random.Range(0, 10) > 2) && !CheckTrait("veteran"))		//Veteranship!!
 		{
 
-			target.AddEvent("Soldiers call " + this.target.callsign + " a veteran!\n");
+			target.AddEvent("Soldiers call " + this.target.getCallsignOrFirstname() + " a veteran!\n");
 			target.AddAttribute("veteran");
-
+			target.AddHistory("-VET-");	//Target is now a veteran!
 			target.skill ++;
 			target.ChangeMorale(20);
 			
 		}
+
+
+		if (AwardBraveryMedal == true)
+		{
+			target.AddEvent("Having participated in mission crucial to the War Effort, " +target.soldierLName+ " was awarded the Bravery Medal!\n");
+			target.AddAward("Bravery Medal");
+		}
+
+
 
 
 
@@ -101,13 +143,13 @@ public class Event_Debrief : MonoBehaviour {
 				{
 
 					string result ="";
-					result += "It was enjoyable";
+					result += "It was fun";
 					target.ChangeMorale(30);
 
 					int ThirdRoll = Random.Range(0, 5);		//Chance for alcoholism
 					if (ThirdRoll >4)
 					{
-						result += " but " + target.callsign + " began to drink too much!\n";
+						result += " but " + target.getCallsignOrFirstname() + " began to drink too much!\n";
 						target.AddAttribute("drunkard");
 					}
 					else
@@ -118,7 +160,7 @@ public class Event_Debrief : MonoBehaviour {
 				}
 				else
 				{
-					target.AddEvent("It was boring\n");
+					target.AddEvent("It was boring.\n");
 					target.ChangeMorale(10);
 				}
 
@@ -142,7 +184,7 @@ public class Event_Debrief : MonoBehaviour {
 				}
 				else
 				{
-					target.AddEvent(target.callsign + " would have hoped better\n");
+					target.AddEvent(target.getCallsignOrFirstname() + " would have hoped better\n");
 					target.ChangeMorale(5);
 				}
 			}
@@ -173,7 +215,7 @@ public class Event_Debrief : MonoBehaviour {
 				}
 			}
 			
-			AddAward("Wound Badge");
+			AddAward("Wound Badge");		//Aways if wounded!
 
 		}		
 		else
@@ -292,27 +334,28 @@ public class Event_Debrief : MonoBehaviour {
 			{
 			case 0:
 			{
-				if (CheckTrait("coward")){
+				if (CheckTrait("coward") | CheckTrait("heroic")){
 					break;
 				}
-				target.AddEvent(target.callsign + " found new resolve!\n" );
-
+				target.AddEvent(target.getCallsignOrFirstname() + " found new resolve!\n" );
 				this.target.AddAttribute("heroic");
 				break;
 				}
 			case 1:
 				{
-
-				target.AddEvent(target.callsign + " does not care about scratches anymore!\n" );
+				if (CheckTrait("tough")) {
+					break;
+				}
+				target.AddEvent(target.getCallsignOrFirstname() + " does not care about scratches anymore!\n" );
 				this.target.AddAttribute("tough");
 				break;
 				}
 			case 2:
 				{
-				if (CheckTrait("heroic")) {
+				if (CheckTrait("heroic") | CheckTrait("coward")) {
 					break;
 				}
-				target.AddEvent(target.callsign + " began fear the dark!\n" );
+				target.AddEvent(target.getCallsignOrFirstname() + " began fear the dark!\n" );
 				this.target.AddAttribute("coward");
 				break;
 				}
@@ -334,16 +377,16 @@ public class Event_Debrief : MonoBehaviour {
 					
 					if (CheckTrait("inaccurate"))
 					{
-						this.target.AddEvent("Due to poor morale, " + target.callsign + "tried to shot " + Sexdiff + "self but missed!\n");
+						this.target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " tried to shot " + Sexdiff + "self but missed!\n");
 					}
 					else
 					{
-						target.AddEvent("Due to poor morale, " + target.callsign + "shot " + Sexdiff + "self!\n");
+						target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " shot " + Sexdiff + "self!\n");
 						target.die("Killed " + Sexdiff + "self.");
 					}
 				}
 				else
-					target.AddEvent("Due to poor morale, " + target.callsign + "thought about self-termination.\n");
+					target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " thought about self-termination.\n");
 			}
 
 		}
@@ -507,6 +550,7 @@ public class Event_Debrief : MonoBehaviour {
 			{
 				//Does Soldier like the new metal
 
+				target.AddHistory("-ROBO-");	//Target is now at least somewhat Robotic
 				
 				Roll = Random.Range(0, 100);
 				int SecondRoll = Random.Range(0, 5);

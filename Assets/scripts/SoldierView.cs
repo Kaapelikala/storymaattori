@@ -85,8 +85,13 @@ public class SoldierView : MonoBehaviour {
 			
 			Target = ALIVE_SOLDIERS.soldiers [Current - 1];
 			IMAGE.Set(Target.sex , Target.pictureID);
-			
-			this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
+
+			if (Target.soldierMName == "")
+				this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
+			else {
+				this.View_Name.text = Target.soldierFName + " " + Target.soldierMName + " " + Target.soldierLName;
+			}
+
 			this.View_Details.text = Target.callsign + "\n" + Target.GetRank();
 			
 			this.View_Traits.text = Target.GetAttributes();

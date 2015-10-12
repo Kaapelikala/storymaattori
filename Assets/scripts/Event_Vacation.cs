@@ -42,12 +42,12 @@ public class Event_Vacation : MonoBehaviour {
 
 		// WHAT SOLDIER DOES!
 
-		if (CheckTrait("wounded") && Random.Range(0,10) > target.health)
+		if (CheckTrait("wounded") && Random.Range(0,100) > target.health)
 		{
 			target.AddEvent(target.soldierFName + "was too wounded to actually enjoy the vacation!\n");
 			target.ChangeMorale(-40);
 		}
-		else if (CheckTrait("depressed") && Random.Range(0,10) > target.health)
+		else if (CheckTrait("depressed") && Random.Range(0,100) > target.morale)
 		{
 			target.AddEvent("Terrors of the battlefield were too strong: " + target.soldierFName + " spent most of the vacation withdrawn.\n");
 			target.ChangeMorale(-40);

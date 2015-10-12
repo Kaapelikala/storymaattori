@@ -34,6 +34,7 @@ public class EventController : MonoBehaviour {
 		}
 		Event_Battle Fight = new Event_Battle (MissionName);
 		Event_Grenade Grenade = new Event_Grenade (MissionName);
+		Event_EnemyEmplacement EnemyBunker = new Event_EnemyEmplacement();
 		Event_Debrief MotherBase = new Event_Debrief();
 		Event_Burial Grave = new Event_Burial();
 
@@ -48,6 +49,7 @@ public class EventController : MonoBehaviour {
 
 		foreach (SoldierController solttu in squad)
 		{
+			solttu.AddHistory("-MISSION-:"+campaing.missionNumber);
 			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ":" + MissionName +":\n");
 			solttu.missions++;
 			soldierAmount++;
@@ -88,7 +90,10 @@ public class EventController : MonoBehaviour {
 					//Other ideas : Enemy heavy  gun fire, OUR heavy gun fire?
 
 					if (BattleEventRandomiser < 80)
+
 						Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
+
+
 					else if (targetlocation.type == "Assault" && BattleEventRandomiser > 90 && !MissionTargetDone)
 					{
 						//The HQ attack special here?
@@ -98,7 +103,12 @@ public class EventController : MonoBehaviour {
 					}
 					else 
 					{
-						Grenade.CheckGrenade (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
+						if (Random.Range(0, 100) < 50){
+							EnemyBunker.Encounter(squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
+						}
+						else{
+							Grenade.CheckGrenade (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
+						}
 					}
 				}
 			
@@ -126,41 +136,50 @@ public class EventController : MonoBehaviour {
 		}
 
 
+		// MISSION CALCULATES RESULTS - Was it victorius?
+
+		bool Victory = missionImput.IsVictory();
+
+
+
 
 		//DEBRIEFING FOR EACH!
+
+		bool AwardBraveryMedal = false;
+
+		if (targetlocation.type == "Assault" && Victory == true)
+		{
+			AwardBraveryMedal = true;		//SHOULD BE GIVEN TO ONLY SUCCEFFUL MISSIONS BUT AS OF NOW CANNOT BE CHECKED PROPERLY!
+		}
 
 		foreach (SoldierController solttu in squad)
 		{
 			if (solttu.alive == true)	
 			{
-				MotherBase.Handle(solttu);
+				MotherBase.Handle(solttu, Victory, AwardBraveryMedal);
 			}
 		}
 		foreach (SoldierController solttu in squad)
 		{
 			if (solttu.alive == false)	
 			{
-				Grave.Bury(solttu,manager);
+				Grave.Bury(solttu,manager, AwardBraveryMedal);
 			}
 		}
-		if (targetlocation.type == "Assault")
-			foreach (SoldierController solttu in squad)
-			{	
-				if (solttu.alive == true)
-				{
-					solttu.AddEvent("Having participated in mission crucial to the War Effort, " +solttu.soldierLName+ " was awarded the Bravery Medal.\n");
-					solttu.AddAward("Bravery Medal");
-				} 
-				else
-				{
-					solttu.AddEvent("Having participated in mission crucial to the War Effort, " +solttu.soldierLName+ " was awarded posthumorous Bravery Medal.\n");
-					solttu.AddAward("Bravery Medal");
-				} 
-				
-			}
-			manager.MoveDeadsAway ();
+
+		manager.MoveDeadsAway ();
 
 	}
+
+
+
+
+
+
+
+
+
+
 
 	public void Vacate (int Difficulty)
 	{
@@ -186,6 +205,7 @@ public class EventController : MonoBehaviour {
 		int GreatestRank = 0;
 
 		Event_Vacation Party = new Event_Vacation (MissionName);
+		Event_Burial Grave = new Event_Burial();
 
 		foreach (SoldierController solttu in squad)
 		{
@@ -234,7 +254,14 @@ public class EventController : MonoBehaviour {
 		{
 			HandleOnlySurvivor(squad);
 		}
-		
+
+		foreach (SoldierController solttu in squad)
+		{
+			if (solttu.alive == false)	
+			{
+				Grave.Bury(solttu,manager, false);
+			}
+		}
 
 		
 		manager.MoveDeadsAway ();
@@ -369,13 +396,13 @@ public class EventController : MonoBehaviour {
 				}
 				else if ((Random.Range(0, 100) > 80))
 				{
-					solttu.AddEvent(solttu.callsign + " was the only survivor. " + Sexdiff +" did not care any more.\n");
+					solttu.AddEvent(solttu.getCallsignOrFirstname() + " was the only survivor. " + Sexdiff +" did not care any more.\n");
 					solttu.AddAttribute("loner");
 					solttu.skill++;
 				}
-				else if ((Random.Range(0, 100) > 80))
+				else if ((Random.Range(0, 100) > 80) && !solttu.HasAttribute("heroic"))
 				{
-					solttu.AddEvent(solttu.callsign + " was the only survivor. Mental scars will not heal.\n");
+					solttu.AddEvent(solttu.getCallsignOrFirstname() + " was the only survivor. Mental scars will not heal.\n");
 					solttu.AddAttribute("coward");
 					solttu.ChangeMorale(-30);
 				}

@@ -557,6 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soldierFName: Flash
+  soldierMName: 
   soldierLName: Batman
   callsign: Superman
   sex: 109
@@ -10585,6 +10586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soldierFName: Filea
+  soldierMName: 
   soldierLName: Batman
   callsign: Boomer
   sex: 109

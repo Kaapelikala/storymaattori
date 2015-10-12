@@ -49,7 +49,7 @@ public class Campaing : MonoBehaviour {
 	public string GetNextMission(){
 
 		missionNumber++;
-		TimeStamp += 10;
+		TimeStamp += Mathf.RoundToInt((Random.Range(4, 8))+ (Random.Range(4, 8)));
 
 		return "M"+ missionNumber;
 

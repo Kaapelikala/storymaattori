@@ -20,6 +20,37 @@ public class SoldierManager : MonoBehaviour {
 	public List<SoldierController> soldiers = new List<SoldierController> (0);
 	public List<SoldierController> dead = new List<SoldierController> (0);
 
+	string [] SecondNames = new string[] {
+		"A.",
+		"B.",
+		"C.",
+		"D.",
+		"E.",
+		"F.",
+		"G.",
+		"H.",
+		"J.",
+		"K.",
+		"L.",
+		"M.",
+		"N.",
+		"O.",
+		"P.",
+		"R.",
+		"V.",
+		"U.",
+		"T.",
+		"Z.",
+		"X.",
+		"Y.",
+		"DC.",
+		"Jr.",
+		"II",
+		"III",
+		"IV"
+	};
+
+
 	void Start () {
 		squadIds=new int[4]{-2,-2,-2,-2};
 		//At start: six soldiers!
@@ -160,8 +191,20 @@ public class SoldierManager : MonoBehaviour {
 			}
 		}
 
+		foreach (SoldierController solttu in soldiers)
+		{
+			if ((solttu.soldierFName == RECRUIT.soldierFName))
+			{
+				RECRUIT.soldierMName = SecondNames[(Mathf.RoundToInt(UnityEngine.Random.value*(SecondNames.GetLength(0)-1)))];
+			}
+		}
+
+
+
 			
 		string JoiningEvent = "TS:" + campaing.TimeStamp + ": Joined " + campaing.SquadName + "\n";
+
+		RECRUIT.AddHistory("-JOIN-: " + campaing.TimeStamp);
 
 		RECRUIT.AddEvent(JoiningEvent);
 

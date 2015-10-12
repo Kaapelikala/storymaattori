@@ -7,7 +7,7 @@ using System.Collections.Generic;
 //Creates missions and handles them : MISSION SEND IS IN HERE!
 
 public class MissionLog : MonoBehaviour {
-	
+
 	public Text missionText;
 	public List<Mission> missions = new List<Mission>();
 	public int currentlyAdded=0;
@@ -18,7 +18,7 @@ public class MissionLog : MonoBehaviour {
 	public RectTransform BG;
 
 
-	public void AddMission ()
+	public void AddMission ()		
 	{
 		if (manager.soldiers.Count > 3) {
 			Debug.Log ("Adding a mission...");
@@ -122,7 +122,7 @@ public class MissionLog : MonoBehaviour {
 	{
 		if (manager.inSquadCurrently == 4) {
 
-			missions.Add (mission);
+			missions.Add (this.mission);
 			Debug.Log(missions.IndexOf(mission));
 
 			bool VictoryMatters = false;
@@ -168,7 +168,7 @@ public class MissionLog : MonoBehaviour {
 			manager.squadIds = new int[4]{-2,-2,-2,-2};
 			manager.inSquadCurrently = 0;
 
-			this.AddMission();
+			this.AddMission();		// NEW MISSION IS CREATED
 		}
 	}
 	

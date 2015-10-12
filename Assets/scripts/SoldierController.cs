@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class SoldierController : ScriptableObject {
 
 	public string soldierFName="";	//Fistname
+	public string soldierMName="";	//Middle Name, not used often!
 	public string soldierLName="Batman";	//Lastname
 	public string callsign="";
 	public char sex = 'm';
@@ -14,6 +15,7 @@ public class SoldierController : ScriptableObject {
 	public int soldierID;
 	public ArrayList attributes=new ArrayList();
 	public ArrayList awards=new ArrayList();
+	public ArrayList history=new ArrayList();	//Non-visible to players, used to see what soldier has done!
 	public int experience=0;
 	public int missions=0;
 	public int kills=0;
@@ -26,13 +28,12 @@ public class SoldierController : ScriptableObject {
 	public string[] gearList;
 	public bool alive=true;
 	public int rank = 0;
-	public List<string> events = new List<string> ();
+	public List<string> events = new List<string> ();		//Events written down for player to see!
 
 	public string HowDied = "";
 
 
 	public SoldierController (int IDimput){
-
 
 		// THESE NEED THE RANDOMISER!!
 
@@ -86,7 +87,14 @@ public class SoldierController : ScriptableObject {
 				"Karhu",
 				"Wolfie",
 				"Reba",
-				"Kala"
+				"Kala",
+				"Joh",
+				"Mika",
+				"Ernicos",
+				"Kullervo",
+				"Tumpelo",
+				"Pax"
+
 			};
 
 			this.soldierFName = MaleFirstNames[(Mathf.RoundToInt(Random.value*(MaleFirstNames.GetLength(0)-1)))];
@@ -110,7 +118,11 @@ public class SoldierController : ScriptableObject {
 				"Nelma",
 				"Ice",
 				"Saurela",
-				"Regina"
+				"Regina",
+				"Nia",
+				"Bella",
+				"Vindi",
+				"Peace"
 			};
 			
 			this.soldierFName = FemaleFirstNames[(Mathf.RoundToInt(Random.value*(FemaleFirstNames.GetLength(0)-1)))];
@@ -162,7 +174,23 @@ public class SoldierController : ScriptableObject {
 			"Sharpe",
 			"Wulf",
 			"Xero",
-			"Ikina"
+			"Ikina",
+			"Muro",
+			"Konari",
+			"Worry",
+			"Clock",
+			"Battery",
+			"Agisson",
+			"Borzsson",
+			"Pommi",
+			"Kranu",
+			"Pisla",
+			"Voi",
+			"Lake",
+			"Soldat",
+			"Marsh",
+			"Dinner",
+			"Dinker"
 		};
 	
 		this.soldierLName = LastNames[(Mathf.RoundToInt(Random.value*(LastNames.GetLength(0)-1)))];
@@ -218,9 +246,18 @@ public class SoldierController : ScriptableObject {
 		} */
 		 
 		Debug.Log("Luotu " +  soldierID + " '" + this.soldierFName + " '" + this.callsign + "' " + this.soldierLName);
+		
+		this.name = IDimput + " " + this.soldierLName + " " + this.soldierFName;	// for UNITY debugging is easier!
 
 
 	}
+
+
+
+
+
+
+
 
 
 
@@ -242,16 +279,71 @@ public class SoldierController : ScriptableObject {
 	public string FullName(){
 
 		string returnoitava = "";
+
+
+		returnoitava = this.GetRank()+ " ";
 		
 		if (this.callsign == "")
 		{
-			returnoitava = this.GetRank() + " " + this.soldierFName +" "+ this.soldierLName;
+			returnoitava += this.soldierFName;
+			
+			if (this.soldierMName !="")
+				returnoitava += " " + this.soldierMName;
+			
+			returnoitava +=" ";
 		}
 		else
 		{
-			returnoitava = this.GetRank() + " '" + this.callsign +"' "+ this.soldierLName;
+			returnoitava += " '" + this.callsign +"' ";
 		}
+		
+		returnoitava +=  this.soldierLName;
+		return returnoitava;
+	}
 
+	public string AllNames(){
+		
+		string returnoitava = "";
+
+		
+		returnoitava = this.GetRank()+ " ";
+
+		
+		returnoitava += this.soldierFName;
+		
+		if (this.soldierMName !="")
+			returnoitava += " " + this.soldierMName;
+		
+		returnoitava +=" ";
+
+		if (this.callsign != "")
+		{
+			returnoitava += "'" + this.callsign +"' ";
+		}
+	
+		returnoitava +=  this.soldierLName;
+		
+		return returnoitava;
+	}
+	public string AllNamesNoRANK(){
+		
+		string returnoitava = "";
+
+		
+		returnoitava += this.soldierFName;
+		
+		if (this.soldierMName !="")
+			returnoitava += " " + this.soldierMName;
+		
+		returnoitava +=" ";
+		
+		if (this.callsign != "")
+		{
+			returnoitava += "'" + this.callsign +"' ";
+		}
+		
+		returnoitava +=  this.soldierLName;
+		
 		return returnoitava;
 	}
 
@@ -321,6 +413,77 @@ public class SoldierController : ScriptableObject {
 		return returnoitava;
 	}
 
+	public void AddHistory (string lisattava)		
+	{
+		// CODE IS IN STRING - "-X-:Y" X IS what happened and Y is DETAIL: either CAMPAING MISSION NUMBER or CAMPAING TIMESTAMP example: "-DEAD-:57"
+		history.Add(lisattava);
+		
+	}
+	public bool HasHistory (string question)
+	{
+		return history.Contains(question);
+	}
+
+	/// <summary>
+	/// Compares Two Soldiers, their Attributes and mutual history. Does soldiers like eachother?.
+	/// </summary>
+	/// <returns>Integer of how much this soldier likes THE OTHER.</returns>
+	/// <param name="COMPARED">COMPARE.</param>
+	public int CompareHistory(SoldierController target)
+	{
+		int HowMuchLikes = 0;
+
+		if (target.HasAttribute("newbie"))
+		{
+			if (this.HasAttribute("newbie"))
+				HowMuchLikes += 20;		//fellow noobs like eachother!
+			else
+				HowMuchLikes += -20;	//But no-one else does!
+
+		}
+
+		if (this.history[0] == target.history[0])		// First entry is when joined. If both joined at the same time, like eachother!
+		{
+			HowMuchLikes += 20;
+
+		}
+
+		if (target.HasAttribute("coward"))
+		{
+			HowMuchLikes += -10;	//No-body likes a coward!
+			
+		}
+
+		if (target.HasAttribute("techie") && target.HasHistory("-ROBO-"))
+			HowMuchLikes += 10;
+
+		foreach (string TraitLog in this.attributes)		//Traits are good!
+		{
+			if (target.HasAttribute(TraitLog))
+				HowMuchLikes += 10;
+
+			//OPPOSITES
+
+			if (this.HasAttribute("heroic") && target.HasAttribute("coward"))
+			    HowMuchLikes += -20;
+			if (this.HasAttribute("coward") && target.HasAttribute("heroic"))
+			    HowMuchLikes += -20;
+			if (this.HasAttribute("accurate") && target.HasAttribute("inaccurate"))
+				HowMuchLikes += -20;
+			if (this.HasAttribute("inaccurate") && target.HasAttribute("accurate"))
+				HowMuchLikes += -20;
+		}
+
+		foreach (string historyLog in (this.history))		//More history together = better friends!
+		{
+			if (target.HasHistory(historyLog))
+				HowMuchLikes += 1;
+		}
+
+
+		return HowMuchLikes;
+
+	}
 
 	public void AddEvent(string combatEvent)
 	{
@@ -412,54 +575,59 @@ public class SoldierController : ScriptableObject {
 	
 	public string GenerateCallSign(){
 
+		// Need some kind of approval for the soldier - gets cooler nickname if other soldiers like him more?
+		// Also: Callsings based on traits?
+
 		if (this.callsign != "")
 			return this.callsign;
 
 
-		int CallsignNameRandomiser = Random.Range(0, 12);
-		
-		switch (CallsignNameRandomiser)
-		{
-		case 0:
-			this. callsign = "Skull";
-			break;
-		case 1:
-			this. callsign = "Fughenson";
-			break;
-		case 2:
-			this. callsign = "Mad";
-			break;
-		case 3:
-			this. callsign = "Red";
-			break;
-		case 4:
-			this. callsign = "Tobacco";
-			break;
-		case 5:
-			this. callsign = "Noob";
-			break;
-		case 6:
-			this. callsign = "Charlie";
-			break;
-		case 7:
-			this. callsign = "Blue";
-			break;
-		case 8:
-			this. callsign = "Kova";
-			break;
-		case 9:
-			this. callsign = "Easy";
-			break;
-		case 10:
-			this. callsign = "TV";
-			break;
-		case 11:
-			this. callsign = "Feral";
-			break;
-		default:
-			this. callsign = "Dwarf";
-			break;
-		}
+		string [] Callsigns = new string[] {
+			"Skull",
+			"Fughenson",
+			"Mad",
+			"Red",
+			"Tobacco",
+			"Noob",
+			"Charlie",
+			"Blue",
+			"Kova",
+			"Easy",
+			"TV",
+			"Feral",
+			"Dwarf",
+			"Elfie",
+			"Yellow",
+			"Marshmallow",
+			"Bone",
+			"Huge",
+			"Black",
+			"Gunnie",
+			"Fun",
+			"Bad",
+			"Ugly",
+			"Good",
+			"Tunnel",
+			"Quirky",
+			"Courageous",
+			"Laughing",
+			"Lady",
+			"Hope",
+			"Morning",
+			"Booze",
+			"Kling",
+			"Night",
+			"Bat",
+			"Dog",
+			"Birdie",
+			"Eagle",
+			"Glass",
+			"Mountain",
+			"Sky",
+			"Warrior"
+		};
+
+		this. callsign = Callsigns[(Mathf.RoundToInt(Random.value*(Callsigns.GetLength(0)-1)))];
 
 	return this.callsign;
 }
@@ -484,6 +652,8 @@ public class SoldierController : ScriptableObject {
 
 	//As character dying should quite big thing, this function SHOULD FIRE OFF MORE THIGNS - Depression in comrades, move from active soldiers to burial ground etc!
 	public void die(string how){
+
+
 		this.alive = false;
 		this.HowDied = how;
 
