@@ -34,7 +34,11 @@ public class SoldierSelectionView : MonoBehaviour {
 
 		MissionInfoText.text = Returnoitava;
 
-		if (log.mission.difficulty < 90)
+		if (log.mission.type == "Vacation")
+		{
+			MissionDifText.text = "None";
+		}
+		else if (log.mission.difficulty < 90)
 		{
 			MissionDifText.text = "Easy";
 		}

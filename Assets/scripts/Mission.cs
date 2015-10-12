@@ -18,7 +18,9 @@ public class Mission : MonoBehaviour {
 	public Campaing ReportToCampaing;
 
 	int soldiersDead = 0;
-
+		
+		// outcome is a String would be better!
+	public bool retreat = false;	
 	public bool victory = false;
 	public bool LOCKED = false;		//LOCKS SO IT IS NOT CALCULATED AGAIN!
 
@@ -57,19 +59,21 @@ public class Mission : MonoBehaviour {
 			else{
 
 			if (LOCKED == false)
-				this.IsVictory();		//Calculates actual NUMBERS behind all! this just PRINTS stuff
+				this.IsVictory(false);		//Calculates actual NUMBERS behind all! this just PRINTS stuff
 
 			string returned = "";
 			returned += MissionName + "\n";
 			returned += "--Location: " + location + "\n";
 			returned += "--Operation: " + type + "\n";
 			returned += "--Members:\n";
-			bool[] dead = new bool[4];
+			//bool[] dead = new bool[4];
 			foreach (SoldierController soldier in squad) {
 
 				returned += soldier.AllNames() + "\n";
 
 			}
+
+
 
 			if (this.type != "Vacation")
 			{
@@ -93,8 +97,11 @@ public class Mission : MonoBehaviour {
 
 			if (this.type != "Vacation")
 			{
-				
-				if (squad.Count == soldiersDead)	//all are dead
+				if (retreat == true)	//all are dead
+				{
+					returned += "--Mission ended in RETREAT!\n";
+				}
+				else if (squad.Count == soldiersDead)	//all are dead
 				{
 					returned += "--Mission was a TOTAL DEFEAT!\n";
 				}
@@ -105,6 +112,10 @@ public class Mission : MonoBehaviour {
 				else if (thisMissionKills == soldiersDead)
 				{
 					returned += "--Mission was a DRAW!\n";
+				}
+				else if (thisMissionKills > squad.Count*2)
+				{
+					returned += "--Mission was A MAJOR VICTORY!\n";
 				}
 				else
 				{
@@ -123,7 +134,7 @@ public class Mission : MonoBehaviour {
 		}
 
 	//IS THIS MISSION VICTORY?
-	public bool IsVictory()
+	public bool IsVictory(bool retreat)
 		{
 		
 			if (LOCKED == true)
@@ -131,27 +142,31 @@ public class Mission : MonoBehaviour {
 
 			if (this.type != "Vacation")
 			{
+				
 				int killsNow = 0;
 				foreach (SoldierController soldier in squad) {
 					killsNow += soldier.kills;
 				}
-			
-			
+
+
 				thisMissionKills = killsNow - killsStart;
-			
+				
 				ReportToCampaing.TotalKills += thisMissionKills;		//reports to Campaing the kills!
 
-					foreach (SoldierController soldier in squad) {
+				foreach (SoldierController soldier in squad) {
 						if (!soldier.alive) {
 							this.soldiersDead++;
 							ReportToCampaing.TotalDead++;		//reports to Campaing the deads!!
 						}
 					}
-			
-				
+									
 
-				
-				if (thisMissionKills < soldiersDead)	//Victory is simple: Did they kill more than lost?
+				if (retreat)
+				{
+					this.retreat = true;
+					this.victory = false;
+				}	
+				else if (thisMissionKills < soldiersDead)	//Victory is simple: Did they kill more than lost?
 				{
 					this.victory = false;
 				}
@@ -159,6 +174,8 @@ public class Mission : MonoBehaviour {
 				{
 					this.victory = true;
 				}
+
+
 			}
 			else
 			{

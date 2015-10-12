@@ -44,7 +44,7 @@ public class CombatController : MonoBehaviour {
 		//if (target == true)
 		if (begin.Target.alive == true)
 		{
-			Battlelog.text = tappelu.FightRound(begin.Target, 100);
+		//	Battlelog.text = tappelu.FightRound(begin.Target, 100);
 		}
 	}
 }

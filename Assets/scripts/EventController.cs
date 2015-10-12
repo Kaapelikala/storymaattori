@@ -122,8 +122,89 @@ public class EventController : MonoBehaviour {
 					}
 				}
 			else
-				Retreat = true; // needs event of its own but works for now!
-				
+			{	// Checks against the Average Morale of the remaining soldiers!
+
+				int MoraleCheck = 0;
+				int AliveSoldiers = 0;
+				foreach (SoldierController solttu in squad)
+				{
+					if (solttu.alive == true)
+					{
+						AliveSoldiers++;
+						MoraleCheck += solttu.morale;
+						if (solttu.HasAttribute("wounded"))
+							MoraleCheck += -20;
+						if (solttu.HasAttribute("coward"))
+							MoraleCheck += -20;
+						if (solttu.HasAttribute("heroic"))
+							MoraleCheck += 10;
+					}
+					else
+					{
+						MoraleCheck += -20; // more deaths = more want to run!
+					}
+
+
+				}
+
+				MoraleCheck = MoraleCheck / AliveSoldiers;	//Average!
+
+				string [] cursings = new string[] {
+					"Fuck",
+					"Shit",
+					"Darn",
+					"Nope",
+					"Ahh"
+				};
+
+				string cursingsInsert = cursings[(Mathf.RoundToInt(Random.value*(cursings.GetLength(0)-1)))];
+
+				if (Random.Range(0, campaing.Campaing_Difficulty) > MoraleCheck) // if random roll is OVER the avg morale its time to FLEEE!
+				{
+
+
+					foreach (SoldierController solttu in squad) 
+					{
+						if (solttu.alive == true)
+						{
+							string [] runnings = new string[] {
+								"flee",
+								"fly",
+								"run",
+								"retreat",
+								"get back to base"
+							};
+
+
+							string RunningsInsert = runnings[(Mathf.RoundToInt(Random.value*(runnings.GetLength(0)-1)))];
+
+							solttu.AddHistory("-RUN-:" + campaing.TimeStamp);
+							solttu.ChangeMorale(-20);
+
+							solttu.AddEvent(cursingsInsert + ", time to " + RunningsInsert + "!!\n");
+						}
+					}
+
+					Retreat = true; // needs event of its own but works for now!
+
+				}
+				else {
+					foreach (SoldierController solttu in squad)
+					{
+						solttu.AddEvent(cursingsInsert + " this is getting TOUGH!");
+						if (solttu.HasAttribute("wounded"))
+							solttu.ChangeMorale(-20);
+						if (solttu.HasAttribute("coward"))
+							solttu.ChangeMorale(-20);
+						if (solttu.HasAttribute("heroic"))
+							solttu.ChangeMorale(10);
+						else 
+							solttu.ChangeMorale(-5);
+					}
+
+				}
+
+			}	
 				
 				
 				//Everyone has enough processing power anyways.
@@ -148,13 +229,9 @@ public class EventController : MonoBehaviour {
 
 		// MISSION CALCULATES RESULTS - Was it victorius?
 
-		bool Victory;
 
-		if (Retreat == true)
-			Victory = false;
-		else
-			bool Victory = missionImput.IsVictory();
-
+		bool Victory = missionImput.IsVictory(Retreat);
+	
 
 
 
