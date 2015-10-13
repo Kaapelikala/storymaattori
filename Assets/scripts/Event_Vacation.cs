@@ -156,7 +156,7 @@ public class Event_Vacation : MonoBehaviour {
 			}
 
 			target.AddEvent("Rave was too strong: " + Sexdiff +" never returned to base!\n");
-			target.die("Unknown");
+			target.die("MIA");
 		}
 		else if (target.health > BeginHealth && target.morale > BeginMorale)
 		{
@@ -180,7 +180,7 @@ public class Event_Vacation : MonoBehaviour {
 					{
 						SomethingHappened = true;
 						target.AddAttribute("loner");
-						target.AddEvent("The shadows begin to whisper...\n");
+						target.AddEvent("The shadows began to whisper...\n");
 					}
 					break;
 				case 1:
@@ -338,20 +338,20 @@ public class Event_Vacation : MonoBehaviour {
 				{
 					Sexdiff = "her";
 				}
-				target.AddEvent(target.soldierFName + " has managed to normalise " + Sexdiff + " aim!\n");
+				target.AddEvent(target.getCallsignOrFirstname() + " has managed to normalise " + Sexdiff + " aim!\n");
 				target.RemoveAttribute("inaccurate");
 				target.ChangeMorale(20);
 			}
 			else if (!CheckTrait ("inaccurate") && !CheckTrait ("accurate"))
 			{
-				target.AddEvent(target.soldierFName + " now often hits the bullseye!\n");
+				target.AddEvent(target.getCallsignOrFirstname() + " now often hits the bullseye!\n");
 				this.AddAward("Markmanship Metal");
 				target.AddAttribute("accurate");
 				target.ChangeMorale(40);
 			}
 			else if (CheckTrait ("accurate"))
 			{
-				target.AddEvent(target.soldierFName + " won the shooting competition!\n");
+				target.AddEvent(target.getCallsignOrFirstname() + " won the shooting competition!\n");
 				this.AddAward("Markmanship Metal");
 				target.ChangeMorale(30);
 			}
@@ -366,14 +366,14 @@ public class Event_Vacation : MonoBehaviour {
 		}
 		else if (Roll < 10)
 		{
-			target.AddEvent("Training was hell. "+ target.soldierFName + " did not learn much.\n");
+			target.AddEvent("Training was hell. "+ target.getCallsignOrFirstname() + " did not learn much.\n");
 			target.skill--;
 			target.ChangeHealth(-30);
 			target.ChangeMorale(-40);
 
 			if (target.health < 0)
 			{
-				target.AddEvent("It was too much. " + target.soldierFName + "perished!\n");
+				target.AddEvent("It was too much. " + target.getCallsignOrFirstname()+ "perished!\n");
 				target.die("Overexercise");
 			}
 		}

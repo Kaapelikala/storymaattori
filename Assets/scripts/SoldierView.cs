@@ -8,7 +8,9 @@ using System.Collections.Generic;
 
 public class SoldierView : MonoBehaviour {
 
-	public SoldierManager ALIVE_SOLDIERS;
+	public SoldierManager WhereToDrawSoldiers;
+	public bool Alives; //whether DEAD or alive soldiers!
+	public List<SoldierController> SOLDIERS;
 	public int Current = 1;		// keeps track of which soldier we are looking at.
 	public SoldierController Target;
 
@@ -31,7 +33,14 @@ public class SoldierView : MonoBehaviour {
 
 	public Vector2 scrollPosition;
 
-	//public rect
+	void Start () {
+	
+		if (Alives == true)
+			this.SOLDIERS = WhereToDrawSoldiers.soldiers;
+		else
+			this.SOLDIERS = WhereToDrawSoldiers.dead;
+	
+	}
 
 		
 //	//public Vector2 scrollPosition = Vector2.zero;
@@ -57,34 +66,36 @@ public class SoldierView : MonoBehaviour {
 	public void CheckAliveMessage()
 	{
 		Debug.Log ("Current: " + Current);
+		this.Start();
 		ShowSoldier ();
 	}
 
 	public bool  CheckAliveStatus(){
-		if (ALIVE_SOLDIERS.soldiers.Count <1) {
+		if (this.SOLDIERS.Count < 1) {
 			NoAlive.SetActive (true);
 			SomeAlive.SetActive (false);
 			return false;
 
-		} else {
-			if (Current<1)
-				Current = 1;
-			
-			NoAlive.SetActive (false);
-			SomeAlive.SetActive (true);
-			return true;
-		}
+		} 
+
+		if (Current<1)
+			Current = 1;
+
+		NoAlive.SetActive (false);
+		SomeAlive.SetActive (true);
+		return true;
+
 	}
 
 
 
 	public void ShowSoldier (){
-		Debug.Log ("Current: " + Current + ", size " + ALIVE_SOLDIERS.soldiers.Count);
-		if (CheckAliveStatus())
+		Debug.Log ("Current: " + Current + ", size " + SOLDIERS.Count);
+		if (this.CheckAliveStatus())
 			{
 			
-			Target = ALIVE_SOLDIERS.soldiers [Current - 1];
-			IMAGE.Set(Target.sex , Target.pictureID);
+			Target = SOLDIERS [Current - 1];
+			IMAGE.Set(Target);
 
 			if (Target.soldierMName == "")
 				this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
@@ -166,7 +177,7 @@ public class SoldierView : MonoBehaviour {
 			}
 
 			
-			int awards = Target.awards.Count;   
+			string awards = Target.GetAwardsShort();
 			
 			this.View_Numbers.text = Target.soldierID + "\n" + Target.missions + "\n" + Target.kills + "\n" + ReturnMorale + "\n" + ReturnHeath +"\n" + ReturnSkill +"\n" + awards;
 			
@@ -178,7 +189,7 @@ public class SoldierView : MonoBehaviour {
 			}
 			else
 			{
-				this.View_Alive.text = "DEAD!";
+				this.View_Alive.text = Target.HowDied;
  			}
 
 			this.History.text = Target.GetEvents();
@@ -189,17 +200,17 @@ public class SoldierView : MonoBehaviour {
 	}
 
 	public void NextSoldier(){
-		if (ALIVE_SOLDIERS.soldiers.Count != 0) 
+		if (SOLDIERS.Count != 0) 
 		{
 			Current++;
-			if (Current > ALIVE_SOLDIERS.soldiers.Count)
+			if (Current > SOLDIERS.Count)
 			{Current = 1;
 				Debug.Log ("Currently at "+Current);
-				Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
+				Debug.Log ("Soldiers total "+SOLDIERS.Count);
 			}
 			
 			Debug.Log ("Currently at "+Current);
-			Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
+			Debug.Log ("Soldiers total "+SOLDIERS.Count);
 
 			
 		}
@@ -209,15 +220,15 @@ public class SoldierView : MonoBehaviour {
 	}
 
 	public void PrevSoldier(){
-		if (ALIVE_SOLDIERS.soldiers.Count != 0) {
+		if (SOLDIERS.Count != 0) {
 			Current --;
 			if (Current <1)
 			{
-				Current =  ALIVE_SOLDIERS.soldiers.Count;
+				Current =  SOLDIERS.Count;
 			}
 			
 			Debug.Log ("Currently at "+Current);
-			Debug.Log ("Soldiers total "+ALIVE_SOLDIERS.soldiers.Count);
+			Debug.Log ("Soldiers total "+SOLDIERS.Count);
 
 		}
 			ShowSoldier ();

@@ -11,7 +11,8 @@ public class SoldierController : ScriptableObject {
 	public string soldierLName="Batman";	//Lastname
 	public string callsign="";
 	public char sex = 'm';
-	public int pictureID;
+	public int pictureID;	// PictureDNA at some time? Or "Face" Scribtableobject?
+	public int hairID;
 	public int soldierID;
 	public ArrayList attributes=new ArrayList();
 	public ArrayList awards=new ArrayList();
@@ -32,6 +33,9 @@ public class SoldierController : ScriptableObject {
 
 	public string HowDied = "";
 
+	void Start () {
+		this.AddAttribute("");	//to stop nullpoint exeptions!
+	}
 
 	public SoldierController (int IDimput){
 
@@ -59,9 +63,8 @@ public class SoldierController : ScriptableObject {
 				break;
 		}
 
-
-		this.pictureID = 0;
-
+		this.pictureID = (Mathf.RoundToInt(Random.Range(0, 5.4f)));
+		this.hairID = (Mathf.RoundToInt(Random.Range(1, 5.4f)));
 		
 		int FNameRandomiser = Random.Range(0, 12);
 		
@@ -361,7 +364,7 @@ public class SoldierController : ScriptableObject {
 	{
 		attributes.Remove (attribute);
 	}
-	public bool HasAttribute (string question)
+	public bool HasAttribute (string question)	//throws nullpint if nothing in there!
 	{
 		return attributes.Contains(question);
 	}
@@ -430,6 +433,46 @@ public class SoldierController : ScriptableObject {
 			else {
 				returnoitava +=  ", " +item;
 			}returnoitava += item + ", ";
+		}
+		
+		return returnoitava;
+	}
+	public string GetAwardsShort ()	
+	{
+		string returnoitava = "";
+		
+		bool firstAdd = true;
+		
+		foreach (string item in awards)
+		{
+			string toAdd = "";
+			if (item == "Wound Badge")
+				toAdd = "WB";
+			else if (item == "Campaing Medal")
+				toAdd = "CM";
+			else if (item == "Bravery Medal")
+				toAdd = "BM";
+			else if (item == "Kill Award")
+				toAdd = "K1";
+			else if (item == "Kill Sword")
+				toAdd = "K2";
+			else if (item == "Kill Bomb")
+				toAdd = "K3";
+			else if (item == "Kill Nuke")
+				toAdd = "K4";
+			else if (item == "Kill Armangeddon")
+				toAdd = "K5";
+			else if (item == "Markmanship Metal")
+				toAdd = "MarM";
+
+			if (firstAdd)
+			{
+				returnoitava += toAdd;
+				firstAdd = false;
+			}
+			else {
+				returnoitava +=  " " + toAdd;
+			}
 		}
 		
 		return returnoitava;

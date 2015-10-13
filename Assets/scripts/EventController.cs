@@ -164,7 +164,7 @@ public class EventController : MonoBehaviour {
 
 		if (targetlocation.type == "Assault" && Victory == true)
 		{
-			AwardBraveryMedal = true;		//SHOULD BE GIVEN TO ONLY SUCCEFFUL MISSIONS BUT AS OF NOW CANNOT BE CHECKED PROPERLY!
+			AwardBraveryMedal = true;	
 		}
 
 		foreach (SoldierController solttu in squad)
@@ -175,12 +175,17 @@ public class EventController : MonoBehaviour {
 			}
 		}
 
-		this.BaseIdle();	// THIIS
-
+		this.BaseIdle();	// OOTHERS PARTYYY
 
 		foreach (SoldierController solttu in squad)
 		{
 			solttu.RemoveHistory("-ONMISSION-");	//The are again back at base!
+		}
+
+
+		foreach (SoldierController solttu in squad)
+		{
+
 			if (solttu.alive == false)	
 			{
 				Grave.Bury(solttu,manager, AwardBraveryMedal);
@@ -331,18 +336,22 @@ public class EventController : MonoBehaviour {
 			HandleOnlySurvivor(squad);
 		}
 
-
+		this.BaseIdle();	// OOTHERS PARTYYY
+		
+		foreach (SoldierController solttu in squad)
+		{
+			solttu.RemoveHistory("-ONMISSION-");	//The are again back at base!
+		}
+		
+		
 		foreach (SoldierController solttu in squad)
 		{
 			
-			solttu.RemoveHistory("-ONMISSION-");
 			if (solttu.alive == false)	
 			{
 				Grave.Bury(solttu,manager, false);
 			}
 		}
-
-		
 		manager.MoveDeadsAway ();
 		
 	}

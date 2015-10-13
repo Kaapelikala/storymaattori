@@ -65,7 +65,7 @@ public class DeadSoldierView : MonoBehaviour {
 		{
 			
 			Target = ALIVE_SOLDIERS.dead [Current - 1];
-			IMAGE.Set(Target.sex , Target.pictureID);
+			IMAGE.Set(Target);
 			
 			this.View_Name.text = Target.soldierFName + " " + Target.soldierLName;
 			this.View_Details.text = Target.callsign + "\n" + Target.GetRank();

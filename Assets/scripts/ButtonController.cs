@@ -13,13 +13,16 @@ public class ButtonController : MonoBehaviour {
 	public SoldierManager manager;
 	public MissionLog missions;
 
+	public SoldierView DeadSoldierViewer;
+	public SoldierView SoldierViewer;
+
 	public AudioSource BOOM;
 
 	public AudioSource NO;
 
 	public void Start()
 	{
-		missions.AddMission();
+		missions.AddMission();	//we always have one mission!
 
 	}
 
@@ -62,13 +65,16 @@ public class ButtonController : MonoBehaviour {
 	
 	public void ActivateSoldierViewButton(){
 		soldierView.SetActive (true);
-		soldierView.transform.GetChild(0).transform.FindChild ("SoldierView").SendMessage ("CheckAliveMessage");
+
+		SoldierViewer.CheckAliveMessage();
+		//soldierView.transform.GetChild(0).transform.FindChild ("SoldierView").SendMessage ("CheckAliveMessage");
 		mainView.SetActive (false);
 	}
 	
 	public void ActivateDeadSoldierViewButton(){
 		deadSoldierView.SetActive (true);
-		deadSoldierView.transform.GetChild(0).transform.FindChild ("DeadView").SendMessage ("CheckAliveMessage");
+		DeadSoldierViewer.CheckAliveMessage();
+		//deadSoldierView.transform.GetChild(0).transform.FindChild ("SoldierView").SendMessage ("CheckAliveMessage");
 		mainView.SetActive (false);
 	}
 	
