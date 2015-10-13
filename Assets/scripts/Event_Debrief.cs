@@ -250,9 +250,10 @@ public class Event_Debrief : MonoBehaviour {
 		//PROMOTIONS
 		if (this.target.kills > 1 && target.rank == 0)			//TROOPER
 		{
-			if ((Random.Range(0, 100)+ CheckTrait("heroic",10)+ CheckTrait("drunkard",-20)) > 40)
+			if (true)
+			//if ((Random.Range(0, 100)+ CheckTrait("heroic",10)+ CheckTrait("drunkard",-20)) > 40)
 			{
-				target.pictureID = (Mathf.RoundToInt(Random.Range(0, 5))); // gets picture only after Trooper!
+				target.pictureID = (Mathf.RoundToInt(Random.Range(1, 5))); // gets picture only after Trooper!
 				Promote(this.target);
 				target.ChangeMorale(10);
 				target.skill++;
@@ -439,7 +440,7 @@ public class Event_Debrief : MonoBehaviour {
 		
 	}
 
-	void CheckForBionics()
+	public void CheckForBionics()
 	{
 		if (CheckTrait("wounded")){
 

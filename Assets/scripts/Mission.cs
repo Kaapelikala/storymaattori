@@ -35,7 +35,14 @@ public class Mission : MonoBehaviour {
 		//int EnemyNumber = 4; // for easier testing!
 		
 		if (Mathf.FloorToInt(ReportToCampaing.Campaing_Difficulty/20) > 5)
-			Hostiles ++;
+			this.Hostiles ++;
+
+		if (this.type=="Assault")	// yes, it is harder!
+		{
+			this.Hostiles += Mathf.FloorToInt(Random.Range(1,4));
+		}
+		else if (this.type=="Vacation")
+			this.Hostiles = 0;
 
 		//this.name = "M:" + this.ReportToCampaing.missionNumber + "";
 		//this.name = "";
@@ -75,8 +82,21 @@ public class Mission : MonoBehaviour {
 
 
 
+
 			if (this.type != "Vacation")
 			{
+				
+				
+				if (Hostiles > squad.Count*1.5)
+					returned += "--The Squad was greatly outnumbered!\n";
+				else if (Hostiles > squad.Count+Random.Range(1,2))
+					returned += "--The Squad was outnumbered!\n";
+				else if (Hostiles < squad.Count-Random.Range(1,2))
+					returned += "--The Squad outnumbered the enemy!\n";
+				else
+					returned += "--The Squad and enemies were even.\n";
+
+
 				returned += "--During the mission soldiers killed: ";
 
 				returned += thisMissionKills + "\n";

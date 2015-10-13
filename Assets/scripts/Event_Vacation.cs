@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Event_Vacation : MonoBehaviour {
 
-	// Wild party at motherbase. No worries of enemies but excess can be harmfull too!
+	// Wild party away from front. No worries of enemies but excess can be harmfull too!
 
 	private string MissionName = "";
 	private SoldierController target;

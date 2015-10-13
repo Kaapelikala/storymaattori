@@ -441,6 +441,10 @@ public class SoldierController : ScriptableObject {
 		history.Add(lisattava);
 		
 	}
+	public void RemoveHistory (string toDelete)
+	{
+		history.Remove (toDelete);
+	}
 	public bool HasHistory (string question)
 	{
 		return history.Contains(question);
@@ -485,7 +489,10 @@ public class SoldierController : ScriptableObject {
 				HowMuchLikes += 10;
 
 			//OPPOSITES
-
+			if (target.sex == 'f' && this.sex =='m')	// so heterosexual :P
+				HowMuchLikes += 3;
+			if (target.sex == 'm' && this.sex =='f')
+				HowMuchLikes += 3;
 			if (this.HasAttribute("heroic") && target.HasAttribute("coward"))
 			    HowMuchLikes += -20;
 			if (this.HasAttribute("coward") && target.HasAttribute("heroic"))

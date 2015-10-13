@@ -20,7 +20,7 @@ public class EventController : MonoBehaviour {
 
 
 	public void Fight(int [] indexes, int Difficulty, Mission missionImput)
-{
+	{
 		targetlocation = missionImput;
 		string MissionName = campaing.GetNextMission();
 		List<SoldierController> squad;
@@ -35,6 +35,7 @@ public class EventController : MonoBehaviour {
 		Event_Battle Fight = new Event_Battle (MissionName);
 		Event_Grenade Grenade = new Event_Grenade (MissionName);
 		Event_EnemyEmplacement EnemyBunker = new Event_EnemyEmplacement();
+		Event_Retreat MoraleLost = new Event_Retreat(campaing);
 		Event_Debrief MotherBase = new Event_Debrief();
 		Event_Burial Grave = new Event_Burial();
 
@@ -49,6 +50,7 @@ public class EventController : MonoBehaviour {
 
 		foreach (SoldierController solttu in squad)
 		{
+			solttu.AddHistory("-ONMISSION-");	//denotes that is NOT AT THE MOTHERBASE!
 			solttu.AddHistory("-MISSION-:"+campaing.missionNumber);
 			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ":" + MissionName +":\n");
 			solttu.missions++;
@@ -123,87 +125,7 @@ public class EventController : MonoBehaviour {
 				}
 			else
 			{	// Checks against the Average Morale of the remaining soldiers!
-
-				int MoraleCheck = 0;
-				int AliveSoldiers = 0;
-				foreach (SoldierController solttu in squad)
-				{
-					if (solttu.alive == true)
-					{
-						AliveSoldiers++;
-						MoraleCheck += solttu.morale;
-						if (solttu.HasAttribute("wounded"))
-							MoraleCheck += -20;
-						if (solttu.HasAttribute("coward"))
-							MoraleCheck += -20;
-						if (solttu.HasAttribute("heroic"))
-							MoraleCheck += 10;
-					}
-					else
-					{
-						MoraleCheck += -20; // more deaths = more want to run!
-					}
-
-
-				}
-
-				MoraleCheck = MoraleCheck / AliveSoldiers;	//Average!
-
-				string [] cursings = new string[] {
-					"Fuck",
-					"Shit",
-					"Darn",
-					"Nope",
-					"Ahh"
-				};
-
-				string cursingsInsert = cursings[(Mathf.RoundToInt(Random.value*(cursings.GetLength(0)-1)))];
-
-				if (Random.Range(0, campaing.Campaing_Difficulty) > MoraleCheck) // if random roll is OVER the avg morale its time to FLEEE!
-				{
-
-
-					foreach (SoldierController solttu in squad) 
-					{
-						if (solttu.alive == true)
-						{
-							string [] runnings = new string[] {
-								"flee",
-								"fly",
-								"run",
-								"retreat",
-								"get back to base"
-							};
-
-
-							string RunningsInsert = runnings[(Mathf.RoundToInt(Random.value*(runnings.GetLength(0)-1)))];
-
-							solttu.AddHistory("-RUN-:" + campaing.TimeStamp);
-							solttu.ChangeMorale(-20);
-
-							solttu.AddEvent(cursingsInsert + ", time to " + RunningsInsert + "!!\n");
-						}
-					}
-
-					Retreat = true; // needs event of its own but works for now!
-
-				}
-				else {
-					foreach (SoldierController solttu in squad)
-					{
-						solttu.AddEvent(cursingsInsert + " this is getting TOUGH!");
-						if (solttu.HasAttribute("wounded"))
-							solttu.ChangeMorale(-20);
-						if (solttu.HasAttribute("coward"))
-							solttu.ChangeMorale(-20);
-						if (solttu.HasAttribute("heroic"))
-							solttu.ChangeMorale(10);
-						else 
-							solttu.ChangeMorale(-5);
-					}
-
-				}
-
+				Retreat = MoraleLost.RetreatCheck(squad, campaing.Campaing_Difficulty);
 			}	
 				
 				
@@ -216,6 +138,7 @@ public class EventController : MonoBehaviour {
 		//Extra angst if only survivor
 		foreach (SoldierController solttu in squad)
 		{
+
 			if (solttu.alive == false)
 			{
 				deadAmount++;
@@ -251,8 +174,13 @@ public class EventController : MonoBehaviour {
 				MotherBase.Handle(solttu, Victory, AwardBraveryMedal);
 			}
 		}
+
+		this.BaseIdle();	// THIIS
+
+
 		foreach (SoldierController solttu in squad)
 		{
+			solttu.RemoveHistory("-ONMISSION-");	//The are again back at base!
 			if (solttu.alive == false)	
 			{
 				Grave.Bury(solttu,manager, AwardBraveryMedal);
@@ -262,6 +190,60 @@ public class EventController : MonoBehaviour {
 		manager.MoveDeadsAway ();
 
 	}
+
+	/// <summary>
+	/// What happens in the base while squad is away?
+	/// </summary>
+	public void BaseIdle ()
+	{
+		int[] indexes = {-1,-1,-1,-1};
+		BaseIdle (indexes);
+	}
+	
+	
+	public void BaseIdle(int [] indexes)
+	{
+		List<SoldierController> idlers = new List<SoldierController> (0);		//those who are at the Base!
+	
+		Event_BaseIdle Motherbase = new Event_BaseIdle(campaing);
+		Event_Burial Grave = new Event_Burial();
+
+		foreach (SoldierController solttu in manager.GetSquad())
+		{
+			if (solttu.HasHistory("-ONMISSION-") == false)		// those who are NOT at MISSION!
+			{
+				idlers.Add(solttu);
+				solttu.AddHistory("-IDLE-:" + campaing.TimeStamp);	//to persons to remember this :D
+			}
+		}
+
+		Motherbase.Handle(idlers);	// The actual happenings
+
+
+
+		foreach (SoldierController solttu in idlers)
+		{
+			if (solttu.alive == false)	
+			{
+				Grave.Bury(solttu, manager, false);
+			}
+		}
+		
+		manager.MoveDeadsAway ();
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -301,6 +283,8 @@ public class EventController : MonoBehaviour {
 
 		foreach (SoldierController solttu in squad)
 		{
+			solttu.AddHistory("-ONMISSION-");
+			solttu.AddHistory("-VACATION-:"+campaing.missionNumber);
 			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ": VACATION\n");
 			solttu.missions++;
 			soldierAmount++;
@@ -347,8 +331,11 @@ public class EventController : MonoBehaviour {
 			HandleOnlySurvivor(squad);
 		}
 
+
 		foreach (SoldierController solttu in squad)
 		{
+			
+			solttu.RemoveHistory("-ONMISSION-");
 			if (solttu.alive == false)	
 			{
 				Grave.Bury(solttu,manager, false);

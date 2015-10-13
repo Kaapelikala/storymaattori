@@ -20,8 +20,10 @@ public class SoldierSelector : MonoBehaviour {
 				manager.soldiers[Int32.Parse (this.gameObject.name)].GetRankShort() + " " +
 				manager.soldiers[Int32.Parse (this.gameObject.name)].AllNamesNoRANK();
 
-		//if (manager.soldiers[Int32.Parse (this.gameObject.name)].HasAttribute("wounded"))
-		//	soldierName.text +=  " WOUNDED";
+		if (manager.soldiers[Int32.Parse (this.gameObject.name)].HasAttribute("wounded"))
+		{	
+			soldierName.text +=  " WOUNDED";
+		}
 
 
 		Array.Sort (manager.squadIds);

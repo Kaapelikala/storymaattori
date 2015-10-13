@@ -7,7 +7,18 @@ public class Event_Battle {
 	public SoldierController target;
 	public string MissionName = "";
 
-	string[] monsternames= new string[] {"Mauler","Snotling","Waster","Kitten","Puppy","Green-Haired Screamer","Triclops","Duclops","Soldier"};
+	string[] monsternames= new string[] 
+	{
+		"Mauler",
+		"Snotling",
+		"Waster",
+		"Kitten",
+		"Puppy",
+		"Green-Haired Screamer",
+		"Triclops",
+		"Duclops",
+		"Soldier"
+	};
 	string [] verbs = new string[] {
 		"mauled",
 		"wasted",
@@ -31,6 +42,13 @@ public class Event_Battle {
 		"blamed"
 	};
 
+	string [] hits = new string[] {
+		"hit",
+		"wounded",
+		"grazed",
+		"hurt"
+	};
+
 	public Event_Battle()
 	{
 	}
@@ -50,7 +68,7 @@ public class Event_Battle {
 
 
 		if (negative) {
-			returned ="Was " + verb +" by "+monstername + "!!\n";		//more drama!
+			returned ="Was " + verb +" by "+monstername + "!!\n";		//needs more drama!
 		}
 		else
 		{
@@ -122,6 +140,9 @@ public class Event_Battle {
 
 		else if (Roll < BothMissChance)		// THIS SHOULD HAVE SOMETHING ELSE AS WELL!!! EVENT OR SOMETHING?
 		{
+			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
+			target.AddEvent("Missed a " + monstername + "!\n");
+			target.ChangeMorale(5);
 			return 0;
 			//return (target.callsign + " missed!");
 		}
@@ -140,8 +161,10 @@ public class Event_Battle {
 
 			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
 
-			Debug.Log(target.callsign + " was wounded by a " + monstername + "!\n");
-			target.AddEvent("Was wounded by a " + monstername + "!\n");
+			string hurtInsert = hits[(Mathf.RoundToInt(Random.value*(hits.GetLength(0)-1)))];
+
+			Debug.Log(target.callsign + " was " + hurtInsert +" by a " + monstername + "!\n");
+			target.AddEvent("Was " + hurtInsert +" by a " + monstername + "!\n");
 
 			//return (target.callsign + " was hit by enemy!");
 			return 0;

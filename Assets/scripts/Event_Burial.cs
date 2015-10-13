@@ -87,7 +87,32 @@ public class Event_Burial : MonoBehaviour {
 
 			foreach (SoldierController solttu in (soldiers.GetSquad()))
 			{
-				if (solttu.alive == true && !solttu.HasAttribute("newbie") && solttu != corpse)	//someone should carry the coffin?
+
+				if (solttu.HasHistory("-ONMISSION-")) // cant attend if somewhere else! (basically if dead happens at motherbase while they away!
+				{
+					solttu.AddHistory("-NOATTEND_BURI-:" + corpse.soldierID);
+					corpse.AddEvent(" " + solttu.FullName() +" was away.\n"); 
+
+					int SadnessRandomRoll = Random.Range(0, 100);
+
+					SadnessRandomRoll += solttu.CompareHistory(corpse); // CHANCE TO ATTEND INCREASES WITH FRIENDSHIP! 
+					
+					SadnessRandomRoll += this.CheckTrait("depressed", -20, solttu);
+					SadnessRandomRoll += this.CheckTrait("coward", -10, solttu);
+					SadnessRandomRoll += this.CheckTrait("idiot", -40, solttu);
+					SadnessRandomRoll += this.CheckTrait("heroic", 20, solttu);
+
+					if (SadnessRandomRoll < 40)
+					{
+						solttu.AddHistory("-NOCARE-:" + corpse.soldierID);	// dont care
+					}
+					else
+					{
+						solttu.AddEvent("\nWas too busy to go the funeral of " + corpse.FullName() + "\n");	//cares but cannot participate
+					}
+
+				}
+				else if (solttu.alive == true && !solttu.HasAttribute("newbie") && solttu != corpse)	//someone should carry the coffin?
 				{
 
 					if ((solttu.CompareHistory(corpse) < (Random.Range(1, 6))) && (solttu.CompareHistory(corpse) > (Random.Range(-5,-15))) ) //does not attend burials of nobodies!
@@ -173,7 +198,7 @@ public class Event_Burial : MonoBehaviour {
 
 				foreach (SoldierController solttu in (soldiers.GetSquad()))
 				{
-					if (solttu.alive == true && !solttu.HasAttribute("newbie") && solttu != corpse && solttu != speaker && solttu.HasHistory("-ATTEND_BURI-:"+ corpse.soldierID) && !solttu.HasHistory("-NOCARE-:"+ corpse.soldierID))	//NOT new, not the dead or not the SPEAKER HIMSELF and IS HERE
+					if (solttu.alive == true && !solttu.HasAttribute("newbie") && solttu != corpse && solttu != speaker && solttu.HasHistory("-ATTEND_BURI-:"+ corpse.soldierID) && !solttu.HasHistory("-NOCARE-:"+ corpse.soldierID))	//NOT new, not the dead or not the SPEAKER HIMSELF and IS HERE and DOES CARE
 					{
 						int SpeakingRandomRoll = Random.Range(0, 100);
 
@@ -282,6 +307,7 @@ public class Event_Burial : MonoBehaviour {
 
 		foreach (SoldierController solttu in (soldiers.GetSquad()))
 		{
+
 			if (solttu.alive == true && !solttu.HasAttribute("newbie") && solttu != corpse)	//NOT new, not the dead or not the DEAD HIMSELF
 			{
 
@@ -336,7 +362,7 @@ public class Event_Burial : MonoBehaviour {
 		{
 			
 			//DEBUG FOR LIKINGS
-			solttu.AddEvent("Liked " + corpse.getCallsignOrFirstname() + " for " + solttu.CompareHistory(corpse) + "\n");
+			Debug.Log((solttu.soldierID + " liked " + corpse.soldierID + " for " + solttu.CompareHistory(corpse)));
 
 			if (solttu.HasHistory("-NOCARE-:" + corpse.soldierID) | solttu == corpse)
 			{
@@ -420,7 +446,7 @@ public class Event_Burial : MonoBehaviour {
 					case 2:
 						if (solttu.HasAttribute("drunkard"))
 						{
-							solttu.AddEvent(" Back at the base, drank to A LOT" + corpse.getCallsignOrFirstname() + "s memory!\n");
+							solttu.AddEvent(" Back at the base, drank to A LOT " + corpse.getCallsignOrFirstname() + "s memory!\n");
 						}
 						else{
 							solttu.AddEvent(" Back at the base, drank to " + corpse.getCallsignOrFirstname() + "s memory!\n");
@@ -429,6 +455,10 @@ public class Event_Burial : MonoBehaviour {
 						break;
 					case 3:
 						solttu.AddEvent(" Memories of " + corpse.getCallsignOrFirstname() + " always brought smile to " +solttu.getCallsignOrFirstname()+ "s face!\n");	
+						solttu.ChangeMorale(-10);
+						break;
+					case 4:
+						solttu.AddEvent(" " + corpse.getCallsignOrFirstname() + " had been a good comrade.\n");	
 						solttu.ChangeMorale(-10);
 						break;
 					default:
@@ -460,6 +490,10 @@ public class Event_Burial : MonoBehaviour {
 						solttu.AddEvent(" Felt " + Sexdiff + " precence, perhaps " + corpse.getCallsignOrFirstname()+" now watches over me.\n");
 						solttu.ChangeMorale(10);
 						solttu.skill++;
+						break;
+					case 4:
+						solttu.AddEvent(" " + corpse.getCallsignOrFirstname() + " had been a good friend!\n");	
+						solttu.ChangeMorale(10);
 						break;
 					default:
 						solttu.AddEvent(" A true hero has fallen.\n");
