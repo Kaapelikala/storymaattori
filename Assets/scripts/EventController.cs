@@ -60,7 +60,9 @@ public class EventController : MonoBehaviour {
 				GreatestRank = solttu.rank;
 
 			this.CheckSoldierMorale(solttu);
-			
+					
+			solttu.AddEvent(this.PrintBattleRange());
+
 		}
 
 		if (GreatestRank == 1)		//troopers do not affect gameplay yet!
@@ -481,6 +483,64 @@ public class EventController : MonoBehaviour {
 				
 			}
 		}
+
+	}
+
+	private string PrintBattleRange()
+	{
+		string encounterrange = this.targetlocation.getEncounterRange();
+
+		string[] battles= new string[] 
+		{
+			"battle",
+			"shootout",
+			"skirmish",
+			"mission",
+			"combat",
+			"fight"
+		};
+
+		string battleInsert = battles[(Mathf.RoundToInt(Random.value*(battles.GetLength(0)-1)))];
+
+		string[] nears= new string[] 
+		{
+			"near",
+			"average",
+			"okay",
+			"50m"
+		};
+
+		string[] closes= new string[] 
+		{
+			"close",
+			"cqc",
+			"melee",
+			"short"
+		};
+
+		string[] fars= new string[] 
+		{
+			"far",
+			"distant",
+			"long"
+		};
+
+		string RangeInsert = "";
+
+		if (encounterrange == "Far")
+		{
+			RangeInsert = fars[(Mathf.RoundToInt(Random.value*(fars.GetLength(0)-1)))];
+		}
+		else if (encounterrange == "Close")
+		{
+			RangeInsert = closes[(Mathf.RoundToInt(Random.value*(closes.GetLength(0)-1)))];
+		}
+		else
+		{
+			RangeInsert = nears[(Mathf.RoundToInt(Random.value*(nears.GetLength(0)-1)))];
+		}
+
+		return ("The " + battleInsert + " took place in "+ RangeInsert +" distance!\n");
 
 	}
 

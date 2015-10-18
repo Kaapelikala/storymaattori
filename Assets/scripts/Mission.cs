@@ -9,6 +9,8 @@ public class Mission : MonoBehaviour {
 	public List<SoldierController> squad;
 	public string type;		//what kind of mission this is!
 	public int difficulty;
+	public int encounterRange = 0;	//How far or near the battle happens: 0 is average, -1 is CLOSE and +1 is FAR
+	public int ExpectedEncounterRange = 0;	//What Command Expects is to be!
 	int killsStart=0;
 	int thisMissionKills = 0;
 
@@ -31,6 +33,8 @@ public class Mission : MonoBehaviour {
 		this.difficulty=difficulty;
 		this.ReportToCampaing = CampaingImput;
 		this.Hostiles= Mathf.FloorToInt(Random.Range(1,3) + Random.Range(1,3));
+		this.encounterRange = Mathf.FloorToInt(Random.Range(-1,1));
+		this.ExpectedEncounterRange = encounterRange + Mathf.FloorToInt(Random.Range(-1,1));	
 
 		//int EnemyNumber = 4; // for easier testing!
 		
@@ -85,7 +89,7 @@ public class Mission : MonoBehaviour {
 
 			if (this.type != "Vacation")
 			{
-				
+				returned += ("--The battle took place in " + this.getEncounterRange() + " range.\n");
 				
 				if (Hostiles > squad.Count*1.5)
 					returned += "--The Squad was greatly outnumbered!\n";
@@ -93,8 +97,8 @@ public class Mission : MonoBehaviour {
 					returned += "--The Squad was outnumbered!\n";
 				else if (Hostiles < squad.Count-Random.Range(1,2))
 					returned += "--The Squad outnumbered the enemy!\n";
-				else
-					returned += "--The Squad and enemies were even.\n";
+//				else
+//					returned += "--The Squad and enemies were about even.\n";
 
 
 				returned += "--During the mission soldiers killed: ";
@@ -232,6 +236,35 @@ public class Mission : MonoBehaviour {
 
 
 		return 0; 
+	}
+
+	public string getEncounterRange()
+	{
+		if (encounterRange > 0)
+		{
+			return "Far";
+		}
+		else if (encounterRange < 0)
+		{
+			return "Close";
+		}
+
+		return "Near";
+
+	}
+	public string getExpEncounterRange()
+	{
+		if (ExpectedEncounterRange > 0)
+		{
+			return "Far";
+		}
+		else if (ExpectedEncounterRange < 0)
+		{
+			return "Close";
+		}
+		
+		return "Near";
+		
 	}
 
 	public bool StillSomethingToKill()

@@ -11,6 +11,7 @@ public class SoldierSelectionView : MonoBehaviour {
 
 	public Text MissionInfoText;
 	public Text MissionDifText;
+	public Text BattleRangeText;
 
 	void Update () {
 		ShowSoldierAmount ();
@@ -30,6 +31,16 @@ public class SoldierSelectionView : MonoBehaviour {
 		else 
 		{
 			Returnoitava += "  Neutralise all hostiles.";
+		}
+
+
+		if (log.mission.type != "Vacation")
+		{
+			BattleRangeText.text = log.mission.getExpEncounterRange();
+		}
+		else
+		{
+			BattleRangeText.text = "";
 		}
 
 		MissionInfoText.text = Returnoitava;
