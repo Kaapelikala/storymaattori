@@ -46,6 +46,25 @@ public class Event_Vacation : MonoBehaviour {
 		{
 			target.AddEvent(target.soldierFName + "was too wounded to actually enjoy the vacation!\n");
 			target.ChangeMorale(-40);
+
+			if ((CheckTrait("wounded")) && (Random.Range(0,100) < (target.health+30)))		//Chance to heal!
+			{
+
+				string Sexdiff = "";
+				
+				if (target.sex == 'm')
+				{
+					Sexdiff = "his";
+				}
+				else 
+				{
+					Sexdiff = "her";
+				}
+
+				target.AddEvent("Yet "+Sexdiff+" wounds were healed during the vacation!\n");
+				target.RemoveAttribute("wounded");
+				target.ChangeMorale(Random.Range(10,50));
+			}
 		}
 		else if (CheckTrait("depressed") && Random.Range(0,100) > target.morale)
 		{

@@ -63,6 +63,10 @@ public class SoldierManager : MonoBehaviour {
 		this.CreateNewSoldier();
 		this.CreateNewSoldier();
 
+		
+		
+		this.CreateNewSoldier();
+		this.CreateNewSoldier();
 	}
 
 	public void EmptySquad()
@@ -325,11 +329,12 @@ public class SoldierManager : MonoBehaviour {
 		// IDEA: BOOTCAMP??
 
 		soldiers.Add(RECRUIT);
-
+		if (RECRUIT.soldierID > 42008)	// not to the Soldiers created instantly!
+			campaing.ReportCont.CreateNewSoldierPopup(RECRUIT);
 
 		Debug.Log ("Added soldier " + SoldierID + ". Size now " + soldiers.Count);
 		SoldierID++;
-		this.MoveDeadsAway();
+		//this.MoveDeadsAway();
 	
 	}
 
@@ -344,10 +349,9 @@ public class SoldierManager : MonoBehaviour {
 
 				if(soldiers[i].alive == false)		//first we copy dead
 				{
+
 					dead.Add (soldiers[i]);
 					soldiers.RemoveAt(i);
-
-					this.CreateNewSoldier();		//YES, NEW SOLDIER PER EACH DEAD!
 
 				}
 			}

@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
-
+using System;
 
 //Handles the many parts of UI.
 public class ButtonController : MonoBehaviour {
 	
 	public GameObject soldierView;
 	public GameObject missionView;
+
 	public GameObject deadSoldierView;
+		public GameObject soldierSelectorView;
+
 	public GameObject mainView;
-	public GameObject soldierSelectorView;
+
 	public SoldierManager manager;
 	public MissionLog missions;
 
@@ -97,6 +101,5 @@ public class ButtonController : MonoBehaviour {
 		missionView.SetActive (false);
 		mainView.SetActive (true);
 	}
-	
 	
 }

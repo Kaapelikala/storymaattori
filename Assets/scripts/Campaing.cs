@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-// Large and high up in hierarchy: it is supposed to be deposit of lore!
+// Large and high up in hierarchy: it is supposed to be deposit of lore & Connectivity between scripts!!!
 // Now used mostly for timestamps and mission names
 public class Campaing : MonoBehaviour {
 
@@ -39,6 +39,8 @@ public class Campaing : MonoBehaviour {
 	public string alkuteksti = "";
 
 	public SoldierManager Soldiers;
+	public ButtonController ButtonCont;
+	public ReportController ReportCont;
 
 	// Use this for initialization
 	void Start () {

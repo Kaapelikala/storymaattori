@@ -182,11 +182,14 @@ public class EventController : MonoBehaviour {
 			if (solttu.alive == false)	
 			{
 				Grave.Bury(solttu,manager, AwardBraveryMedal, corpseRecoveryMod);
+				
+				this.DeadSoldierNOTE(solttu);
 			}
 		}
 
 		manager.MoveDeadsAway ();
-
+		
+		//manager.campaing.ButtonCont.CreateNewsPopup(missionImput.ToString());
 	}
 
 	/// <summary>
@@ -224,11 +227,12 @@ public class EventController : MonoBehaviour {
 			if (solttu.alive == false)	
 			{
 				Grave.Bury(solttu, manager, false, 50);
+				
+				DeadSoldierNOTE(solttu);
 			}
 		}
 		
 		manager.MoveDeadsAway ();
-
 
 
 	}
@@ -325,6 +329,8 @@ public class EventController : MonoBehaviour {
 			if (solttu.alive == false)	
 			{
 				Grave.Bury(solttu,manager, false, 100);
+				
+				DeadSoldierNOTE(solttu);
 			}
 		}
 		manager.MoveDeadsAway ();
@@ -544,6 +550,13 @@ public class EventController : MonoBehaviour {
 
 	}
 
+	private void DeadSoldierNOTE(SoldierController Dead)
+	{
+		manager.CreateNewSoldier();		//YES, NEW SOLDIER PER EACH DEAD!
+	
+		campaing.ReportCont.CreateDEADSoldierPopup(Dead);// this needs to be last so it is first thing to see!
+
+	}
 
 	/*void OnGUI () {
 		if (GUI.Button (new Rect (30,250,250,20), "!!!TAPPELU!!!")) {
