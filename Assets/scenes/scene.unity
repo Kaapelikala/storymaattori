@@ -508,7 +508,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 101941919}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 434bf5f683fea0a4f87c4e0bb70ecdd8, type: 3}
   m_Name: 
@@ -687,7 +687,7 @@ Transform:
   m_Children:
   - {fileID: 1749826912}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &139330711
 GameObject:
   m_ObjectHideFlags: 0
@@ -3881,33 +3881,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
---- !u!1 &775422158
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 775422159}
-  m_Layer: 0
-  m_Name: DEAD
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &775422159
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 775422158}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1647693826}
-  m_RootOrder: 1
 --- !u!1 &817563229
 GameObject:
   m_ObjectHideFlags: 0
@@ -4262,7 +4235,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1647693826}
   - {fileID: 1234043747}
   - {fileID: 1045686478}
   - {fileID: 1288759407}
@@ -5273,7 +5245,7 @@ Transform:
   m_Children:
   - {fileID: 487207108}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1 &1049180869
 GameObject:
   m_ObjectHideFlags: 0
@@ -6484,7 +6456,7 @@ Transform:
   - {fileID: 1862060933}
   - {fileID: 1351749033}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!1 &1247665668
 GameObject:
   m_ObjectHideFlags: 0
@@ -6815,7 +6787,7 @@ Transform:
   m_Children:
   - {fileID: 1482195235}
   m_Father: {fileID: 844087648}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1001 &1350698594
 Prefab:
   m_ObjectHideFlags: 0
@@ -8730,35 +8702,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1632106030}
---- !u!1 &1647693825
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1647693826}
-  m_Layer: 0
-  m_Name: SOLDIERLIST
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1647693826
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1647693825}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 378.162659, y: 265.30777, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2012558437}
-  - {fileID: 775422159}
-  m_Father: {fileID: 844087648}
-  m_RootOrder: 0
 --- !u!1 &1664425520
 GameObject:
   m_ObjectHideFlags: 0
@@ -9169,6 +9112,7 @@ MonoBehaviour:
   BeginText: {fileID: 1148743629}
   WarLog: {fileID: 1399527830}
   alkuteksti: 
+  Soldiers: {fileID: 101941925}
 --- !u!82 &1710327572
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11258,65 +11202,6 @@ MonoBehaviour:
   FH3: {fileID: 21300000, guid: 0a3af8a69498e3246b00bcee2841993d, type: 3}
   FH4: {fileID: 21300000, guid: 9889b6c1da945f8439ee9bfc487f8ed9, type: 3}
   FH5: {fileID: 21300000, guid: a883df9fe77b52644b51a12723966345, type: 3}
---- !u!1 &2012558436
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2012558437}
-  - 114: {fileID: 2012558438}
-  m_Layer: 0
-  m_Name: TESTISOLDIER
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2012558437
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2012558436}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.66265869, y: -7.30776978, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1647693826}
-  m_RootOrder: 0
---- !u!114 &2012558438
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2012558436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 434bf5f683fea0a4f87c4e0bb70ecdd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  soldierFName: Filea
-  soldierMName: 
-  soldierLName: Batman
-  callsign: Boomer
-  sex: 109
-  pictureID: 4
-  hairID: 0
-  soldierID: 0
-  experience: 0
-  missions: 0
-  kills: 0
-  morale: 100
-  health: 100
-  skill: 100
-  gear: 0
-  gearList: []
-  alive: 1
-  rank: 0
-  events: []
-  HowDied: 
 --- !u!1 &2020968710
 GameObject:
   m_ObjectHideFlags: 0

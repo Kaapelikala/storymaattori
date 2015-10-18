@@ -34,7 +34,7 @@ public class SoldierController : ScriptableObject {
 	public string HowDied = "";
 
 	void Start () {
-		this.AddAttribute("");	//to stop nullpoint exeptions!
+
 	}
 
 	public SoldierController (int IDimput){
@@ -202,7 +202,8 @@ public class SoldierController : ScriptableObject {
 
 
 
-		this.AddAttribute("newbie");	//every soldier has this - goes away after first kill or wound!
+		this.AddAttribute("newbie");	
+		//every soldier has this - goes away after first kill or wound!
 
 
 		/*	MOVED TO SOLDIERMANAGER CREATE NEW SOLDIER!
@@ -523,6 +524,12 @@ public class SoldierController : ScriptableObject {
 			
 		}
 
+		if (target.HasAttribute("idiot") && !this.HasAttribute("idiot"))
+		{
+			HowMuchLikes += -20;	//Only idiots like other idiots
+			
+		}
+
 		if (target.HasAttribute("techie") && target.HasHistory("-ROBO-"))
 			HowMuchLikes += 10;
 
@@ -530,6 +537,7 @@ public class SoldierController : ScriptableObject {
 		{
 			if (target.HasAttribute(TraitLog))
 				HowMuchLikes += 10;
+		}
 
 			//OPPOSITES
 			if (target.sex == 'f' && this.sex =='m')	// so heterosexual :P
@@ -544,7 +552,7 @@ public class SoldierController : ScriptableObject {
 				HowMuchLikes += -20;
 			if (this.HasAttribute("inaccurate") && target.HasAttribute("accurate"))
 				HowMuchLikes += -20;
-		}
+		
 
 		foreach (string historyLog in (this.history))		//More history together = better friends!
 		{
@@ -701,7 +709,12 @@ public class SoldierController : ScriptableObject {
 			"Glass",
 			"Mountain",
 			"Sky",
-			"Warrior"
+			"Warrior",
+			"Snake",
+			"Lion",
+			"Tiger",
+			"Eagle",
+			"Bear"
 		};
 
 		this. callsign = Callsigns[(Mathf.RoundToInt(Random.value*(Callsigns.GetLength(0)-1)))];

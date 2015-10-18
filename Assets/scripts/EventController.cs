@@ -59,18 +59,6 @@ public class EventController : MonoBehaviour {
 			if (solttu.rank > GreatestRank)
 				GreatestRank = solttu.rank;
 
-			if (solttu.HasAttribute("cook"))
-			{	
-				if (solttu.callsign == "")
-				{
-				MotherBase.CookName = solttu.soldierFName +  " " + solttu.soldierLName;
-				}
-				else
-				{
-				MotherBase.CookName =  "'" + solttu.callsign +  "' " + solttu.soldierLName;
-				}
-			}
-
 			this.CheckSoldierMorale(solttu);
 			
 		}
@@ -134,7 +122,6 @@ public class EventController : MonoBehaviour {
 
 		}
 
-
 		//Extra angst if only survivor
 		foreach (SoldierController solttu in squad)
 		{
@@ -155,7 +142,11 @@ public class EventController : MonoBehaviour {
 
 		bool Victory = missionImput.IsVictory(Retreat);
 	
-
+		int corpseRecoveryMod = 0;
+		if (Retreat == true)
+		{
+			corpseRecoveryMod = Random.Range(-60,-20);
+		}
 
 
 		//DEBRIEFING FOR EACH!
@@ -188,7 +179,7 @@ public class EventController : MonoBehaviour {
 
 			if (solttu.alive == false)	
 			{
-				Grave.Bury(solttu,manager, AwardBraveryMedal);
+				Grave.Bury(solttu,manager, AwardBraveryMedal, corpseRecoveryMod);
 			}
 		}
 
@@ -230,7 +221,7 @@ public class EventController : MonoBehaviour {
 		{
 			if (solttu.alive == false)	
 			{
-				Grave.Bury(solttu, manager, false);
+				Grave.Bury(solttu, manager, false, 50);
 			}
 		}
 		
@@ -303,24 +294,6 @@ public class EventController : MonoBehaviour {
 		{
 			Party.Handle(solttu, Difficulty, GreatestRank);
 		}
-
-		/*Wild Party takes n rounds. 
-		for (int j =0; j<(Mathf.FloorToInt(Random.Range((2),(10-GreatestRank)))); j++) {
-			for (int i =0; i<squad.Count; i++) {
-				
-				if (squad [i].alive == true){		//dead do not party!!
-
-					Party.Handle(squad [i], Difficulty, GreatestRank);
-
-				}
-								
-				//Everyone has enough processing power anyways.
-				manager.MoveDeadsAway ();
-			}
-			
-			
-		}*/
-
 		
 		//Extra angst if only survivor
 		foreach (SoldierController solttu in squad)
@@ -349,7 +322,7 @@ public class EventController : MonoBehaviour {
 			
 			if (solttu.alive == false)	
 			{
-				Grave.Bury(solttu,manager, false);
+				Grave.Bury(solttu,manager, false, 100);
 			}
 		}
 		manager.MoveDeadsAway ();

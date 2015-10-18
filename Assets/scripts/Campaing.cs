@@ -38,6 +38,8 @@ public class Campaing : MonoBehaviour {
 
 	public string alkuteksti = "";
 
+	public SoldierManager Soldiers;
+
 	// Use this for initialization
 	void Start () {
 

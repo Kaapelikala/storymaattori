@@ -44,7 +44,7 @@ public class Event_Burial : MonoBehaviour {
 	
 	}
 
-	public bool Bury(SoldierController newBody, SoldierManager soldiers, bool AwardBraveryMedal){
+	public bool Bury(SoldierController newBody, SoldierManager soldiers, bool AwardBraveryMedal, int recoveryChanceMod){
 		//Currently mission victory is only calculated later, but it SHOULD influrce the recovery of the corpse!
 
 		this.corpse = newBody;
@@ -67,13 +67,15 @@ public class Event_Burial : MonoBehaviour {
 
 		int RandomRoll = Random.Range(0, 100);
 		
-		if (RandomRoll < (60 + (100-soldiers.campaing.Campaing_Difficulty)))
+		if (RandomRoll < (60 + (100-soldiers.campaing.Campaing_Difficulty)+ recoveryChanceMod)) // was corpse recovered?
 		{
+			corpse.AddHistory("-RECOVERED-");
+
 			if (((Random.Range(1, 10)) < 5) && (corpse.rank >= 1)){
 				corpse.AddEvent("The body of " + corpse.AllNames() + " was buried with full honours at the motherbase.\n");
 				ChanceMod += 10;
 			}
-			if ((Random.Range(1, 10)) < 5){
+			else if ((Random.Range(1, 10)) < 5){
 				corpse.AddEvent("The body of " + corpse.AllNames() + " was laid to grave at the motherbase.\n");
 				ChanceMod += 5;
 			}
@@ -109,6 +111,7 @@ public class Event_Burial : MonoBehaviour {
 					else
 					{
 						solttu.AddEvent("\nWas too busy to go the funeral of " + corpse.FullName() + "\n");	//cares but cannot participate
+
 					}
 
 				}
@@ -291,6 +294,8 @@ public class Event_Burial : MonoBehaviour {
 
 			// CORPSE NOT FOUND EVER
 
+		corpse.AddHistory("-NORECOVERED-");
+
 
 		string CorpseInsert = Corpses[(Mathf.RoundToInt(Random.value*(Corpses.GetLength(0)-1)))];
 		
@@ -384,22 +389,27 @@ public class Event_Burial : MonoBehaviour {
 					case 0:
 						solttu.AddEvent(" It was good to hear that "+ corpse.getCallsignOrFirstname() + " was dead!\n");	
 						solttu.ChangeMorale(20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 1:
 						solttu.AddEvent(" News of "+ Sexdiff + " demise felt good!\n");	
 						solttu.ChangeMorale(20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 2:
 						solttu.AddEvent(" Never " + solttu.getCallsignOrFirstname() +" had liked "+ corpse.getCallsignOrFirstname() + ".\n");	
 						solttu.ChangeMorale(20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 3:
 						solttu.AddEvent(" " + corpse.getCallsignOrFirstname() + " is dead. Great!\n");	
 						solttu.ChangeMorale(20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					default:
 						solttu.AddEvent(" Never " + solttu.getCallsignOrFirstname() +" had cared about "+ corpse.getCallsignOrFirstname() + ".\n");	
 						solttu.ChangeMorale(20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					}
 				}
@@ -438,10 +448,12 @@ public class Event_Burial : MonoBehaviour {
 					case 0:
 						solttu.AddEvent(" Live is different without " + corpse.getCallsignOrFirstname()+ "\n");	
 						solttu.ChangeMorale(-10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 1:
 						solttu.AddEvent(" Another hero has fallen.\n");	
 						solttu.ChangeMorale(-10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 2:
 						if (solttu.HasAttribute("drunkard"))
@@ -452,18 +464,22 @@ public class Event_Burial : MonoBehaviour {
 							solttu.AddEvent(" Back at the base, drank to " + corpse.getCallsignOrFirstname() + "s memory!\n");
 							solttu.ChangeMorale(-10);
 						}
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 3:
 						solttu.AddEvent(" Memories of " + corpse.getCallsignOrFirstname() + " always brought smile to " +solttu.getCallsignOrFirstname()+ "s face!\n");	
 						solttu.ChangeMorale(-10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 4:
 						solttu.AddEvent(" " + corpse.getCallsignOrFirstname() + " had been a good comrade.\n");	
 						solttu.ChangeMorale(-10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					default:
 						solttu.AddEvent(" Afterwards mourned " + Sexdiff + " death. He had been true comrade!\n");
 						solttu.ChangeMorale(-10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					}
 
@@ -477,27 +493,33 @@ public class Event_Burial : MonoBehaviour {
 					case 0:
 						solttu.AddEvent(" Life feels dull without " +corpse.getCallsignOrFirstname()+ "..\n");
 						solttu.ChangeMorale(-20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 1:
 						solttu.AddEvent(" How can life go on without " + corpse.getCallsignOrFirstname() + "?\n");
 						solttu.ChangeMorale(-20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 2:
 						solttu.AddEvent(" Vowed to avenge " + Sexdiff + " death!\n");
 						solttu.ChangeMorale(10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					case 3:
 						solttu.AddEvent(" Felt " + Sexdiff + " precence, perhaps " + corpse.getCallsignOrFirstname()+" now watches over me.\n");
 						solttu.ChangeMorale(10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						solttu.skill++;
 						break;
 					case 4:
 						solttu.AddEvent(" " + corpse.getCallsignOrFirstname() + " had been a good friend!\n");	
 						solttu.ChangeMorale(10);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					default:
 						solttu.AddEvent(" A true hero has fallen.\n");
 						solttu.ChangeMorale(-20);
+						solttu.AddHistory("-CARE-:" + corpse.soldierID);
 						break;
 					}
 
