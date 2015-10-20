@@ -78,8 +78,11 @@ public class Event_BaseIdle : MonoBehaviour {
 
 				foreach (SoldierController idler in idlers)
 				{
-					idler.AddEvent("Partytime!\n");
-					idler.AddHistory("-PARTY-:" + campaing.TimeStamp);
+					if (idler.alive == true)
+					{
+						idler.AddEvent("Partytime!\n");
+						idler.AddHistory("-PARTY-:" + campaing.TimeStamp);
+					}
 				}
 				/*
 				foreach (SoldierController idler in idlers)
@@ -120,8 +123,10 @@ public class Event_BaseIdle : MonoBehaviour {
 				int HowArrangementsWent = HowItWent;
 
 				foreach (SoldierController idler in idlers)
-				{
-					HowItWent += ActualParty(idler, HowArrangementsWent);
+				{if (idler.alive == true)
+					{
+						HowItWent += ActualParty(idler, HowArrangementsWent);
+					}
 				}
 
 				//something more still? Meh for now!
@@ -299,172 +304,180 @@ public class Event_BaseIdle : MonoBehaviour {
 		
 		foreach (SoldierController idler in idlers)
 		{
-			
-			//idler.AddEvent("\nTS:" + campaing.TimeStamp + ":\n");
 
-			int DoingsRoll = (Mathf.RoundToInt(Random.Range(0, 10)));
-
-			bool DidSomething = false;
-
-			switch (DoingsRoll)
+			if (idler.alive == false)		//nothing happens if you are dead!
+			{}
+			else
 			{
-			case 0:
-				string[] deco= new string[] 
+
+				//idler.AddEvent("\nTS:" + campaing.TimeStamp + ":\n");
+
+				int DoingsRoll = (Mathf.RoundToInt(Random.Range(0, 10)));
+
+				bool DidSomething = false;
+
+				switch (DoingsRoll)
 				{
-					"killmarks",
-					"pinups",
-					"checker pattern",
-					"flames",
-					"skulls",
-					"delicate paintings",
-					"flowers",
-					"guns",
-					"names of the fallen",
-					"propaganda"
-				};
-				
-				string decoInsert = deco[(Mathf.RoundToInt(Random.value*(deco.GetLength(0)-1)))];
+				case 0:
+					string[] deco= new string[] 
+					{
+						"killmarks",
+						"pinups",
+						"checker pattern",
+						"flames",
+						"skulls",
+						"delicate paintings",
+						"flowers",
+						"guns",
+						"names of the fallen",
+						"propaganda"
+					};
+					
+					string decoInsert = deco[(Mathf.RoundToInt(Random.value*(deco.GetLength(0)-1)))];
 
-				if (idler.HasHistory("-ARMO_DECO-"))
-				    idler.AddEvent(" Continued with decorating armor!");
-				else
-				    idler.AddEvent(" Decorated armor with "+decoInsert+" !\n");
+					if (idler.HasHistory("-ARMO_DECO-"))
+					    idler.AddEvent(" Continued with decorating armor!");
+					else
+					    idler.AddEvent(" Decorated armor with "+decoInsert+" !\n");
 
-				idler.AddHistory("-ARMO_DECO-");
-				
-				idler.ChangeMorale(Random.Range(2,8));
-				DidSomething = true;
-				break;
-			case 1:
+					idler.AddHistory("-ARMO_DECO-");
+					
+					idler.ChangeMorale(Random.Range(2,8));
+					DidSomething = true;
+					break;
+				case 1:
 
-				string[] foods= new string[] 
-				{
-					"berliner",
-					"beef",
-					"cesar salad",
-					"meal",
-					"breakfast",
-					"eleventies",
-					"bag of star-popcorn",
-					"cookie",
-					"warm soup"
-				};
+					string[] foods= new string[] 
+					{
+						"berliner",
+						"beef",
+						"cesar salad",
+						"meal",
+						"breakfast",
+						"eleventies",
+						"bag of star-popcorn",
+						"cookie",
+						"warm soup"
+					};
 
-				string foodInsert = foods[(Mathf.RoundToInt(Random.value*(foods.GetLength(0)-1)))];
+					string foodInsert = foods[(Mathf.RoundToInt(Random.value*(foods.GetLength(0)-1)))];
 
-				idler.AddEvent(" Ate a truly delicious "+ foodInsert +"!\n");
-				idler.ChangeMorale(10);
-				DidSomething = true;
-				break;
-			case 2:
-				this.talkWithOtherSoldier(idler);
-				DidSomething = true;
-				break;
-			case 3:
+					idler.AddEvent(" Ate a truly delicious "+ foodInsert +"!\n");
+					idler.ChangeMorale(10);
+					DidSomething = true;
+					break;
+				case 2:
+					this.talkWithOtherSoldier(idler);
+					DidSomething = true;
+					break;
+				case 3:
 
-				string[] relax= new string[] 
-				{
-					"relaxed",
-					"took it easy",
-					"had sauna",
-					"slept a lot",
-					"overslept",
-					"took a hike",
-					"bingewatched soap operas",
-					"did not care",
-					"ignored everything"
-				};
+					string[] relax= new string[] 
+					{
+						"relaxed",
+						"took it easy",
+						"had sauna",
+						"slept a lot",
+						"overslept",
+						"took a hike",
+						"bingewatched soap operas",
+						"did not care",
+						"ignored everything"
+					};
 
-				string relaxInsert = relax[(Mathf.RoundToInt(Random.value*(relax.GetLength(0)-1)))];
+					string relaxInsert = relax[(Mathf.RoundToInt(Random.value*(relax.GetLength(0)-1)))];
 
-				idler.AddEvent("Just "+relaxInsert+"!\n");
-				idler.ChangeMorale(15);
-				idler.ChangeHealth(5);
-				DidSomething = true;
-				break;
-			case 4:
-
-				string[] reading= new string[] 
-				{
-					"newspaper",
-					"news",
-					"book",
-					"weapons manual",
-					"letter from home",
-					"letter from friend",
-					"instruction manual",
-					"comic",
-					"graffitti"
-				};
-				
-				string readingInsert = reading[(Mathf.RoundToInt(Random.value*(reading.GetLength(0)-1)))];
-
-				idler.AddEvent(" Read a "+readingInsert+".\n");
-				idler.ChangeMorale(5);
-				DidSomething = true;
-				break;
-			case 5:
-				idler.AddEvent(" Listened to a propaganda broadcast,\n");
-				if (Random.Range(0, 10) + CheckTrait("heroic",2, idler) > 5 )
-				{
-					idler.AddEvent("  It was inspiring!\n");
+					idler.AddEvent("Just "+relaxInsert+"!\n");
 					idler.ChangeMorale(15);
+					idler.ChangeHealth(5);
+					DidSomething = true;
+					break;
+				case 4:
+
+					string[] reading= new string[] 
+					{
+						"newspaper",
+						"news",
+						"book",
+						"weapons manual",
+						"letter from home",
+						"letter from friend",
+						"instruction manual",
+						"comic",
+						"graffitti"
+					};
+					
+					string readingInsert = reading[(Mathf.RoundToInt(Random.value*(reading.GetLength(0)-1)))];
+
+					idler.AddEvent(" Read a "+readingInsert+".\n");
+					idler.ChangeMorale(5);
+					DidSomething = true;
+					break;
+				case 5:
+					idler.AddEvent(" Listened to a propaganda broadcast,\n");
+					if (Random.Range(0, 10) + CheckTrait("heroic",2, idler) > 5 )
+					{
+						idler.AddEvent("  It was inspiring!\n");
+						idler.ChangeMorale(15);
+					}
+					else
+					{
+						idler.AddEvent("  It was boring..\n");
+						idler.ChangeMorale(-10);
+					}
+					DidSomething = true;
+					break;
+				case 6:
+					this.VisitBurialGround(idler);
+					
+
+					DidSomething = true;
+					break;
+				case 7:
+					this.wasted(idler);
+					DidSomething = true;
+					break;
+				case 8:
+					idler.AddEvent(" Trained!\n");
+					if(Random.Range(0,100) > idler.skill)
+						idler.skill++;
+					DidSomething = true;
+					break;
+				case 9:
+					string[] rememberings= new string[] 
+					{
+						"past",
+						"future",
+						"home",
+						"fallen fiends",
+						"the war",
+						"battles",
+						"training",
+						"food",
+						"vodka",
+						"creepy robots",
+						"guns",
+						"flowers",
+						"butterflies"
+					};
+					
+					string rememberingsInsert = rememberings[(Mathf.RoundToInt(Random.value*(rememberings.GetLength(0)-1)))];
+					idler.AddEvent(" Thought about "+rememberingsInsert+".\n");
+					idler.ChangeMorale(Random.Range(-4,12));
+					DidSomething = true;
+					break;
+				default:
+
+
+					break;
 				}
-				else
-				{
-					idler.AddEvent("  It was boring..\n");
-					idler.ChangeMorale(-10);
-				}
-				DidSomething = true;
-				break;
-			case 6:
-				this.VisitBurialGround(idler);
+				if (DidSomething == false)
+					idler.AddEvent(" Nothing special happened.\n");
 				
 
-				DidSomething = true;
-				break;
-			case 7:
-				this.wasted(idler);
-				DidSomething = true;
-				break;
-			case 8:
-				idler.AddEvent(" Trained!\n");
-				if(Random.Range(0,100) > idler.skill)
-					idler.skill++;
-				DidSomething = true;
-				break;
-			case 9:
-				string[] rememberings= new string[] 
-				{
-					"past",
-					"future",
-					"home",
-					"fallen fiends",
-					"the war",
-					"battles",
-					"training",
-					"food",
-					"vodka",
-					"creepy robots",
-					"weapons"
-				};
-				
-				string rememberingsInsert = rememberings[(Mathf.RoundToInt(Random.value*(rememberings.GetLength(0)-1)))];
-				idler.AddEvent(" Thought about "+rememberingsInsert+".\n");
-				idler.ChangeMorale(Random.Range(-4,12));
-				DidSomething = true;
-				break;
-			default:
-
-
-				break;
 			}
-			if (DidSomething == false)
-				idler.AddEvent(" Nothing special happened.\n");
-			
-
-			
 		}
+
 		
 	}
 
@@ -483,7 +496,7 @@ public class Event_BaseIdle : MonoBehaviour {
 								
 								foreach (SoldierController eater in idlers)
 								{
-									if (eater != idler)
+								if (eater != idler && eater.alive == true)
 									{
 										if (Random.Range(0,10)+CheckTrait("cook",3,idler) > 5)
 										{
@@ -504,7 +517,7 @@ public class Event_BaseIdle : MonoBehaviour {
 								
 								foreach (SoldierController eater in idlers)
 								{
-									if (eater != idler)
+								if (eater != idler&& eater.alive == true && eater.alive == true)
 									{
 										if (Random.Range(0,10)+CheckTrait("cook",3,idler) > 5)
 										{
@@ -525,7 +538,7 @@ public class Event_BaseIdle : MonoBehaviour {
 								
 								foreach (SoldierController eater in idlers)
 								{
-									if (eater != idler)
+									if (eater != idler && eater.alive == true)
 									{
 										if (Random.Range(0,10)+CheckTrait("cook",3,idler) > 5)
 										{
@@ -581,7 +594,7 @@ public class Event_BaseIdle : MonoBehaviour {
 
 		foreach (SoldierController drinker in idlers)
 		{
-			if (drinker != idler)
+			if (drinker != idler && drinker.alive == true)
 			{
 				if (ThereIsSomethingLeft == false)
 				{
@@ -636,7 +649,7 @@ public class Event_BaseIdle : MonoBehaviour {
 		
 		foreach (SoldierController appreciator in idlers)
 		{
-			if (appreciator != idler)
+			if (appreciator != idler && appreciator.alive == true)
 			{
 				if (failure == true)
 				{

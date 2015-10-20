@@ -31,8 +31,9 @@ public class ReportController : MonoBehaviour {
 
 		int ThisNewsNumber = NextReportNumber();
 
-		string ToReturn ="TS:" + campaing.TimeStamp + "/" + ThisNewsNumber + "\n"+ NewsImput; 
+		string HeaderReturn ="Report: TS:" + campaing.TimeStamp + "/" + ThisNewsNumber + "\n"; 
 
+		string MainTextReturn = NewsImput;
 
 		GameObject NewNews = (GameObject)Instantiate(NewsView, new Vector3(0f,0f,0f),Quaternion.identity);
 
@@ -42,7 +43,7 @@ public class ReportController : MonoBehaviour {
 		
 		if (OurNewText != null)
 		{
-			OurNewText.UpdatePanel(ToReturn);
+			OurNewText.UpdatePanel(MainTextReturn, HeaderReturn);
 		}
 		else
 			Debug.Log("NewsPaper does not find its Text!: " + NewsImput);
@@ -52,7 +53,10 @@ public class ReportController : MonoBehaviour {
 		NewNews.transform.localPosition = new Vector3(0f,0f,0f);		// so in correct location
 		
 	}
-	
+
+
+
+
 	public void CreateNewSoldierPopup(SoldierController Recruit)
 	{
 		if (this.ShowNewReports == true)

@@ -28,7 +28,7 @@ GameObject:
   - 222: {fileID: 22296458}
   - 114: {fileID: 11468346}
   m_Layer: 0
-  m_Name: NoteText
+  m_Name: HeaderText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,7 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee140c43790f2d84eac44f9be64e4a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NewsText: {fileID: 11493672}
+  MainText: {fileID: 11493672}
+  HeaderText: {fileID: 11468346}
   ThisActual: {fileID: 181862}
 --- !u!114 &11468346
 MonoBehaviour:

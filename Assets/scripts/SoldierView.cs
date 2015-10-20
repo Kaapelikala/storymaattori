@@ -171,9 +171,13 @@ public class SoldierView : MonoBehaviour {
 			{
 				ReturnSkill = "Poor";
 			}
-			else
+			else  if (Target.skill > 90)
 			{
 				ReturnSkill = "Bad";
+			}
+			else 
+			{
+				ReturnSkill = "Horrible";
 			}
 
 			

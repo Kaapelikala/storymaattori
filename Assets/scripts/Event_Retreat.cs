@@ -142,46 +142,48 @@ public class Event_Retreat : MonoBehaviour {
 		else {
 			foreach (SoldierController solttu in squad)
 			{
+				if (solttu.alive == true)
+				{
+					string [] Combatings = new string[] {
+						"shit",
+						"battle",
+						"combat",
+						"mission",
+						"skirmish",
+						"shootout",
+						"",
+						""
+					};
 
-				string [] Combatings = new string[] {
-					"shit",
-					"battle",
-					"combat",
-					"mission",
-					"skirmish",
-					"shootout",
-					"",
-					""
-				};
+					string [] hardnouns = new string[] {
+						"HARD",
+						"TOUGH",
+						"CRAZY",
+						"MAD",
+						"WHACO",
+						"DARK",
+						"NOISY",
+						"CROWDED",
+						"MESSY",
+						"DENSE",
+						"BLOODY"
+					};
 
-				string [] hardnouns = new string[] {
-					"HARD",
-					"TOUGH",
-					"CRAZY",
-					"MAD",
-					"WHACO",
-					"DARK",
-					"NOISY",
-					"CROWDED",
-					"MESSY",
-					"DENSE",
-					"BLOODY"
-				};
+					string CombatInsert = Combatings[(Mathf.RoundToInt(Random.value*(Combatings.GetLength(0)-1)))];
 
-				string CombatInsert = Combatings[(Mathf.RoundToInt(Random.value*(Combatings.GetLength(0)-1)))];
+					string ToughtInsert = hardnouns[(Mathf.RoundToInt(Random.value*(hardnouns.GetLength(0)-1)))];
 
-				string ToughtInsert = hardnouns[(Mathf.RoundToInt(Random.value*(hardnouns.GetLength(0)-1)))];
-
-				solttu.AddEvent(cursingsInsert + " this " + CombatInsert+ " is getting "+ToughtInsert+"!\n");
-				if (solttu.HasAttribute("wounded"))
-					solttu.ChangeMorale(-20);
-				if (solttu.HasAttribute("coward"))
-					solttu.ChangeMorale(-20);
-				if (solttu.HasAttribute("heroic"))
-					solttu.ChangeMorale(2);	//Heroics like bullets going near them!
-				else 
-					solttu.ChangeMorale(-5);
-			}
+					solttu.AddEvent(cursingsInsert + " this " + CombatInsert+ " is getting "+ToughtInsert+"!\n");
+					if (solttu.HasAttribute("wounded"))
+						solttu.ChangeMorale(-20);
+					if (solttu.HasAttribute("coward"))
+						solttu.ChangeMorale(-20);
+					if (solttu.HasAttribute("heroic"))
+						solttu.ChangeMorale(2);	//Heroics like bullets going near them!
+					else 
+						solttu.ChangeMorale(-5);
+				}
+		}
 			
 		}
 

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 //Battle - Classical shootoff!
 public class Event_Battle {
 
+	public List<SoldierController> squad;
 	public SoldierController target;
 	public string MissionName = "";
 
@@ -58,7 +59,7 @@ public class Event_Battle {
 		this.MissionName = NameInsert;
 	}
 
-		public void addCombatEvent(bool negative)
+	public void addCombatEvent(bool negative)
 	{
 
 		string returned="";
@@ -66,9 +67,25 @@ public class Event_Battle {
 		string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
 		string verb = verbs[(Mathf.RoundToInt(Random.value*(verbs.GetLength(0)-1)))];
 
-
+		// Negative = Soldier got killed!
 		if (negative) {
 			returned ="Was " + verb +" by "+monstername + "!!\n";		//needs more drama!
+
+			foreach (SoldierController solttu in squad)
+			{
+				if (solttu.alive == true && solttu != target)
+				{
+					solttu.AddEvent(target.GetRank() + " " +target.getCallsignOrFirstname() + " got " + verb +"!!\n");
+
+					if (solttu.HasAttribute("coward"))
+						solttu.ChangeMorale(-30);	//should it compare histories once more?
+					else if (solttu.HasAttribute("loner"))
+					{}	//nada!
+					else
+						solttu.ChangeMorale(-10);
+				}
+
+			}
 		}
 		else
 		{
@@ -80,9 +97,11 @@ public class Event_Battle {
 		target.AddEvent(returned);
 	}
 
-		public int FightRound (SoldierController NEWTARGET, int Enemy_difficulty){
+	public int FightRound (SoldierController NEWTARGET, int Enemy_difficulty, List<SoldierController> INJECT)
+	{
 
-			this.target = NEWTARGET;
+		this.squad = INJECT;
+		this.target = NEWTARGET;
 
 		//Enemy_difficulty pitäs olla about 100 normaalisti.
 

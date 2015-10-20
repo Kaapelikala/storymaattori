@@ -43,9 +43,13 @@ public class SoldierController : ScriptableObject {
 
 		this.soldierID = IDimput;
 
-		this.health = 90 + Random.Range(0, 10) + Random.Range(0, 10);
-		this.morale = 90 + Random.Range(0, 10) + Random.Range(0, 10);
-		this.skill = 90 + Random.Range(0, 10) + Random.Range(0, 10); //Average of 100
+		this.health = 80 + Random.Range(0, 20) + Random.Range(0, 20);
+		this.morale = 80 + Random.Range(0, 10) + Random.Range(0, 20);
+		this.skill = 80 + Random.Range(0, 20) + Random.Range(0, 20); //More diversity!
+
+//		this.health = 90 + Random.Range(0, 10) + Random.Range(0, 10);
+//		this.morale = 90 + Random.Range(0, 10) + Random.Range(0, 10);
+//		this.skill = 90 + Random.Range(0, 10) + Random.Range(0, 10); //Average of 100
 
 		int SexRandomiser = Random.Range(0, 2);
 
@@ -96,7 +100,8 @@ public class SoldierController : ScriptableObject {
 				"Ernicos",
 				"Kullervo",
 				"Tumpelo",
-				"Pax"
+				"Pax",
+				"Miekka"
 
 			};
 
@@ -125,7 +130,12 @@ public class SoldierController : ScriptableObject {
 				"Nia",
 				"Bella",
 				"Vindi",
-				"Peace"
+				"Peace",
+				"Nancy",
+				"Eliza",
+				"Sarah",
+				"Maura",
+				"Ilona"
 			};
 			
 			this.soldierFName = FemaleFirstNames[(Mathf.RoundToInt(Random.value*(FemaleFirstNames.GetLength(0)-1)))];
@@ -193,7 +203,8 @@ public class SoldierController : ScriptableObject {
 			"Soldat",
 			"Marsh",
 			"Dinner",
-			"Dinker"
+			"Dinker",
+			"Blovinsky"
 		};
 	
 		this.soldierLName = LastNames[(Mathf.RoundToInt(Random.value*(LastNames.GetLength(0)-1)))];

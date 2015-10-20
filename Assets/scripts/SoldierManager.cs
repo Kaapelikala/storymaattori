@@ -195,12 +195,17 @@ public class SoldierManager : MonoBehaviour {
 			}
 		}
 
-		foreach (SoldierController solttu in soldiers)
+		foreach (SoldierController solttu in soldiers) // if same first name OR random chance
 		{
 			if ((solttu.soldierFName == RECRUIT.soldierFName))
 			{
 				RECRUIT.soldierMName = SecondNames[(Mathf.RoundToInt(UnityEngine.Random.value*(SecondNames.GetLength(0)-1)))];
 			}
+
+		}
+		if (RECRUIT.soldierFName == "" && UnityEngine.Random.Range (0,10) > 7)	//Because middle names are fun but not everyone needs one!
+		{
+			RECRUIT.soldierMName = SecondNames[(Mathf.RoundToInt(UnityEngine.Random.value*(SecondNames.GetLength(0)-1)))];
 		}
 
 
@@ -216,49 +221,18 @@ public class SoldierManager : MonoBehaviour {
 
 		string SoldierStatsAnalyser = "Bootcamp report of RCT " + RECRUIT.soldierFName + ":\n Condition as ";
 
-		if (RECRUIT.health <= 90)
-		{
-			SoldierStatsAnalyser += "poor";
-		}
-		else if (RECRUIT.health >= 110)
-		{
-			SoldierStatsAnalyser += "good";
-		}
-		else
-		{
-			SoldierStatsAnalyser += "OK";
-		}
+		SoldierStatsAnalyser += StatToShort(RECRUIT.health);
 
 
 		SoldierStatsAnalyser += ",\n Fighting spirit as ";
 
-		if (RECRUIT.morale <= 90)
-		{
-			SoldierStatsAnalyser += "poor";
-		}
-		else if (RECRUIT.morale >= 110)
-		{
-			SoldierStatsAnalyser += "good";
-		}
-		else
-		{
-			SoldierStatsAnalyser += "OK";
-		}
+		SoldierStatsAnalyser += StatToShort(RECRUIT.morale);
+
 
 		SoldierStatsAnalyser += ",\n Weapons Skills as ";
 
-		if (RECRUIT.skill <= 95)
-		{
-			SoldierStatsAnalyser += "poor";
-		}
-		else if (RECRUIT.skill >= 105)
-		{
-			SoldierStatsAnalyser += "good";
-		}
-		else
-		{
-			SoldierStatsAnalyser += "OK";
-		}
+		SoldierStatsAnalyser += StatToShort(RECRUIT.skill);
+
 		
 		RECRUIT.AddEvent(SoldierStatsAnalyser + ".\n");
 
@@ -329,7 +303,7 @@ public class SoldierManager : MonoBehaviour {
 		// IDEA: BOOTCAMP??
 
 		soldiers.Add(RECRUIT);
-		if (RECRUIT.soldierID > 42008)	// not to the Soldiers created instantly!
+		if (RECRUIT.soldierID > 42008)	// not to the Soldiers created at the beginning!
 			campaing.ReportCont.CreateNewSoldierPopup(RECRUIT);
 
 		Debug.Log ("Added soldier " + SoldierID + ". Size now " + soldiers.Count);
@@ -360,6 +334,21 @@ public class SoldierManager : MonoBehaviour {
 
 		//this.checkSizes();
 
+	}
+
+	private string StatToShort(int Stat)
+	{
+		if (Stat > 110)
+			return "very good";
+		else if (Stat > 105)
+			return "good";
+		else if (Stat < 90)
+			return "very poor";
+		else if (Stat < 95)
+			return "poor";
+		
+		return "OK";
+		
 	}
 
 

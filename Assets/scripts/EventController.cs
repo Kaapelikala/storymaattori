@@ -94,7 +94,7 @@ public class EventController : MonoBehaviour {
 					
 					if (BattleEventRandomiser < 70)		// THE BASIC ATTACK
 					{
-						squad [i].AddKills(	missionImput.AddKills(	Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
+						squad [i].AddKills(	missionImput.AddKills(	Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank, squad)));
 					}					
 //					else if (targetlocation.type == "Assault" && BattleEventRandomiser > 90 && !MissionTargetDone)
 //					{

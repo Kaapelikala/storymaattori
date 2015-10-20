@@ -38,7 +38,7 @@ public class Mission : MonoBehaviour {
 
 		//int EnemyNumber = 4; // for easier testing!
 		
-		if (Mathf.FloorToInt(ReportToCampaing.Campaing_Difficulty/20) > 5)
+		if (Mathf.FloorToInt(ReportToCampaing.Campaing_Difficulty/20) >= 5) // if Campaing difficulty is larger than 100 more enemies!
 			this.Hostiles ++;
 
 		if (this.type=="Assault")	// yes, it is harder!

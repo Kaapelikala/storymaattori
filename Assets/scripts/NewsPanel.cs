@@ -5,17 +5,23 @@ using System;
 
 public class NewsPanel : MonoBehaviour {
 
-	public Text NewsText;
+	public Text MainText;
+	public Text HeaderText;
 	public GameObject ThisActual;
 
 	public NewsPanel(string TextInject)
 	{
-		NewsText.text = TextInject;
+		MainText.text = TextInject;
 
 	}
 	public void UpdatePanel(string TextInject)
 	{
-		NewsText.text = TextInject;
+		MainText.text = TextInject;
+	}
+	public void UpdatePanel(string TextInject, String HeaderInject)
+	{
+		MainText.text = TextInject;
+		HeaderText.text = HeaderInject;
 	}
 
 	public void OkayNowGo()
