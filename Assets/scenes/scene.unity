@@ -4591,7 +4591,7 @@ GameObject:
   - 222: {fileID: 847136778}
   - 114: {fileID: 847136777}
   m_Layer: 0
-  m_Name: Text
+  m_Name: Begin Click Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6063,7 +6063,7 @@ GameObject:
   - 222: {fileID: 1117869164}
   - 114: {fileID: 1117869163}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Begin War Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6099,7 +6099,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 5a16270acb6ff3049af7d3dc9f9d6cb5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 682ead74de5d40b4bbd41e42df430b18, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

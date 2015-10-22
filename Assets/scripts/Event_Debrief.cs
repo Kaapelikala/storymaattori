@@ -12,7 +12,7 @@ public class Event_Debrief : MonoBehaviour {
 	public string CookName = "";
 			
 
-	public void Handle (SoldierController NEWTARGET, bool victory, bool AwardBraveryMedal){
+	public void Handle (SoldierController NEWTARGET, Mission MissionImput, bool AwardBraveryMedal){
 			
 		this.target = NEWTARGET;
 
@@ -20,35 +20,26 @@ public class Event_Debrief : MonoBehaviour {
 
 		target.AddEvent("--Debriefing: \n");
 
-		if (victory)
+
+		if (MissionImput.retreat == true)
+		{
+			target.AddEvent("Mission ended in a retreat.");
+			target.ChangeMorale(-20);
+
+			this.DefeatCheck();
+
+		}
+		else if (MissionImput.victory == true)
 		{
 			target.AddEvent("Mission was a success!\n");
-			target.ChangeMorale(10);
+			target.ChangeMorale(30);
 		}
 			else
 		{
 			target.AddEvent("Mission was a defeat.");
 			target.ChangeMorale(-10);
 
-			if (CheckTrait("coward") && ((Random.Range(10, 100)) < 70))
-			{
-				target.AddEvent(" It was horrific.\n");
-				target.ChangeMorale(-30);
-			}
-			else if (CheckTrait("depressed")&& ((Random.Range(10, 100)) < 60))		//being depressed sucks royally
-			{
-				target.AddEvent(" It was crumbling.\n");
-				target.ChangeMorale(-40);
-			}
-			else if ((Random.Range(10, 100)) < 50)
-			{
-				target.AddEvent(" It felt shitty.\n");
-				target.ChangeMorale(-20);
-			}
-			else
-			{
-				target.AddEvent("\n");
-			}
+			this.DefeatCheck();
 
 		}
 
@@ -162,7 +153,7 @@ public class Event_Debrief : MonoBehaviour {
 				}
 				else
 				{
-					target.AddEvent("It was boring.\n");
+					target.AddEvent("It was relaxing.\n");
 					target.ChangeMorale(10);
 				}
 
@@ -222,13 +213,13 @@ public class Event_Debrief : MonoBehaviour {
 		}		
 		else
 		{
-			target.AddEvent("Did not need medical help.\n");
+			target.AddEvent("Did not need medical help.");
 
 			int SecRoll = Random.Range(0, 100);
 			
 			if (SecRoll < 25)
 			{
-				target.AddEvent("Time to rest anyway!\n");
+				target.AddEvent("\nIt was time to rest anyway!\n");
 				target.ChangeHealth(5);
 				target.ChangeMorale(20);
 				
@@ -376,7 +367,7 @@ public class Event_Debrief : MonoBehaviour {
 					else
 						Sexdiff = "her";
 					
-					if (CheckTrait("inaccurate"))
+					if (CheckTrait("inaccurate") | CheckTrait("idiot"))
 					{
 						this.target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " tried to shot " + Sexdiff + "self but missed!\n");
 					}
@@ -603,6 +594,30 @@ public class Event_Debrief : MonoBehaviour {
 		}
 
 
+
+	}
+
+	private void DefeatCheck()
+	{
+		if (CheckTrait("coward") && ((Random.Range(10, 100)) < 70))
+		{
+			target.AddEvent(" It was horrific.\n");
+			target.ChangeMorale(-30);
+		}
+		else if (CheckTrait("depressed")&& ((Random.Range(10, 100)) < 60))		//being depressed sucks royally
+		{
+			target.AddEvent(" It was crumbling!\n");
+			target.ChangeMorale(-40);
+		}
+		else if ((Random.Range(10, 100)) < 50)
+		{
+			target.AddEvent(" It felt shitty.\n");
+			target.ChangeMorale(-20);
+		}
+		else
+		{
+			target.AddEvent("\n");
+		}
 
 	}
 

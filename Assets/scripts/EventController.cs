@@ -164,7 +164,7 @@ public class EventController : MonoBehaviour {
 		{
 			if (solttu.alive == true)	
 			{
-				MotherBase.Handle(solttu, Victory, AwardBraveryMedal);
+				MotherBase.Handle(solttu, missionImput, AwardBraveryMedal);
 			}
 		}
 
