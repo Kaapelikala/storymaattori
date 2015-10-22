@@ -208,7 +208,8 @@ public class SoldierController : ScriptableObject {
 		};
 	
 		this.soldierLName = LastNames[(Mathf.RoundToInt(Random.value*(LastNames.GetLength(0)-1)))];
-	
+		//this.soldierLName = GenerateSurname();
+
 		int LNameRandomiser = Random.Range(0, 22);
 
 
@@ -786,6 +787,73 @@ public class SoldierController : ScriptableObject {
 		return Returnoitava;
 
 
+	}
+	 
+	private string GenerateSurname()	// experiment
+	{
+
+		string [] SurNameParts = new string[] {
+			"ska",
+			"na",
+			"ma",
+			"ta",
+			"ga",
+			"ce",
+			"ne",
+			"ko",
+			"il",
+			"ha",
+			"ho",
+			"ty",
+			"ge",
+			"ke",
+			"we",
+			"mo",
+			"mi",
+			"lo",
+			"pu",
+			"pe",
+			"ju",
+			"we",
+			"ca",
+			"hu",
+			"me",
+			"smi",
+			"jho",
+			"tar,",
+			"lym",
+			"bora",
+			"fe",
+			"co",
+			"ve",
+			"nen",
+			"is",
+			"ner",
+			"o",
+			"a",
+			"qa",
+			"xa",
+			"qe",
+			"ze",
+			"bul",
+			"lu"
+		};
+
+		string Returnoitava = "";
+
+		Returnoitava = SurNameParts[(Mathf.RoundToInt(Random.value*(SurNameParts.GetLength(0)-1)))];
+		int Counter = Mathf.RoundToInt(Random.Range(1,3));
+
+		while (Counter>0)
+		{
+			Counter = Counter -1;
+
+			Returnoitava += SurNameParts[(Mathf.RoundToInt(Random.value*(SurNameParts.GetLength(0)-1)))];
+
+		}
+
+
+		return Returnoitava;
 	}
 
 }
