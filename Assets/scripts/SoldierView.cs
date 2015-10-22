@@ -204,24 +204,13 @@ public class SoldierView : MonoBehaviour {
 
 	}
 
-	public void NewCallsignForSoldier(string CallsignInsert)
+	public void NewCallsignForSoldier()
 	{
 
 		//string NewCallsign = CallsignInsert;
 		string NewCallsign = CallsignChanger.text;
 
-		if (Target.callsign == NewCallsign)	// If trying the same nothing happens. This includes ""!
-		{
-		}
-		else if (Target.callsign == "")
-		{
-			Target.AddEvent("Command assigned " + Target.soldierLName + " the callsign '" + NewCallsign + "'!\n");
-		}
-		else 
-		{
-			Target.AddEvent("Command assigned " + Target.soldierLName + " the new callsign '" + NewCallsign + "', replacing '"+Target.callsign +"'!\n");
-		}
-		Target.callsign = NewCallsign;
+		Target.AssignNewCallsign(NewCallsign);
 
 		CallsignChanger.text = "";
 

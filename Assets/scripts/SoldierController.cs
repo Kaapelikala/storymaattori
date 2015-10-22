@@ -731,8 +731,28 @@ public class SoldierController : ScriptableObject {
 
 		this. callsign = Callsigns[(Mathf.RoundToInt(Random.value*(Callsigns.GetLength(0)-1)))];
 
-	return this.callsign;
-}
+		return this.callsign;
+	}
+	public void AssignNewCallsign(string NewCallsign)
+	{
+		if (NewCallsign == "" && this.callsign != "")
+		{
+			this.AddEvent("Command removed " + this.soldierLName + "s callsign '" + callsign + "'!\n");
+		}
+		else if (this.callsign == NewCallsign) // if same nothing happens!
+		{
+		}
+		else if (this.callsign == "")
+		{
+			this.AddEvent("Command assigned " + this.soldierLName + " the callsign '" + NewCallsign + "'!\n");
+		}
+		else 
+		{
+			this.AddEvent("Command assigned " + this.soldierLName + " the new callsign '" + NewCallsign + "', replacing '"+this.callsign +"'!\n");
+		}
+		this.callsign = NewCallsign;
+
+	}
 	
 	/// <summary>
 	/// Prints list of all events of the Soldier
