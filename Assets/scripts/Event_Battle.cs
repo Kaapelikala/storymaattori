@@ -123,6 +123,7 @@ public class Event_Battle {
 		modifier +=  CheckTrait("robo-eye", 5);
 		modifier +=  CheckTrait("robo-vision", 10);
 		modifier +=  CheckTrait("robo-manipulators", 5);
+		modifier +=  CheckTrait("stressed", -5);
 
 		HitChance +=  CheckTrait("accurare", 5);
 

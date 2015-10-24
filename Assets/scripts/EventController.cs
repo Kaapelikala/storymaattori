@@ -181,6 +181,8 @@ public class EventController : MonoBehaviour {
 
 			if (solttu.alive == false)	
 			{
+				if (Retreat == true && solttu.alive == false)
+					solttu.AddHistory("-RETREATDEATH-");
 				Grave.Bury(solttu,manager, AwardBraveryMedal, corpseRecoveryMod);
 				
 				this.DeadSoldierNOTE(solttu);

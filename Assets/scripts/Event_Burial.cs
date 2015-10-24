@@ -67,7 +67,7 @@ public class Event_Burial : MonoBehaviour {
 
 		int RandomRoll = Random.Range(0, 100);
 		
-		if (RandomRoll < (60 + (100-soldiers.campaing.Campaing_Difficulty)+ recoveryChanceMod)) // was corpse recovered?
+		if (RandomRoll < (60 + (100-soldiers.campaing.Campaing_Difficulty)+ recoveryChanceMod) | corpse.HasHistory("-DIED@BASE-")) // was corpse recovered?
 		{
 			corpse.AddHistory("-RECOVERED-");
 
@@ -197,93 +197,7 @@ public class Event_Burial : MonoBehaviour {
 
 			if (speaker != null)			// SPEAKINGS
 			{
-				int SpeakAppreciation = 0;
-
-				foreach (SoldierController solttu in (soldiers.GetSquad()))
-				{
-					if (solttu.alive == true && !solttu.HasAttribute("newbie") && solttu != corpse && solttu != speaker && solttu.HasHistory("-ATTEND_BURI-:"+ corpse.soldierID) && !solttu.HasHistory("-NOCARE-:"+ corpse.soldierID))	//NOT new, not the dead or not the SPEAKER HIMSELF and IS HERE and DOES CARE
-					{
-						int SpeakingRandomRoll = Random.Range(0, 100);
-
-						SpeakingRandomRoll += this.CheckTrait("heroic", 20, speaker);
-						SpeakingRandomRoll += this.CheckTrait("veteran", 20, speaker);
-						SpeakingRandomRoll += this.CheckTrait("young", -5, speaker);
-						SpeakingRandomRoll += this.CheckTrait("drunkard", -10, speaker);
-						SpeakingRandomRoll += this.CheckTrait("depressed", -10, speaker);
-						SpeakingRandomRoll += this.CheckTrait("coward", -10, speaker);
-						SpeakingRandomRoll += this.CheckTrait("wounded", -10, speaker);
-
-						SpeakingRandomRoll += this.CheckTrait("loner", -20, solttu);
-
-
-						if (SpeakingRandomRoll < 25) { 	//BAD
-							solttu.AddEvent(" Although nice, words of " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName + " did not help.\n");
-							solttu.ChangeMorale(-20);
-							ChanceMod =+5;
-							SpeakAppreciation += -1;
-						}
-						else if (SpeakingRandomRoll < 50) { // OKAY
-							solttu.AddEvent(" " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName + " spoke gently about " + corpse.getCallsignOrFirstname() + ".\n");
-							solttu.ChangeMorale(10);
-							ChanceMod =+10;
-
-						}
-						else if (SpeakingRandomRoll < 75) {  // GOOD
-							solttu.AddEvent(" " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName + " summoned up warm memories of " + corpse.getCallsignOrFirstname() + ".\n");
-							
-							ChanceMod =+10;
-							SpeakAppreciation += 1;
-						}
-						else{  // INSPIRED
-							solttu.AddEvent(" Was inspired by the tender speech by " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName +"!\n");
-							solttu.ChangeMorale(+10);
-							
-							ChanceMod =+20;
-							SpeakAppreciation += 2;
-						}
-					}
-					
-				}
-
-				if  (HowManyAttendees == 1){
-
-					if (Random.Range(0, 10) > 5){	//GOOD
-						speaker.AddEvent("\nSpoke to empty hall at the funeral of " + corpse.FullName() + "\n");
-						corpse.AddEvent(" " + speaker.FullName() +" held monology to the coffin, although there was no-one else to hear.\n"); 
-						speaker.ChangeMorale(20);
-					}
-					else{	//BAD
-						speaker.AddEvent("\nWanted to speak at the funeral of " + corpse.FullName() + ", but nobody else attended.\n");
-						corpse.AddEvent(" " + speaker.FullName() +" had prepared a speech but did not bother to speak to empty hall.\n"); 
-						speaker.ChangeMorale(-20);
-						ChanceMod += 20;
-
-					}
-
-
-				}
-				else if (SpeakAppreciation < 0){
-
-					speaker.AddEvent("\nSpoke at the funeral of " + corpse.FullName() + "\n");
-					corpse.AddEvent(" " + speaker.FullName() +" held speech. Nobody clapped.\n"); 
-					speaker.AddEvent(" Others did not like it.\n");
-					speaker.ChangeMorale(-30);
-				}
-				else if (SpeakAppreciation > 3){	//GOOD
-					
-					speaker.AddEvent("\nSpoke at the funeral of " + corpse.FullName() + "\n");
-					corpse.AddEvent(" " + speaker.FullName() +" held a fiery speech!\n"); 
-					speaker.AddEvent(" Everyone had tears in their eyes.\n");
-					speaker.ChangeMorale(20);
-					ChanceMod += 20;
-				}
-				else {
-					
-					speaker.AddEvent("\nSpoke at the funeral of " + corpse.FullName() + "\n");
-					corpse.AddEvent(" " + speaker.FullName() +" held speech. It was average.\n"); 
-					speaker.AddEvent(" It was decreed to be okay.\n");
-					speaker.ChangeMorale(10);
-				}
+				ChanceMod += this.HeldSpeech(speaker,HowManyAttendees);
 			}
 
 
@@ -301,7 +215,10 @@ public class Event_Burial : MonoBehaviour {
 		
 		string FoundsInsert = Founds[(Mathf.RoundToInt(Random.value*(Founds.GetLength(0)-1)))];
 
-		corpse.AddEvent("The " + CorpseInsert + " of " + corpse.FullName() + " was never "+ FoundsInsert +".\n");
+		if (corpse.HasHistory("-RETREATDEATH-"))
+			corpse.AddEvent("Due to retreat, the " + CorpseInsert + " of " + corpse.FullName() + " was never "+ FoundsInsert +".\n");
+		else
+			corpse.AddEvent("The " + CorpseInsert + " of " + corpse.FullName() + " was never "+ FoundsInsert +".\n");
 
 		string CorpseInsert2 = Corpses[(Mathf.RoundToInt(Random.value*(Corpses.GetLength(0)-1)))];
 
@@ -336,6 +253,13 @@ public class Event_Burial : MonoBehaviour {
 
 		return Grieving(false, ChanceMod);
 	}
+
+
+
+
+
+
+
 
 	private bool Grieving(bool corpseburied, int ChanceMod)
 	{
@@ -532,6 +456,159 @@ public class Event_Burial : MonoBehaviour {
 			return corpseburied;
 		}
 		return corpseburied;
+	}
+
+
+	private int HeldSpeech(SoldierController speaker, int HowManyAttendees)
+	{
+		int SpeakAppreciation = 0;
+		int ChanceMod = 0;
+
+		string StuffToMention = "";
+
+		if (corpse.HasAttribute("heroic") && (Random.Range (0,10) > 4))
+			StuffToMention = "greatness";
+		else if (corpse.HasAttribute("tough") && (Random.Range (0,10) > 6))
+			StuffToMention = "grit";
+		else if (corpse.HasAttribute("veteran") && (Random.Range (0,10) > 5))
+			StuffToMention = "deep knowledge";
+		else if (corpse.HasAttribute("accurate") && (Random.Range (0,10) > 5))
+			StuffToMention = "great shooting";
+		else if (corpse.kills > 20 && (Random.Range (0,10) > 5))
+			StuffToMention = "scores of enemies killed";
+		else if (corpse.kills > 5 && (Random.Range (0,10) > 7))
+			StuffToMention = "many kills";
+		else if (corpse.missions > 5 && (Random.Range (0,10) > 6))
+			StuffToMention = "many missions";
+		else if (corpse.skill > 105 && (Random.Range (0,10) > 6))
+			StuffToMention = "great skill in arms";
+		else if (corpse.HasAward("Bravery Medal") && (Random.Range (0,10) > 5))
+			StuffToMention = "brawery";
+		else if (corpse.HasAward("Bravery Medal") && (Random.Range (0,10) > 5))
+			StuffToMention = "brawery";
+		else if (corpse.HasAttribute("lucky") && (Random.Range (0,10) > 6))
+			StuffToMention = "crazy luck";
+		else if (corpse.HasAttribute("techie") && (Random.Range (0,10) > 6))
+			StuffToMention = "skills with machines";
+		else if (corpse.HasAttribute("cook") && (Random.Range (0,10) > 3))
+			StuffToMention = "tasty foods";
+		else if (corpse.HasAttribute("young") && (Random.Range (0,10) > 6))
+			StuffToMention = "eagerness";
+		else if (corpse.HasAttribute("drunkard") && (Random.Range (0,10) > 8))
+			StuffToMention = "appreciation of the bottle";
+		else if (corpse.HasAttribute("idiot") && (Random.Range (0,10) > 8))
+			StuffToMention = "hilarious stupidity";
+		else if (corpse.missions < 2 && (Random.Range (0,10) > 7))
+			StuffToMention = "newness";
+
+
+		string Sexdiff = "";
+
+		if (corpse.sex == 'm')
+		{
+			Sexdiff = "his";
+		}
+		else 
+		{
+			Sexdiff = "her";
+		}
+
+		if (StuffToMention != "")
+		{
+			StuffToMention = ", mentioning "+ Sexdiff + " " + StuffToMention; 
+			
+		}
+
+
+		foreach (SoldierController solttu in (soldiers.GetSquad()))
+		{
+			if (solttu.alive == true && !solttu.HasAttribute("newbie") && solttu != corpse && solttu != speaker && solttu.HasHistory("-ATTEND_BURI-:"+ corpse.soldierID) && !solttu.HasHistory("-NOCARE-:"+ corpse.soldierID))	//NOT new, not the dead or not the SPEAKER HIMSELF and IS HERE and DOES CARE
+			{
+				int SpeakingRandomRoll = Random.Range(0, 100);
+				
+				SpeakingRandomRoll += this.CheckTrait("heroic", 20, speaker);
+				SpeakingRandomRoll += this.CheckTrait("veteran", 20, speaker);
+				SpeakingRandomRoll += this.CheckTrait("young", -5, speaker);
+				SpeakingRandomRoll += this.CheckTrait("drunkard", -10, speaker);
+				SpeakingRandomRoll += this.CheckTrait("depressed", -10, speaker);
+				SpeakingRandomRoll += this.CheckTrait("coward", -10, speaker);
+				SpeakingRandomRoll += this.CheckTrait("wounded", -10, speaker);
+				
+				SpeakingRandomRoll += this.CheckTrait("loner", -20, solttu);
+
+				if (SpeakingRandomRoll < 25) { 	//BAD
+					solttu.AddEvent(" Although nice, speech of " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName + " did not help.\n");
+					solttu.ChangeMorale(-20);
+					ChanceMod =+5;
+					SpeakAppreciation += -1;
+				}
+				else if (SpeakingRandomRoll < 50) { // OKAY
+					solttu.AddEvent(" " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName + " spoke gently about " + corpse.getCallsignOrFirstname() + StuffToMention +".\n");
+					solttu.ChangeMorale(10);
+					ChanceMod =+10;
+					
+				}
+				else if (SpeakingRandomRoll < 75) {  // GOOD
+					solttu.AddEvent(" " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName + " summoned up warm memories of " + corpse.getCallsignOrFirstname() + "in speech"+StuffToMention+".\n");
+					
+					ChanceMod =+10;
+					SpeakAppreciation += 1;
+				}
+				else{  // INSPIRED
+					solttu.AddEvent(" Was inspired by the tender speech by " + speaker.getCallsignOrFirstname() + " " + speaker.soldierLName +"!\n");
+					solttu.ChangeMorale(+10);
+					
+					ChanceMod =+20;
+					SpeakAppreciation += 2;
+				}
+			}
+			
+		}
+
+
+		
+
+
+
+		if  (HowManyAttendees == 1){
+			
+			if (Random.Range(0, 10) > 5){	//GOOD
+				speaker.AddEvent("\nSpoke to empty hall at the funeral of " + corpse.FullName() + "\n");
+				corpse.AddEvent(" " + speaker.FullName() +" held monology to the coffin, although there was no-one else to hear.\n"); 
+				speaker.ChangeMorale(20);
+			}
+			else{	//BAD
+				speaker.AddEvent("\nWanted to speak at the funeral of " + corpse.FullName() + ", but nobody else attended.\n");
+				corpse.AddEvent(" " + speaker.FullName() +" had prepared a speech but did not bother to speak to empty hall.\n"); 
+				speaker.ChangeMorale(-20);
+				ChanceMod += 20;
+				
+			}
+			
+		}
+		else if (SpeakAppreciation < 0){
+			speaker.AddEvent("\nSpoke at the funeral of " + corpse.FullName() + StuffToMention+".\n");
+			corpse.AddEvent(" " + speaker.FullName() +" held speech"+StuffToMention+". Nobody clapped.\n"); 
+			speaker.AddEvent(" Others did not like it.\n");
+			speaker.ChangeMorale(-30);
+		}
+		else if (SpeakAppreciation > 3){	//GOOD
+			
+			speaker.AddEvent("\nSpoke at the funeral of " + corpse.FullName() + StuffToMention+".\n");
+			corpse.AddEvent(" " + speaker.FullName() +" held a fiery speech"+StuffToMention+"!\n"); 
+			speaker.AddEvent(" Everyone had tears in their eyes.\n");
+			speaker.ChangeMorale(20);
+			ChanceMod += 20;
+		}
+		else {
+			
+			speaker.AddEvent("\nSpoke at the funeral of " + corpse.FullName() + StuffToMention+".\n");
+			corpse.AddEvent(" " + speaker.FullName() +" held speech"+StuffToMention+". It was average.\n"); 
+			speaker.AddEvent(" It was decreed to be okay.\n");
+			speaker.ChangeMorale(10);
+		}
+
+		return ChanceMod;
 	}
 
 	int CheckTrait (string TraitName, int modifier)

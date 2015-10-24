@@ -198,7 +198,7 @@ public class SoldierView : MonoBehaviour {
  			}
 
 			this.History.text = Target.GetEvents();
-			this.History.rectTransform.sizeDelta = new Vector2( 500, Target.events.Count*30);
+			this.History.rectTransform.sizeDelta = new Vector2( 500, Mathf.Max(Target.events.Count*30,220));
 
 		}
 

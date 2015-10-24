@@ -69,7 +69,31 @@ public class Event_Vacation : MonoBehaviour {
 		else if (CheckTrait("depressed") && Random.Range(0,100) > target.morale)
 		{
 			target.AddEvent("Terrors of the battlefield were too strong: " + target.soldierFName + " spent most of the vacation withdrawn.\n");
-			target.ChangeMorale(-40);
+			if ((Random.Range(0,100) < (target.morale)))
+
+
+				if ((CheckTrait("depressed")) && (Random.Range(0,100) < (target.morale+30)))		//Chance to heal!
+				{
+				
+				string Sexdiff = "";
+				
+				if (target.sex == 'm')
+				{
+					Sexdiff = "his";
+				}
+				else 
+				{
+					Sexdiff = "her";
+				}
+				
+				target.AddEvent("At least "+Sexdiff+" life began to normalize and was not so stressfull anymore!\n");
+				target.RemoveAttribute("depressed");
+				target.ChangeMorale(Random.Range(20,50));
+				target.ChangeHealth(15);
+			}
+			else
+				target.ChangeMorale(-40);
+
 		}
 		else 
 		{
@@ -175,7 +199,7 @@ public class Event_Vacation : MonoBehaviour {
 			}
 
 			target.AddEvent("Rave was too strong: " + Sexdiff +" never returned to base!\n");
-			target.die("MIA");
+			target.dieHome("MIA");
 		}
 		else if (target.health > BeginHealth && target.morale > BeginMorale)
 		{
@@ -251,7 +275,7 @@ public class Event_Vacation : MonoBehaviour {
 						target.AddEvent("Brain felt fizzyyy....\n");
 						if (Random.Range (0,120) > target.health)
 						{
-							target.die("Brain melted");
+							target.dieHome("Brain melted");
 							target.AddEvent("... too fizzy.\n");
 						}
 
@@ -393,7 +417,7 @@ public class Event_Vacation : MonoBehaviour {
 			if (target.health < 0)
 			{
 				target.AddEvent("It was too much. " + target.getCallsignOrFirstname()+ "perished!\n");
-				target.die("Overexercise");
+				target.dieHome("Overexercise");
 			}
 		}
 		else
@@ -547,7 +571,7 @@ public class Event_Vacation : MonoBehaviour {
 				if (target.health < 0)
 				{
 					target.AddEvent("But " + target.soldierFName + "s heart melted!\n");
-					target.die("Total organ failure");
+					target.dieHome("Total organ failure");
 				}
 			}
 			else
@@ -581,7 +605,7 @@ public class Event_Vacation : MonoBehaviour {
 				if (target.health < 0)
 				{
 					target.AddEvent("But " + target.soldierFName + "s liver exploded!\n");
-					target.die("Liver failure");
+					target.dieHome("Liver failure");
 				}
 
 			}

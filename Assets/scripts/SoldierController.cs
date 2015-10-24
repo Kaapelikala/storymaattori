@@ -775,14 +775,19 @@ public class SoldierController : ScriptableObject {
 	//As character dying should quite big thing, this function SHOULD FIRE OFF MORE THIGNS - Depression in comrades, move from active soldiers to burial ground etc!
 	public void die(string how){
 
-
 		this.alive = false;
 		this.HowDied = how;
 
-	
-
-
 	}
+
+	public void dieHome(string how){
+				
+		this.AddHistory("-DIED@BASE-");
+		this.alive = false;
+		this.HowDied = how;
+ 	
+	}
+
 
 	public string toString(){
 

@@ -47,12 +47,32 @@ public class Event_BaseIdle : MonoBehaviour {
 				if (idler.health <= 0)
 				{
 					idler.AddEvent("Died of infected wound!");
-					idler.die("Infected wound");
+					idler.dieHome("Infected wound");
 				}
 				else
 					idler.AddEvent(" Wounds still hurt.\n");
 			}
-			
+
+
+
+			if (idler.HasAttribute("depressed") && (Random.Range(0,100) < (idler.morale-20)))
+			{
+				idler.AddEvent(" Being away from the front is making life less stressful\n");
+				idler.RemoveAttribute("stressed");
+				idler.ChangeMorale(30);
+				idler.ChangeHealth(10);
+
+			}
+			else 
+			{
+				Event_Debrief JustSuecideCheck = new Event_Debrief();
+				JustSuecideCheck.target = idler;
+				
+				if (idler.alive == true)
+					JustSuecideCheck.CheckSuecide();
+			}
+
+
 
 			
 		}
@@ -316,6 +336,7 @@ public class Event_BaseIdle : MonoBehaviour {
 
 				bool DidSomething = false;
 
+
 				switch (DoingsRoll)
 				{
 				case 0:
@@ -466,11 +487,13 @@ public class Event_BaseIdle : MonoBehaviour {
 					idler.ChangeMorale(Random.Range(-4,12));
 					DidSomething = true;
 					break;
-				default:
+					default:
 
 
 					break;
 				}
+
+
 				if (DidSomething == false)
 					idler.AddEvent(" Nothing special happened.\n");
 				
@@ -806,7 +829,7 @@ public class Event_BaseIdle : MonoBehaviour {
 		}
 		if (VisitedSomeone == false)
 		{
-			visitor.AddEvent(" Wandered at the burial ground.\n");
+			visitor.AddEvent(" Wandered at the burial chambers.\n");
 			visitor.ChangeMorale(Random.Range(-4,12));
 		}
 		
@@ -851,7 +874,15 @@ public class Event_BaseIdle : MonoBehaviour {
 			visitor.AddEvent(" " + Sexdiff + " had been true companion!\n");
 			visitor.ChangeMorale(20);
 		}
-		
+	
+		if (fallenfriend.HasHistory("-RECOVERED-"))
+		{ 
+			fallenfriend.AddEvent("\nTS" + campaing.TimeStamp + ": " + visitor.FullName() + " visited the grave.");
+		}
+		else
+		{ 
+			fallenfriend.AddEvent("\nTS" + campaing.TimeStamp + ": " + visitor.FullName() + " visited " + fallenfriend.soldierLName + "s memorial.");
+		}
 		
 	}
 
@@ -925,14 +956,14 @@ public class Event_BaseIdle : MonoBehaviour {
 
 				if (idler.health < 0)
 				{
-					idler.die("Liver destruction");
+					idler.dieHome("Liver destruction");
 					idler.AddEvent("  Liver gave up!\n");
 					otherDrinker.AddEvent("  " + idler.getCallsignOrFirstname() + "s liver was destroyed!\n");
 					otherDrinker.ChangeMorale(-30);
 				}
 				if (otherDrinker.health < 0)
 				{
-					otherDrinker.die("Liver destruction");
+					otherDrinker.dieHome("Liver destruction");
 					otherDrinker.AddEvent("  Liver gave up!\n");
 					idler.AddEvent("  " + otherDrinker.getCallsignOrFirstname() + "s liver was destroyed!\n");
 					idler.ChangeMorale(-30);

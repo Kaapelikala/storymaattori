@@ -26,20 +26,40 @@ public class Event_Debrief : MonoBehaviour {
 			target.AddEvent("Mission ended in a retreat.");
 			target.ChangeMorale(-20);
 
-			this.DefeatCheck();
+			this.CheckMoodAfterDefeat();
 
 		}
 		else if (MissionImput.victory == true)
 		{
-			target.AddEvent("Mission was a success!\n");
+			string[] winnouns= new string[] 
+			{
+				"win",
+				"success",
+				"victory",
+				"triumpf"
+			};
+			
+			string winInject = winnouns[(Mathf.RoundToInt(Random.value*(winnouns.GetLength(0)-1)))];
+			
+			target.AddEvent("Mission was a "+winInject+"!\n");
+			target.AddHistory("-Victory-:"+MissionImput.MissionName); // so other soldiers of same battle like this soldier more!
 			target.ChangeMorale(30);
 		}
 			else
 		{
-			target.AddEvent("Mission was a defeat.");
+			string[] failurenouns= new string[] 
+			{
+				"defeat",
+				"failure",
+				"loss"
+			};
+
+			string failureInject = failurenouns[(Mathf.RoundToInt(Random.value*(failurenouns.GetLength(0)-1)))];
+
+			target.AddEvent("Mission was a "+failureInject+".");
 			target.ChangeMorale(-10);
 
-			this.DefeatCheck();
+			this.CheckMoodAfterDefeat();
 
 		}
 
@@ -98,147 +118,104 @@ public class Event_Debrief : MonoBehaviour {
 
 
 		//HANDLING OF WOUNDEDS!
-		if (CheckTrait("wounded")){
-
-			int Roll = Random.Range(0, 100);
-
-			if (Roll < 50)			//NICE EXTENDED REST, did Character enjoy it?
-			{
-				CheckForBionics();
-				target.AddEvent("Was sent to an extended rest.\n");
-				target.RemoveAttribute("wounded");		//Wound goes away!
-				target.ChangeHealth(20);
-
-				int SecRoll = Random.Range(0, 100);
-
-				if (CheckTrait("drunkard"))
-				{
-					target.AddEvent("Heavy drinking commerced.\n");
-					target.ChangeMorale(40);
-					target.ChangeHealth(-30);
-
-					string sexdiff = "";
-					
-					if (this.target.sex == 'm')
-					{
-						sexdiff = "He";
-					}
-					else
-						sexdiff = "She";
-
-					if (this.target.health < 0)
-					{
-						target.AddEvent(sexdiff + " drank way too much and suffocated!!\n");
-						target.die("Partied to death!");
-					}
-				}
-				else if (SecRoll < 50)
-				{
-
-					string result ="";
-					result += "It was fun";
-					target.ChangeMorale(30);
-
-					int ThirdRoll = Random.Range(0, 5);		//Chance for alcoholism
-					if (ThirdRoll >4)
-					{
-						result += " but " + target.getCallsignOrFirstname() + " began to drink too much!\n";
-						target.AddAttribute("drunkard");
-					}
-					else
-						result += ".\n";
-
-					target.AddEvent(result);
-
-				}
-				else
-				{
-					target.AddEvent("It was relaxing.\n");
-					target.ChangeMorale(10);
-				}
-
-
-
-			}
-			else if (Roll < 75)			// NORMAL REST
-			{
-				CheckForBionics();
-				target.AddEvent("Was given basic medical treatment.\n");
-				target.RemoveAttribute("wounded");		//Wound goes away!
-				target.ChangeHealth(10);
-
-				int SecRoll = Random.Range(0, 100);
-
-				if (SecRoll < 50)
-				{
-					target.AddEvent("It was OK.\n");
-					target.ChangeMorale(20);
-										
-				}
-				else
-				{
-					target.AddEvent(target.getCallsignOrFirstname() + " would have hoped better\n");
-					target.ChangeMorale(5);
-				}
-			}
-			else if (Roll < 90)			// NO REST
-			{
-				target.AddEvent("There was no time for medical help.\n");
-				target.ChangeHealth(5);
-
-				int SecRoll = Random.Range(0, 100);
-				
-				if (SecRoll < 25)
-				{
-					target.AddEvent(target.getCallsignOrFirstname() + " 'found' a medkit anyway\n");
-					target.ChangeHealth(5);
-					target.ChangeMorale(10);
-					
-				} 
-				else if (SecRoll < 50)
-				{
-					target.AddEvent("It was understandable.\n");
-					target.ChangeMorale(5);
-					
-				}
-				else
-				{
-					target.AddEvent("It sucked royally.\n");
-					target.ChangeMorale(-20);
-				}
-			}
-			
-			AddAward("Wound Badge");		//Aways if wounded!
-
-		}		
-		else
-		{
-			target.AddEvent("Did not need medical help.");
-
-			int SecRoll = Random.Range(0, 100);
-			
-			if (SecRoll < 25)
-			{
-				target.AddEvent("\nIt was time to rest anyway!\n");
-				target.ChangeHealth(5);
-				target.ChangeMorale(20);
-				
-			} 
-			else if (SecRoll < 50)
-			{
-				target.AddEvent("Yey!\n");
-				target.ChangeMorale(10);
-				
-			}
-			else
-			{
-				target.AddEvent("Meh.\n");
-				target.ChangeMorale(-5);
-			}
-		}
+		this.CheckHealing();
 
 
 		//PROMOTIONS
+		this.CheckPromotions();
+
+
+		this.CheckKillAwards();
+
+		// CHANCE FOR NEW TRAITS
+		if (Random.Range(0, 100) > 70){
+
+
+			int traitRandomiser = Mathf.RoundToInt(Random.Range(0, 2));
+		
+			switch (traitRandomiser)
+			{
+			case 0:
+			{
+				if (CheckTrait("coward") | CheckTrait("heroic")){
+					break;
+				}
+				target.AddEvent(target.getCallsignOrFirstname() + " found new resolve!\n" );
+				this.target.AddAttribute("heroic");
+				break;
+				}
+			case 1:
+				{
+				if (CheckTrait("tough")) {
+					break;
+				}
+				target.AddEvent(target.getCallsignOrFirstname() + " does not care about scratches anymore!\n" );
+				this.target.AddAttribute("tough");
+				break;
+				}
+			case 2:
+				{
+				if (CheckTrait("heroic") | CheckTrait("coward")) {
+					break;
+				}
+				target.AddEvent(target.getCallsignOrFirstname() + " began fear the dark!\n" );
+				this.target.AddAttribute("coward");
+				break;
+				}
+			}
+
+			
+			//Chance to kill oneself!!
+			this.CheckSuecide();
+
+
+
+		}
+
+	}
+
+
+	void Promote (SoldierController Ylennettava)
+	{
+		string Sexdiff = "";
+		if (Ylennettava.sex == 'm')
+		{
+			Sexdiff = "his";
+		}
+		else 
+		{
+			Sexdiff = "her";
+		}
+		string FormerRank = Ylennettava.GetRank();
+		
+		Ylennettava.rank++;
+		
+		Ylennettava.AddEvent("Due to " + Sexdiff +" actions, " + FormerRank + " "+ Ylennettava.soldierLName +" was promoted to " + Ylennettava.GetRank() + "!\n");
+
+	}
+		
+	bool CheckTrait (string TraitName)
+	{
+		if (target.HasAttribute(TraitName))
+		{
+			return true;
+		}
+		return false;
+			
+	}
+
+	int CheckTrait (string TraitName, int modifier)
+	{
+		if (target.HasAttribute(TraitName))
+		{
+			return modifier;
+		}
+		return 0;
+		
+	}
+
+	public void CheckPromotions()
+	{
 		if (this.target.kills > 1 && target.rank == 0)			//TROOPER
 		{
 			if ((Random.Range(0, 100)+ CheckTrait("heroic",10)+ CheckTrait("drunkard",-20)) > 40)
@@ -295,6 +272,11 @@ public class Event_Debrief : MonoBehaviour {
 			}
 		}
 
+	}
+
+	public void CheckKillAwards()
+	{
+		
 		if (target.kills > 10 && !target.HasAward("Kill Award"))
 		{
 			AddAward("Kill Award");
@@ -316,117 +298,6 @@ public class Event_Debrief : MonoBehaviour {
 			AddAward("Kill Armangeddon");
 		}
 
-		// CHANCE FOR NEW TRAITS
-		if (Random.Range(0, 100) > 70){
-
-
-			int traitRandomiser = Mathf.RoundToInt(Random.Range(0, 2));
-		
-			switch (traitRandomiser)
-			{
-			case 0:
-			{
-				if (CheckTrait("coward") | CheckTrait("heroic")){
-					break;
-				}
-				target.AddEvent(target.getCallsignOrFirstname() + " found new resolve!\n" );
-				this.target.AddAttribute("heroic");
-				break;
-				}
-			case 1:
-				{
-				if (CheckTrait("tough")) {
-					break;
-				}
-				target.AddEvent(target.getCallsignOrFirstname() + " does not care about scratches anymore!\n" );
-				this.target.AddAttribute("tough");
-				break;
-				}
-			case 2:
-				{
-				if (CheckTrait("heroic") | CheckTrait("coward")) {
-					break;
-				}
-				target.AddEvent(target.getCallsignOrFirstname() + " began fear the dark!\n" );
-				this.target.AddAttribute("coward");
-				break;
-				}
-			}
-
-			//CHANCE TO BANG HIMSELF due to POOR MORALE
-			if (this.target.morale < 0){		
-				
-				if (Random.Range(0, 100) > 70)
-				{
-					string Sexdiff = "";
-					
-					if (this.target.sex == 'm')
-					{
-						Sexdiff = "him";
-					}
-					else
-						Sexdiff = "her";
-					
-					if (CheckTrait("inaccurate") | CheckTrait("idiot"))
-					{
-						this.target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " tried to shot " + Sexdiff + "self but missed!\n");
-					}
-					else
-					{
-						target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " shot " + Sexdiff + "self!\n");
-						target.die("Killed " + Sexdiff + "self.");
-					}
-				}
-				else
-					target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " thought about self-termination.\n");
-			}
-
-		}
-
-		if (CookName != ""){
-			this.target.ChangeMorale(10);
-			this.target.AddEvent("Cooking of " + CookName + " was splendid!\n"); 
-		}
-	}
-
-
-	void Promote (SoldierController Ylennettava)
-	{
-		string Sexdiff = "";
-		if (Ylennettava.sex == 'm')
-		{
-			Sexdiff = "his";
-		}
-		else 
-		{
-			Sexdiff = "her";
-		}
-		string FormerRank = Ylennettava.GetRank();
-		
-		Ylennettava.rank++;
-		
-		Ylennettava.AddEvent("Due to " + Sexdiff +" actions, " + FormerRank + " "+ Ylennettava.soldierLName +" was promoted to " + Ylennettava.GetRank() + "!\n");
-
-	}
-		
-	bool CheckTrait (string TraitName)
-	{
-		if (target.HasAttribute(TraitName))
-		{
-			return true;
-		}
-		return false;
-			
-	}
-
-	int CheckTrait (string TraitName, int modifier)
-	{
-		if (target.HasAttribute(TraitName))
-		{
-			return modifier;
-		}
-		return 0;
-		
 	}
 
 	public void CheckForBionics()
@@ -597,19 +468,194 @@ public class Event_Debrief : MonoBehaviour {
 
 	}
 
-	private void DefeatCheck()
+	public void CheckHealing()
 	{
-		if (CheckTrait("coward") && ((Random.Range(10, 100)) < 70))
+		if (CheckTrait("wounded")){
+			
+			int Roll = Random.Range(0, 100);
+			
+			if (Roll < 50)			//NICE EXTENDED REST, did Character enjoy it?
+			{
+				CheckForBionics();
+				target.AddEvent("Was sent to an extended rest.\n");
+				target.RemoveAttribute("wounded");		//Wound goes away!
+				target.ChangeHealth(20);
+				
+				int SecRoll = Random.Range(0, 100);
+				
+				if (CheckTrait("drunkard"))
+				{
+					target.AddEvent("Heavy drinking commerced.\n");
+					target.ChangeMorale(40);
+					target.ChangeHealth(-30);
+					
+					string sexdiff = "";
+					
+					if (this.target.sex == 'm')
+					{
+						sexdiff = "He";
+					}
+					else
+						sexdiff = "She";
+					
+					if (this.target.health < 0)
+					{
+						target.AddEvent(sexdiff + " drank way too much and suffocated!!\n");
+						target.dieHome("Partied to death!");
+					}
+				}
+				else if (SecRoll < 50)
+				{
+					
+					string result ="";
+					result += "It was fun";
+					target.ChangeMorale(30);
+					
+					int ThirdRoll = Random.Range(0, 5);		//Chance for alcoholism
+					if (ThirdRoll >4)
+					{
+						result += " but " + target.getCallsignOrFirstname() + " began to drink too much!\n";
+						target.AddAttribute("drunkard");
+					}
+					else
+						result += ".\n";
+					
+					target.AddEvent(result);
+					
+				}
+				else
+				{
+					target.AddEvent("It was relaxing.\n");
+					target.ChangeMorale(10);
+				}
+				
+				
+				
+			}
+			else if (Roll < 75)			// NORMAL REST
+			{
+				CheckForBionics();
+				target.AddEvent("Was given basic medical treatment.\n");
+				target.RemoveAttribute("wounded");		//Wound goes away!
+				target.ChangeHealth(10);
+				
+				int SecRoll = Random.Range(0, 100);
+				
+				if (SecRoll < 50)
+				{
+					target.AddEvent("It was OK.\n");
+					target.ChangeMorale(20);
+					
+				}
+				else
+				{
+					target.AddEvent(target.getCallsignOrFirstname() + " would have hoped better\n");
+					target.ChangeMorale(5);
+				}
+			}
+			else if (Roll < 90)			// NO REST
+			{
+				target.AddEvent("There was no time for medical help.\n");
+				target.ChangeHealth(5);
+				
+				int SecRoll = Random.Range(0, 100);
+				
+				if (SecRoll < 25 + CheckTrait("lucky",10))		//being lucky helps!
+				{
+					target.AddEvent(target.getCallsignOrFirstname() + " 'found' a medkit!\n");
+					target.ChangeHealth(5);
+					target.ChangeMorale(10);
+					
+				} 
+				else if (SecRoll < 50)
+				{
+					target.AddEvent("It was understandable.\n");
+					target.ChangeMorale(5);
+					
+				}
+				else
+				{
+					target.AddEvent("It sucked royally.\n");
+					target.ChangeMorale(-20);
+				}
+			}
+			
+			AddAward("Wound Badge");		//Aways if wounded!
+			
+		}		
+		else
+		{
+			target.AddEvent("Did not need medical help.\n");
+			
+			int SecRoll = Random.Range(0, 100);
+			
+			if (SecRoll < 25)
+			{
+				target.AddEvent("It was time to rest anyway!\n");
+				target.ChangeHealth(5);
+				target.ChangeMorale(20);
+				
+			} 
+			else if (SecRoll < 50)
+			{
+				target.ChangeMorale(10);
+				
+			}
+			else
+			{
+				target.ChangeMorale(-5);
+			}
+		}
+
+	}
+
+	/// <summary>
+	/// CHANCE TO BANG HIMSELF due to POOR MORALE
+	/// </summary>
+	public void CheckSuecide()
+	{
+		if (this.target.morale < 0){		
+			
+			if (Random.Range(0, 100) > (70 +CheckTrait("heroic",10)+CheckTrait("coward",-10)+CheckTrait("depressed",-30)))
+			{
+				string Sexdiff = "";
+				
+				if (this.target.sex == 'm')
+				{
+					Sexdiff = "him";
+				}
+				else
+					Sexdiff = "her";
+				
+				if ((CheckTrait("inaccurate") | CheckTrait("idiot")) && ((Random.Range(0, target.skill)) > 60))
+				{
+					this.target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " tried to shot " + Sexdiff + "self but missed!\n");
+				}
+				else
+				{
+					target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " shot " + Sexdiff + "self!\n");
+					target.dieHome("Killed " + Sexdiff + "self.");
+
+				}
+			}
+			else
+				target.AddEvent("Due to poor morale, " + target.getCallsignOrFirstname() + " thought about self-termination.\n");
+		}
+	}
+
+	private void CheckMoodAfterDefeat()
+	{
+		if (CheckTrait("coward") && ((Random.Range(0, 100)) < 70))
 		{
 			target.AddEvent(" It was horrific.\n");
 			target.ChangeMorale(-30);
 		}
-		else if (CheckTrait("depressed")&& ((Random.Range(10, 100)) < 60))		//being depressed sucks royally
+		else if (CheckTrait("depressed")&& ((Random.Range(0, 100)) < 60))		//being depressed sucks royally
 		{
 			target.AddEvent(" It was crumbling!\n");
 			target.ChangeMorale(-40);
 		}
-		else if ((Random.Range(10, 100)) < 50)
+		else if ((Random.Range(0, 100)) < 50)
 		{
 			target.AddEvent(" It felt shitty.\n");
 			target.ChangeMorale(-20);

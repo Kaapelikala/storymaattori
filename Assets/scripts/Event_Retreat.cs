@@ -77,11 +77,11 @@ public class Event_Retreat : MonoBehaviour {
 				if (solttu.HasAttribute("coward"))
 					MoraleCheck += -20;
 				if (solttu.HasAttribute("heroic"))
-					MoraleCheck += 15;
+					MoraleCheck += 40;
 				if (solttu.HasAttribute("robo-heart") | solttu.HasAttribute("robo-organs"))
-					MoraleCheck += 10;
-				if (solttu.HasAttribute("veteran"))
 					MoraleCheck += 20;
+				if (solttu.HasAttribute("veteran"))
+					MoraleCheck += 40;
 				if (solttu.HasAttribute("loner"))
 					MoraleCheck += 10;
 			}

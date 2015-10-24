@@ -203,7 +203,7 @@ public class SoldierManager : MonoBehaviour {
 			}
 
 		}
-		if (RECRUIT.soldierFName == "" && UnityEngine.Random.Range (0,10) > 7)	//Because middle names are fun but not everyone needs one!
+		if (RECRUIT.soldierMName == "" && UnityEngine.Random.Range (0,10) > 7)	//Because middle names are fun but not everyone needs one!
 		{
 			RECRUIT.soldierMName = SecondNames[(Mathf.RoundToInt(UnityEngine.Random.value*(SecondNames.GetLength(0)-1)))];
 		}
