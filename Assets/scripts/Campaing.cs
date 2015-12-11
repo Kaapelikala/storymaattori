@@ -26,6 +26,7 @@ public class Campaing : MonoBehaviour {
 
 	//for notes
 	public int missionNumber = 0;
+	public int MissionsToReinforcements = 10;
 	public int TimeStamp = 0;
 	public int TotalKills = 0;
 	public int TotalDead = 0;
@@ -46,13 +47,14 @@ public class Campaing : MonoBehaviour {
 	void Start () {
 
 		BeginText.text = this.Begin();
-	
+		MissionsToReinforcements = Random.Range(3,6);
 	}
 
 
 	public string GetNextMission(){
 
 		missionNumber++;
+		MissionsToReinforcements--;
 		TimeStamp += Mathf.RoundToInt((Random.Range(4, 8))+ (Random.Range(4, 8)));
 
 		return "M"+ missionNumber;
@@ -65,6 +67,7 @@ public class Campaing : MonoBehaviour {
 		WarLog.text = 
 				"TimeStamp:" + "\n" + TimeStamp + "\n" +
 				"Missions:" + "\n" + missionNumber + "\n" +
+				"Reinforcements:" + "\n" + MissionsToReinforcements + "\n" +
 				"Total Kills:" + "\n" + TotalKills + "\n" +
 				"Total Deaths:" + "\n" + TotalDead+ "\n" +
 				"Kills/Deaths:" + "\n";	

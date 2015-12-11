@@ -572,6 +572,12 @@ public class SoldierController : ScriptableObject {
 				HowMuchLikes += 1;
 		}
 
+		if (this.HasHistory("-SACR-SURV-:" + target.soldierID))	// If This soldier witnessed heroic jumping of grenade by Target
+			HowMuchLikes += 10;
+
+		if (this.HasHistory("-SACR-DIE-:" + target.soldierID))	// If This soldier witnessed heroic death by Target
+			HowMuchLikes += 15;
+
 
 		return HowMuchLikes;
 
@@ -726,7 +732,8 @@ public class SoldierController : ScriptableObject {
 			"Lion",
 			"Tiger",
 			"Eagle",
-			"Bear"
+			"Bear",
+			"Zeke"
 		};
 
 		this. callsign = Callsigns[(Mathf.RoundToInt(Random.value*(Callsigns.GetLength(0)-1)))];

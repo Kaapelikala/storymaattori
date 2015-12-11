@@ -23,6 +23,7 @@ public class Mission : MonoBehaviour {
 		
 		// outcome is a String would be better!
 	public bool retreat = false;	
+	public bool Enemyretreat = false;	
 	public bool victory = false;
 	public bool LOCKED = false;		//LOCKS SO IT IS NOT CALCULATED AGAIN!
 
@@ -106,7 +107,15 @@ public class Mission : MonoBehaviour {
 				returned += thisMissionKills + "\n";
 
 			}
+
+			if (Enemyretreat == true)
+			{
+				returned += ("--Rest enemies retreated.\n");
+			}
+
 			bool wastedPrinted = false;
+
+
 
 			foreach (SoldierController soldier in squad) {
 				if (!soldier.alive) {

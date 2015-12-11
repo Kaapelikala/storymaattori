@@ -62,8 +62,6 @@ public class SoldierManager : MonoBehaviour {
 
 		this.CreateNewSoldier();
 		this.CreateNewSoldier();
-
-		
 		
 		this.CreateNewSoldier();
 		this.CreateNewSoldier();
@@ -175,8 +173,14 @@ public class SoldierManager : MonoBehaviour {
 
 	}
 
-	public void CreateNewSoldier() //creates new soldier!!
+	public SoldierController CreateNewSoldier() //creates new soldier!!
 	{
+		
+		if (soldiers.Count >19)	//cant have more than 19!
+		{
+			return null;
+		}
+
 		SoldierController RECRUIT = new SoldierController(SoldierID);
 
 		bool NoSameName = true;
@@ -303,12 +307,15 @@ public class SoldierManager : MonoBehaviour {
 		// IDEA: BOOTCAMP??
 
 		soldiers.Add(RECRUIT);
-		if (RECRUIT.soldierID > 42008)	// not to the Soldiers created at the beginning!
-			campaing.ReportCont.CreateNewSoldierPopup(RECRUIT);
+		//if (RECRUIT.soldierID > 42008)	// not to the Soldiers created at the beginning!
+			//campaing.ReportCont.CreateNewSoldierPopup(RECRUIT);
 
 		Debug.Log ("Added soldier " + SoldierID + ". Size now " + soldiers.Count);
 		SoldierID++;
 		//this.MoveDeadsAway();
+
+		return RECRUIT;
+
 	
 	}
 
@@ -334,6 +341,76 @@ public class SoldierManager : MonoBehaviour {
 
 		//this.checkSizes();
 
+	}
+	
+	/// <summary>
+	/// Another soldier is dead. Checks if new recruits are needed! If Squad has more high-ranked soldiers more are assigned to it!
+	/// </summary>
+	/// <param name="Dead">dead soldier.</param>
+	public void DeadSoldierNOTE(SoldierController Dead)
+	{
+
+		campaing.ReportCont.CreateDEADSoldierPopup(Dead);// this needs to be last so it is first thing to see!
+
+	}
+
+	public void CheckForNewSoldiers()
+	{
+		this.MoveDeadsAway();
+
+		if (soldiers.Count >= 12)		// 12 is number of max soldiers!
+		{}
+		else if (campaing.MissionsToReinforcements <= 0)
+		{
+			campaing.MissionsToReinforcements = UnityEngine.Random.Range(3,7);
+
+			float RankCalculator = 0;
+			
+			foreach (SoldierController soldier in soldiers)
+			{
+				RankCalculator += soldier.rank;
+			}
+			
+			float NewAmountOfSoldiers = Math.Min((11 - soldiers.Count), 2+RankCalculator);		//MIN 2 , MAX 12 soldiers!
+
+			bool SavingFormerStatus = campaing.ReportCont.ShowNewReports;	// save it - when many come at the same time no invidinual news!
+			campaing.ReportCont.ShowNewReports = false;
+
+			List<SoldierController> NewSoldiers = new List<SoldierController> (0);
+
+			for ( int i = 0; i < NewAmountOfSoldiers; i++)
+			{
+				NewSoldiers.Add(this.CreateNewSoldier());
+			}
+
+			campaing.ReportCont.CreateReinforcementsPopUp(NewSoldiers);
+
+			campaing.ReportCont.ShowNewReports = SavingFormerStatus;
+
+		
+//			float RankCalculator = 0;
+//			
+//			foreach (SoldierController soldier in soldiers)
+//			{
+//				if (!soldier.HasAttribute("newbie"))
+//					RankCalculator += 0.25f;
+//				RankCalculator += soldier.rank;
+//			}
+//			
+//			float NewAmountOfSoldiers = Math.Min(19, (Math.Max(RankCalculator, 5.0f)));		//MIN 5 soldiers!
+//			
+//			for ( int i = soldiers.Count; i < NewAmountOfSoldiers; i++)
+//			{
+//				this.CreateNewSoldier();		//YES, NEW SOLDIER PER EACH DEAD!
+//			}
+		}
+
+		if (soldiers.Count < 4)		// EMERGENCYREINFORCEMENT - always checked!
+		{
+			campaing.ReportCont.CreateEmergencySoldierPopup(this.CreateNewSoldier());	// should have different stats due emerg but whatever
+			this.CheckForNewSoldiers();
+		}
+		
 	}
 
 	private string StatToShort(int Stat)

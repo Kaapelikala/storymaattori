@@ -19,6 +19,25 @@ public class Event_Retreat : MonoBehaviour {
 		"Soldier"
 	};
 
+	string[] monsterAdjectives = new string[] 
+	{
+		"Red",
+		"Hungry",
+		"Nasty",
+		"Evil",
+		"Cold",
+		"Vicious",
+		"Stealthy",
+		"Frenzized",
+		"Fanatic",
+		"Mad",
+		"Lucky",
+		"Black",
+		"Screaming",
+		"Acrobatic",
+		"Quick"
+	};
+
 	string [] verbs = new string[] {
 		"mauled",
 		"wasted",
@@ -218,6 +237,7 @@ public class Event_Retreat : MonoBehaviour {
 			string returned = "";
 
 			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
+			string monsterADJ = monsterAdjectives[(Mathf.RoundToInt(Random.value*(monsterAdjectives.GetLength(0)-1)))];
 			string verb = verbs[(Mathf.RoundToInt(Random.value*(verbs.GetLength(0)-1)))];
 
 			solttu.ChangeHealth(-20);
@@ -226,7 +246,7 @@ public class Event_Retreat : MonoBehaviour {
 			
 			if (solttu.health < 0) 
 			{
-				returned ="During retreat, was " + verb +" by "+monstername + " in the back!!\n";
+				returned ="During retreat, was " + verb +" by "+  monsterADJ + " " +monstername + " in the back!!\n";
 				solttu.die("Killed during retreat");
 			}
 			else

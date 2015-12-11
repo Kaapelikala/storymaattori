@@ -16,7 +16,7 @@ public class CombatController : MonoBehaviour {
 	public Text Battlelog;
 
 
-	private Event_Battle tappelu = new Event_Battle();
+	//private Event_Battle tappelu = new Event_Battle();
 
 		// Use this for initialization
 		void Start () {

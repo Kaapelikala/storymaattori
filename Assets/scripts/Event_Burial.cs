@@ -57,13 +57,29 @@ public class Event_Burial : MonoBehaviour {
 		corpse.AddAward("Campaing Medal");
 		corpse.AddAward("Wound Badge");
 
+		
+		int ChanceMod = 0;	//Chance for person to mourn the dead!
+
+
 		if (AwardBraveryMedal == true)
 		{
+			ChanceMod += 2;
 			corpse.AddEvent("Having participated in mission crucial to the War Effort, " +corpse.soldierLName+ " was awarded posthumorous Bravery Medal.\n");
 			corpse.AddAward("Bravery Medal");
 		}
 
-		int ChanceMod = 0;	//Chance for person to mourn the dead!
+		if  (corpse.HasHistory("-SACR-DIE-THIS") && corpse.HasAward("Bravery Medal"))
+		{
+			ChanceMod += 5;
+			corpse.AddEvent("For outstanding heroic sacrifice, " +corpse.soldierLName+ " was awarded posthumorously yet another Bravery Medal!\n");
+			corpse.AddAward("Bravery Medal");
+		}
+		else if (corpse.HasHistory("-SACR-DIE-THIS"))
+		{
+			ChanceMod += 5;
+			corpse.AddEvent("For outstanding heroic sacrifice, " +corpse.soldierLName+ " was awarded posthumorous Bravery Medal.\n");
+			corpse.AddAward("Bravery Medal");
+		}
 
 		int RandomRoll = Random.Range(0, 100);
 		

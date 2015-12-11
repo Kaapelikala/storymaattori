@@ -32,8 +32,8 @@ public class EventController : MonoBehaviour {
 		{
 			squad = manager.GetSquad(indexes);
 		}
-		Event_Battle Fight = new Event_Battle (MissionName);
-		Event_Grenade Grenade = new Event_Grenade (MissionName);
+		Event_Battle Fight = new Event_Battle (MissionName, squad);
+		Event_Grenade Grenade = new Event_Grenade (MissionName, squad);
 		Event_EnemyEmplacement EnemyBunker = new Event_EnemyEmplacement();
 		Event_Retreat MoraleLost = new Event_Retreat(campaing);
 		Event_Debrief MotherBase = new Event_Debrief();
@@ -72,11 +72,12 @@ public class EventController : MonoBehaviour {
 
 		bool MissionTargetDone = false;
 		bool Retreat = false;
+		bool EnemyRetreat = false;
 
 		// ENEMY NUMBERS ARE CALCULATED IN MISSION ITSELF!
 
 		//while (missionImput.StillSomethingToKill() && (squad.Count > 0) && !Retreat)
-		while (missionImput.StillSomethingToKill() == true && (squad.Count > 0) && (Retreat == false))
+		while (missionImput.StillSomethingToKill() == true && (squad.Count > 0) && (Retreat == false) && (EnemyRetreat == false))
 		{
 
 			//randomising the soldier!
@@ -94,7 +95,7 @@ public class EventController : MonoBehaviour {
 					
 					if (BattleEventRandomiser < 70)		// THE BASIC ATTACK
 					{
-						squad [i].AddKills(	missionImput.AddKills(	Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank, squad)));
+						squad [i].AddKills(	missionImput.AddKills(	Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
 					}					
 //					else if (targetlocation.type == "Assault" && BattleEventRandomiser > 90 && !MissionTargetDone)
 //					{
@@ -109,7 +110,7 @@ public class EventController : MonoBehaviour {
 							squad [i].AddKills(	missionImput.AddKills(	EnemyBunker.Encounter(squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
 						}
 						else{
-							Grenade.CheckGrenade (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
+							Grenade.CheckGrenade (squad, Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
 						}
 					}
 				}
@@ -117,8 +118,26 @@ public class EventController : MonoBehaviour {
 			{	// Checks against the Average Morale of the remaining soldiers!
 				Retreat = MoraleLost.RetreatCheck(squad, campaing.Campaing_Difficulty);
 			}	
-				
-				
+
+			//Retreat Check for ENEMIES! Exactly same as for our soldiers but simplified
+
+			if (Random.Range(1,missionImput.Hostiles) <= missionImput.kills && Retreat == false)	// one of them must fall before retreatchecking starts!		
+			{
+				int EnemyMoraleCalculation = (((missionImput.Hostiles - missionImput.kills) * 100) / missionImput.Hostiles);
+						//Check is averaged, every dead hostile chips enemy morale
+				if (Random.Range(0,100) > EnemyMoraleCalculation)
+				{
+					EnemyRetreat = true;
+					missionImput.Enemyretreat = true;
+
+					foreach (SoldierController soldier in squad) {
+						soldier.AddEvent("Enemies fled!\n");
+
+					}
+				}
+			}
+
+
 				//Everyone has enough processing power anyways.
 			manager.MoveDeadsAway ();
 
@@ -185,7 +204,7 @@ public class EventController : MonoBehaviour {
 					solttu.AddHistory("-RETREATDEATH-");
 				Grave.Bury(solttu,manager, AwardBraveryMedal, corpseRecoveryMod);
 				
-				this.DeadSoldierNOTE(solttu);
+				manager.DeadSoldierNOTE(solttu);
 			}
 		}
 
@@ -230,7 +249,7 @@ public class EventController : MonoBehaviour {
 			{
 				Grave.Bury(solttu, manager, false, 50);
 				
-				DeadSoldierNOTE(solttu);
+				manager.DeadSoldierNOTE(solttu);
 			}
 		}
 		
@@ -332,7 +351,7 @@ public class EventController : MonoBehaviour {
 			{
 				Grave.Bury(solttu,manager, false, 100);
 				
-				DeadSoldierNOTE(solttu);
+				manager.DeadSoldierNOTE(solttu);
 			}
 		}
 		manager.MoveDeadsAway ();
@@ -552,13 +571,7 @@ public class EventController : MonoBehaviour {
 
 	}
 
-	private void DeadSoldierNOTE(SoldierController Dead)
-	{
-		manager.CreateNewSoldier();		//YES, NEW SOLDIER PER EACH DEAD!
-	
-		campaing.ReportCont.CreateDEADSoldierPopup(Dead);// this needs to be last so it is first thing to see!
 
-	}
 
 	/*void OnGUI () {
 		if (GUI.Button (new Rect (30,250,250,20), "!!!TAPPELU!!!")) {

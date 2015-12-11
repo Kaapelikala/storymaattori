@@ -14,6 +14,7 @@ public class MissionLog : MonoBehaviour {
 	public SoldierManager manager;
 	public Mission mission;
 	public EventController control;
+	public Campaing ActualCampaing;
 
 	public RectTransform BG;
 
@@ -163,6 +164,7 @@ public class MissionLog : MonoBehaviour {
 					Debug.Log ("mission "+ mission.MissionName +" was defeat!");
 				}
 			}
+			manager.CheckForNewSoldiers(); // Done only here, checks regardless of deaths 
 
 			manager.squadIds = new int[4]{-2,-2,-2,-2};
 			manager.inSquadCurrently = 0;

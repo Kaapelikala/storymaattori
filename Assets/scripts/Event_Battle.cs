@@ -20,6 +20,26 @@ public class Event_Battle {
 		"Duclops",
 		"Soldier"
 	};
+
+	string[] monsterAdjectives = new string[] 
+	{
+		"Red",
+		"Hungry",
+		"Nasty",
+		"Evil",
+		"Cold",
+		"Vicious",
+		"Stealthy",
+		"Frenzized",
+		"Fanatic",
+		"Mad",
+		"Lucky",
+		"Black",
+		"Screaming",
+		"Acrobatic",
+		"Quick"
+	};
+
 	string [] verbs = new string[] {
 		"mauled",
 		"wasted",
@@ -49,13 +69,10 @@ public class Event_Battle {
 		"grazed",
 		"hurt"
 	};
-
-	public Event_Battle()
+	
+	public Event_Battle(string NameInsert, List<SoldierController> INJECT)
 	{
-	}
-
-	public Event_Battle(string NameInsert)
-	{
+		this.squad = INJECT;
 		this.MissionName = NameInsert;
 	}
 
@@ -65,11 +82,12 @@ public class Event_Battle {
 		string returned="";
 		//int temp;
 		string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
+		string monsterADJ = monsterAdjectives[(Mathf.RoundToInt(Random.value*(monsterAdjectives.GetLength(0)-1)))];
 		string verb = verbs[(Mathf.RoundToInt(Random.value*(verbs.GetLength(0)-1)))];
 
 		// Negative = Soldier got killed!
 		if (negative) {
-			returned ="Was " + verb +" by "+monstername + "!!\n";		//needs more drama!
+			returned ="Was " + verb +" by "+  monsterADJ + " "+monstername + "!!\n";		//needs more drama!
 
 			foreach (SoldierController solttu in squad)
 			{
@@ -89,7 +107,7 @@ public class Event_Battle {
 		}
 		else
 		{
-			returned = verb + " a " + monstername + "!\n";
+			returned = verb + " a " +  monsterADJ + " "+ monstername + "!\n";
 		}
 
 
@@ -97,10 +115,9 @@ public class Event_Battle {
 		target.AddEvent(returned);
 	}
 
-	public int FightRound (SoldierController NEWTARGET, int Enemy_difficulty, List<SoldierController> INJECT)
+	public int FightRound (SoldierController NEWTARGET, int Enemy_difficulty)
 	{
 
-		this.squad = INJECT;
 		this.target = NEWTARGET;
 
 		//Enemy_difficulty pitäs olla about 100 normaalisti.
@@ -117,9 +134,10 @@ public class Event_Battle {
 		modifier +=  target.SkillTotal() - Enemy_difficulty;
 
 		modifier += CheckTrait("heroic", 5);
+		modifier += CheckTrait("veteran", 5);
 		modifier +=  CheckTrait("idiot", -10);
 		modifier +=  CheckTrait("newbie", -5);
-		modifier +=  CheckTrait("wounded", -10);
+		modifier +=  CheckTrait("wounded", -20);
 		modifier +=  CheckTrait("robo-eye", 5);
 		modifier +=  CheckTrait("robo-vision", 10);
 		modifier +=  CheckTrait("robo-manipulators", 5);
@@ -161,7 +179,8 @@ public class Event_Battle {
 		else if (Roll < BothMissChance)		// THIS SHOULD HAVE SOMETHING ELSE AS WELL!!! EVENT OR SOMETHING?
 		{
 			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
-			target.AddEvent("Missed a " + monstername + "!\n");
+			string monsterADJ = monsterAdjectives[(Mathf.RoundToInt(Random.value*(monsterAdjectives.GetLength(0)-1)))];
+			target.AddEvent("Missed a " +  monsterADJ + " " + monstername + "!\n");
 			target.ChangeMorale(5);
 			return 0;
 			//return (target.callsign + " missed!");
@@ -180,11 +199,12 @@ public class Event_Battle {
 			}
 
 			string monstername = monsternames[(Mathf.RoundToInt(Random.value*(monsternames.GetLength(0)-1)))];
+			string monsterADJ = monsterAdjectives[(Mathf.RoundToInt(Random.value*(monsterAdjectives.GetLength(0)-1)))];
 
 			string hurtInsert = hits[(Mathf.RoundToInt(Random.value*(hits.GetLength(0)-1)))];
 
-			Debug.Log(target.callsign + " was " + hurtInsert +" by a " + monstername + "!\n");
-			target.AddEvent("Was " + hurtInsert +" by a " + monstername + "!\n");
+			Debug.Log(target.callsign + " was " + hurtInsert +" by a " +  monsterADJ + " " + monstername + "!\n");
+			target.AddEvent("Was " + hurtInsert +" by a "+  monsterADJ + " " + monstername + "!\n");
 
 			//return (target.callsign + " was hit by enemy!");
 			return 0;

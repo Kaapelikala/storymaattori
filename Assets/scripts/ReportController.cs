@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System;
 
 public class ReportController : MonoBehaviour {
 
@@ -19,7 +21,7 @@ public class ReportController : MonoBehaviour {
 
 	public int NextReportNumber()
 	{
-		this.ReportNumber += Random.Range(1,8)+ Random.Range(1,8);
+		this.ReportNumber += UnityEngine.Random.Range(1,8)+ UnityEngine.Random.Range(1,8);
 
 		return ReportNumber;
 
@@ -61,8 +63,9 @@ public class ReportController : MonoBehaviour {
 	{
 		if (this.ShowNewReports == true)
 		{
-			string ToReturn = "New Soldier:\n" + Recruit.AllNamesNoRANK().ToUpper()+"\n";
+			string ToReturn = "--New Soldier--\n" + Recruit.AllNamesNoRANK().ToUpper()+"\n";
 
+			ToReturn += "ID: " + campaing.SquadID + "/" + Recruit.soldierID + "\n";
 			ToReturn += "Skill: " + StatToShort(Recruit.skill) +"\n";
 			ToReturn += "Health: " + StatToShort(Recruit.health) +"\n";
 			ToReturn += "Morale: " + StatToShort(Recruit.morale) +"\n";
@@ -72,13 +75,53 @@ public class ReportController : MonoBehaviour {
 		
 	}
 
+	public void CreateEmergencySoldierPopup(SoldierController Recruit)
+	{
+		if (this.ShowNewReports == true)
+		{
+			string ToReturn = "--Emergency Recruit--\n" + Recruit.AllNamesNoRANK().ToUpper()+"\n";
+			
+			ToReturn += "ID: " + campaing.SquadID + "/" + Recruit.soldierID + "\n";
+			ToReturn += "Skill: " + StatToShort(Recruit.skill) +"\n";
+			ToReturn += "Health: " + StatToShort(Recruit.health) +"\n";
+			ToReturn += "Morale: " + StatToShort(Recruit.morale) +"\n";
+			
+			this.CreateNewsPopup(ToReturn);
+		}
+		
+	}
+
+	public void CreateReinforcementsPopUp(List<SoldierController> Reinforcements)
+	{
+		if (Reinforcements.Count == 1)
+		{
+			bool SavingFormerStatus = this.ShowNewReports;	// save it - when many come at the same time no invidinual news!
+			campaing.ReportCont.ShowNewReports = true;
+
+			this.CreateNewSoldierPopup(Reinforcements[0]);
+			
+			this.ShowNewReports = SavingFormerStatus;	// save it - when many come at the same time no invidinual news!
+		}
+		else
+		{
+			string ToReturn = "--Reinforcements--\n";
+
+			foreach (SoldierController solttu in Reinforcements)
+			{
+				ToReturn += solttu.AllNamesNoRANK() + "\n";
+			}
+				
+			this.CreateNewsPopup(ToReturn);
+		}
+	}
+
 
 	
 	public void CreateDEADSoldierPopup(SoldierController Corpse)
 	{
 		if (this.ShowDeadReports == true)
 		{
-			string ToReturn = "Dead Soldier:\n" + Corpse.GetRank() +"\n"+ Corpse.AllNamesNoRANK().ToUpper() +"\n" + Corpse.HowDied+"\n";
+			string ToReturn = "--Casualty--\n" + Corpse.GetRank() +"\n"+ Corpse.AllNamesNoRANK().ToUpper() +"\n" + Corpse.HowDied+"\n";
 
 			ToReturn += "Missions: "+Corpse.missions +" | Kills: " +Corpse.kills+"\n";
 

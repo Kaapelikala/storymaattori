@@ -26,8 +26,9 @@ public class SoldierSelector : MonoBehaviour {
 				soldierName.text +=  " WOUNDED";
 			}
 		}
-
-
+		else{
+			soldierName.text = " - No Soldier -";
+		}
 
 		Array.Sort (manager.squadIds);
 		if (Array.BinarySearch(manager.squadIds,Int32.Parse(this.gameObject.name))<0)
