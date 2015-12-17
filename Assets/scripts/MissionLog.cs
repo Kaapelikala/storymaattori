@@ -175,12 +175,18 @@ public class MissionLog : MonoBehaviour {
 	
 	public void UpdateLog()
 	{
+
+		if (missionText.text == "- NO MISSIONS -")
+			missionText.text = "";
+
 		string temp=missions [currentlyAdded].ToString();
 		missionText.text = missionText.text+temp;
 
-		this.missionText.rectTransform.sizeDelta = new Vector2(359, missionText.text.Length*2);
 
-		this.BG.sizeDelta = new Vector2( 0 , missionText.text.Length*2);
+
+		this.missionText.rectTransform.sizeDelta = new Vector2(359, missionText.text.Length);
+
+		this.BG.sizeDelta = new Vector2( 0 , missionText.text.Length);
 
 		missionText.text += "\n\n";
 
