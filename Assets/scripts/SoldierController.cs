@@ -292,6 +292,10 @@ public class SoldierController : ScriptableObject {
 
 	}
 
+	/// <summary>
+	/// Rank, First + Middle OR Callsign, Lastname
+	/// </summary>
+	/// <returns>The name.</returns>
 	public string FullName(){
 
 		string returnoitava = "";
@@ -317,6 +321,10 @@ public class SoldierController : ScriptableObject {
 		return returnoitava;
 	}
 
+	/// <summary>
+	/// Rank, First, Middle, Callsign, Last Name
+	/// </summary>
+	/// <returns>The names.</returns>
 	public string AllNames(){
 		
 		string returnoitava = "";
@@ -341,6 +349,11 @@ public class SoldierController : ScriptableObject {
 		
 		return returnoitava;
 	}
+
+	/// <summary>
+	/// Firstname, Middlename, Callsign, Lastname
+	/// </summary>
+	/// <returns>The names no RAN.</returns>
 	public string AllNamesNoRANK(){
 		
 		string returnoitava = "";
@@ -357,6 +370,36 @@ public class SoldierController : ScriptableObject {
 		{
 			returnoitava += "'" + this.callsign +"' ";
 		}
+		
+		returnoitava +=  this.soldierLName;
+		
+		return returnoitava;
+	}
+
+	/// <summary>
+	/// Rank, Lastname ONLY
+	/// </summary>
+	/// <returns>The name</returns>
+	public string GetFormalName(){
+		
+		string returnoitava = "";
+			
+		returnoitava = this.GetRank()+ " ";
+
+		returnoitava +=  this.soldierLName;
+		
+		return returnoitava;
+	}
+
+	/// <summary>
+	/// ShortRank, Lastname
+	/// </summary>
+	/// <returns>The formal name_ short rank.</returns>
+	public string GetFormalName_ShortRank(){
+		
+		string returnoitava = "";
+		
+		returnoitava = this.GetFormalName_ShortRank()+ " ";
 		
 		returnoitava +=  this.soldierLName;
 		
@@ -450,6 +493,10 @@ public class SoldierController : ScriptableObject {
 		
 		return returnoitava;
 	}
+	/// <summary>
+	/// Returns list of short award names
+	/// </summary>
+	/// <returns>The awards short.</returns>
 	public string GetAwardsShort ()	
 	{
 		string returnoitava = "";
@@ -490,10 +537,20 @@ public class SoldierController : ScriptableObject {
 		
 		return returnoitava;
 	}
-
+	/// <summary>
+	/// Adds piece of history
+	/// CODE IS IN STRING - "-X-:Y" 
+	/// X IS what happened
+	/// Y is DETAIL: 
+	///   either CAMPAING MISSION NUMBER or CAMPAING TIMESTAMP 
+	/// </summary>
+	/// <example>
+	/// "-DEAD-:57"
+	/// </example>
+	/// <param name="lisattava">what to add</param>
 	public void AddHistory (string lisattava)		
 	{
-		// CODE IS IN STRING - "-X-:Y" X IS what happened and Y is DETAIL: either CAMPAING MISSION NUMBER or CAMPAING TIMESTAMP example: "-DEAD-:57"
+		// 
 		history.Add(lisattava);
 		
 	}

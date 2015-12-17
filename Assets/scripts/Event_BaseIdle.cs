@@ -46,7 +46,7 @@ public class Event_BaseIdle : MonoBehaviour {
 				idler.ChangeHealth(-80);	// total of -5 then!
 				if (idler.health <= 0)
 				{
-					idler.AddEvent("Died of infected wound!");
+					idler.AddEvent("Died of infected wound!\n");
 					idler.dieHome("Infected wound");
 				}
 				else
@@ -82,7 +82,7 @@ public class Event_BaseIdle : MonoBehaviour {
 
 		//modifiers?
 
-		if (MajorStuffHappening > 50)
+		if ((MajorStuffHappening > 50) && (idlers.Count > 1))	// needs big amount of persons for major stuff!
 		//if (true)
 		{
 			// Big parties, drunkness, shooting competition, stupid shit!
@@ -141,15 +141,62 @@ public class Event_BaseIdle : MonoBehaviour {
 				*/
 
 				int HowArrangementsWent = HowItWent;
+				string ToReport = "-Activity-\n" 
+					+ "Party at the base!\n";
 
 				foreach (SoldierController idler in idlers)
-				{if (idler.alive == true)
+				{
+					if (idler.alive == true)
 					{
 						HowItWent += ActualParty(idler, HowArrangementsWent);
+						ToReport += idler.GetRankShort() + " " + idler.soldierLName + "\n";
 					}
 				}
 
+				ToReport +=  "participated.\n";
+
+				if (HowItWent < -10)		
+				{
+					ToReport += "Soldiers did not like it.";
+				}
+				else if (HowItWent < 10)		
+				{
+					ToReport += "It was okay.";
+				}
+				else if (HowItWent < 30)		
+				{
+					ToReport += "Party was a success!";
+				}
+				else if (HowItWent < 50)		
+				{
+					ToReport += "People really enjoyed!";
+				}
+				else if (HowItWent >= 50)		
+				{
+					ToReport += "Party was epic!!";
+				}
+
+
+				campaing.ReportCont.CreateNewsPopup(ToReport);	//News that party happened!
+
 				//something more still? Meh for now!
+			}
+
+			else //Shooting Competition!
+			{
+
+
+				foreach (SoldierController idler in idlers)
+				{
+					if (idler.alive == true)
+					{
+						idler.AddEvent("Shooting Competition!\n");
+						idler.AddHistory("-SHOOTCOMP-:" + campaing.TimeStamp);
+					}
+				}
+		
+				ShootingComp(idlers);	//Actual
+
 			}
 
 		}
@@ -192,6 +239,7 @@ public class Event_BaseIdle : MonoBehaviour {
 
 		if (Partylike < -10)		//Particular distaste
 		{
+
 			switch (PartyRandomiser)
 			{
 			case 0:
@@ -303,17 +351,172 @@ public class Event_BaseIdle : MonoBehaviour {
 	
 	
 	
+
 	
 	
 	
 	
 	
+
+
+
+	public void ShootingComp(List<SoldierController> shooters)
+	{
+
+		SoldierController FirstPlace = null;
+		int	FirstPlaceShot = 0;
+		SoldierController SecondPlace = null;
+		int	SecondPlaceShot = 0;
+		SoldierController ThirdPlace = null;
+		int	ThirdPlaceShot = 0;
+
+		string ToReport = "-Activity-\n" 
+			+ "Shooting Competition\n";
+
+		int Participants = 0;
+
+		foreach (SoldierController shooter in shooters)
+		{
+			Participants++;
+
+			int ShotRound = Random.Range(0, 100);
+
+			ShotRound += shooter.skill-100;	//Good Skill affects quite much!
+
+			ShotRound += CheckTrait("accurate",10,shooter);
+			ShotRound += CheckTrait("inaccurate",-20,shooter);
+			ShotRound += CheckTrait("robo-eyes",5,shooter);
+			ShotRound += CheckTrait("robo-vision",10,shooter);
+			ShotRound += CheckTrait("veteran",5,shooter);
+			ShotRound += CheckTrait("wounded",-10,shooter);
+			ShotRound += CheckTrait("depressed",-15,shooter);
+			ShotRound += CheckTrait("young",Random.Range(-5,5),shooter);
+
+			if (ShotRound < 0)
+			{
+				shooter.AddEvent(" Did not manage hit the target even once!\n");
+				shooter.ChangeMorale(-10);
+				if (shooter.HasAttribute("accurate") | (Random.Range(0,10) > 7))	// bad skill but accurate still. RARE!
+				{
+					shooter.AddEvent(shooter.getCallsignOrFirstname() + " could not believe it!");
+					shooter.ChangeMorale(-20);
+				}
+			}
+			if (ShotRound > FirstPlaceShot)
+			{
+				SecondPlace = FirstPlace;	// downgrade the previous best
+				SecondPlaceShot = FirstPlaceShot;
+
+				FirstPlace = shooter;
+				FirstPlaceShot = ShotRound;
+			}
+			else if (ShotRound > SecondPlaceShot)
+			{
+				ThirdPlace = SecondPlace;
+				ThirdPlaceShot = SecondPlaceShot;
+
+				SecondPlace = shooter;
+				SecondPlaceShot = ShotRound;
+			}
+			else if (ShotRound > ThirdPlaceShot)
+			{
+				ThirdPlace = shooter;
+				ThirdPlaceShot = ShotRound;
+			}
+		}
+
+		ToReport += (" " + Participants + " took part:\n");
+
+		if (FirstPlace != null)	
+		{
+			//1!
+			ToReport +=  (" 1st: " + FirstPlace.FullName() + "\n");
+			RankedAtShootComp(FirstPlace,1,FirstPlaceShot);
+
+			foreach (SoldierController admirer in shooters)
+			{
+				if (admirer != FirstPlace)
+				{
+					admirer.AddEvent(" " + FirstPlace.FullName() + " won\n");
+					if (admirer == SecondPlace | admirer == ThirdPlace)
+					{
+						if (admirer.CompareHistory(FirstPlace) >= 10)
+						{
+							admirer.AddEvent(" Good for "+FirstPlace.getCallsignOrFirstname()+"!\n");
+						}
+						else if (admirer.CompareHistory(FirstPlace) <= -15)
+						{
+							admirer.AddEvent(" Was annoyed by this.\n");
+						}
+						else if (admirer.CompareHistory(FirstPlace) <= -15)
+						{
+							admirer.AddEvent(" Did really not like this.\n");
+						}
+					}
+				}
+			}
+					
+			if (SecondPlace != null)
+			{
+				//2!
+				ToReport +=  (" 2nd: " + SecondPlace.FullName() + "\n");
+				RankedAtShootComp(SecondPlace,2,SecondPlaceShot);
+			
+				if (ThirdPlace != null)
+				{
+					//3!
+					ToReport +=  (" 3rd: " + ThirdPlace.FullName() + "\n");
+					RankedAtShootComp(ThirdPlace,3,ThirdPlaceShot);
+				}
+			}
+		}
+		else
+		{
+			ToReport += "No-one managed to hit the targets. Is this army or kindergarden?\n";
+			
+		}
+
+		campaing.ReportCont.CreateNewsPopup(ToReport);
+
+	}
 	
 	
 	
-	
-	
-	
+	private void RankedAtShootComp(SoldierController Ranked, int position, int ShootPoints)
+	{
+		Ranked.ChangeMorale(10+CheckTrait("heroic",5,Ranked)+CheckTrait("inaccurate",20,Ranked));
+
+		
+
+
+		switch (position)
+		{
+			case 1:
+				Ranked.AddEvent(" Won the competition!!\n");
+				Ranked.AddHistory("-SHOOTCOMP-1:" + campaing.TimeStamp);
+				break;
+			case 2:
+				Ranked.AddEvent(" Came second!\n");
+				Ranked.AddHistory("-SHOOTCOMP-2:" + campaing.TimeStamp);
+				break;
+			case 3:
+				Ranked.AddEvent(" Came third.\n");
+				Ranked.AddHistory("-SHOOTCOMP-3:" + campaing.TimeStamp);
+				break;
+			default:
+				break;
+		}
+
+
+		if (ShootPoints > 80 && !Ranked.HasAward("Markmanship Metal"))
+		{
+			Ranked.ChangeMorale(10+CheckTrait("heroic",5,Ranked));
+			Ranked.AddEvent(" And was awarded the Markmanship Metal!\n");
+			Ranked.AddAward("Markmanship Metal");
+			
+		}
+
+	}
 	
 	
 	/// <summary>
