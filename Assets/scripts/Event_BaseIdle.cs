@@ -92,7 +92,7 @@ public class Event_BaseIdle : MonoBehaviour {
 			
 			//Example: PARTY!!
 
-			if (true)	// true for now!
+			if (Random.Range(0,100) > 50)	// Is it a party?
 			{
 				int HowItWent = 0; // How cool the party was actually?
 
@@ -149,7 +149,7 @@ public class Event_BaseIdle : MonoBehaviour {
 					if (idler.alive == true)
 					{
 						HowItWent += ActualParty(idler, HowArrangementsWent);
-						ToReport += idler.GetRankShort() + " " + idler.soldierLName + "\n";
+						ToReport += idler.FullName() + "\n";
 					}
 				}
 
