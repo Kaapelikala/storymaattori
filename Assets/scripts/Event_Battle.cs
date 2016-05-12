@@ -6,7 +6,6 @@ public class Event_Battle {
 
 	public List<SoldierController> squad;
 	public SoldierController target;
-	public string MissionName = "";
 
 	string[] monsternames= new string[] 
 	{
@@ -70,10 +69,10 @@ public class Event_Battle {
 		"hurt"
 	};
 	
-	public Event_Battle(string NameInsert, List<SoldierController> INJECT)
+	public Event_Battle(List<SoldierController> INJECT)
 	{
 		this.squad = INJECT;
-		this.MissionName = NameInsert;
+
 	}
 
 	public void addCombatEvent(bool negative)
