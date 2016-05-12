@@ -18,7 +18,9 @@ public class MissionLog : MonoBehaviour {
 
 	public RectTransform BG;
 
-
+	/// <summary>
+	/// Generates a new Mission to send soldiers to!
+	/// </summary>
 	public void AddMission ()		
 	{
 		if (manager.soldiers.Count > 3) {
@@ -118,6 +120,9 @@ public class MissionLog : MonoBehaviour {
 			this.mission.MissionName = "Mission " + (control.campaing.missionNumber+1) + "";
 		}
 	}
+	/// <summary>
+	/// This is the actual command to send Soldiers to a Mission.
+	/// </summary>
 	public void AddSquad()		//LADS GO TO BATTLE!BATTLE!
 	{
 		if (manager.inSquadCurrently == 4) {
