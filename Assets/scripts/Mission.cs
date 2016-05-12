@@ -71,7 +71,7 @@ public class Mission : MonoBehaviour {
 			else{
 
 			if (LOCKED == false)
-				this.IsVictory(false);		//Calculates actual NUMBERS behind all! this just PRINTS stuff
+				this.IsVictory();		//Calculates actual NUMBERS behind all! this just PRINTS stuff
 
 			string returned = "";
 			returned += MissionName + "\n";
@@ -167,7 +167,7 @@ public class Mission : MonoBehaviour {
 		}
 
 	//IS THIS MISSION VICTORY?
-	public bool IsVictory(bool retreat)
+	public bool IsVictory()
 		{
 		
 			if (LOCKED == true)
@@ -194,9 +194,8 @@ public class Mission : MonoBehaviour {
 					}
 									
 
-				if (retreat)
+				if (this.retreat == true)
 				{
-					this.retreat = true;
 					this.victory = false;
 				}	
 				else if (thisMissionKills < soldiersDead)	//Victory is simple: Did they kill more than lost?
