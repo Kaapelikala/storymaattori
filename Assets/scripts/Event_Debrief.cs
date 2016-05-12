@@ -168,7 +168,7 @@ public class Event_Debrief : MonoBehaviour {
 			//Chance to kill oneself!!
 			this.CheckSuecide();
 
-
+			target.RemoveHistory("-ONMISSION-");	//The are again back at base!
 
 		}
 

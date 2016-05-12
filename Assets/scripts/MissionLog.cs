@@ -141,7 +141,7 @@ public class MissionLog : MonoBehaviour {
 
 			if (this.mission.type == "Vacation")
 			{
-				control.Vacate (manager.squadIds, mission.difficulty);
+				control.Vacate (manager.squadIds, mission.difficulty, missions [currentlyAdded]);
 
 			}
 			else if (this.mission.type == "Assault")
