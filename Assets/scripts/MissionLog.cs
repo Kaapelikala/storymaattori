@@ -32,10 +32,40 @@ public class MissionLog : MonoBehaviour {
 
 			int MissionTypeChance = Random.Range(0, 100); 
 
-			if (MissionTypeChance > 90)	//Partyparty!
+			//if (MissionTypeChance > 90)	//PATROL!
+			if (true)	//PATROL!
 			{
 				int targetSelect = Random.Range(0, 100);
 				
+				if (targetSelect< 25)
+				{
+					target = "Trench #" + Random.Range(101, 999);
+				}
+				if (targetSelect< 50)
+				{
+					target = "Cave #" + Random.Range(101, 999);
+				}
+				else if (targetSelect< 75)
+				{
+					target = "Complex #" + Random.Range(101, 999);
+				}
+				else
+				{
+					target = "Road #" + Random.Range(101, 999);
+				}
+				
+				missionSelect = "Patrol";
+				
+				
+			}
+			else if (MissionTypeChance > 90)	//Partyparty!
+			{
+				int targetSelect = Random.Range(0, 100);
+				
+				if (targetSelect< 25)
+				{
+					target = "Spa #" + Random.Range(101, 999);
+				}
 				if (targetSelect< 50)
 				{
 					target = "Beach #" + Random.Range(101, 999);
@@ -81,17 +111,21 @@ public class MissionLog : MonoBehaviour {
 
 				int targetSelect = Random.Range(0, 100);
 
-				if (targetSelect< 50)
+				if (targetSelect< 25)
+				{
+					target = "Town #" + Random.Range(101, 999);
+				}
+				else if (targetSelect< 50)
 				{
 					target = "Canyon #" + Random.Range(101, 999);
 				}
 				else if (targetSelect< 75)
 				{
-					target = "Farm #" + Random.Range(101, 999);
+					target = "Complex #" + Random.Range(101, 999);
 				}
 				else
 				{
-					target = "Cavern #" + Random.Range(101, 999);
+					target = "Depot #" + Random.Range(101, 999);
 				}
 
 				
@@ -100,16 +134,16 @@ public class MissionLog : MonoBehaviour {
 				
 				if (missionRoll< 50)
 				{
-					missionSelect = "liberation";
+					missionSelect = "Liberation";
 					Mission_DIFF += 5;
 				}
 				else if (missionRoll< 75)
 				{
-					missionSelect = "attack";
+					missionSelect = "Attack";
 				}
 				else
 				{
-					missionSelect = "raid";
+					missionSelect = "Raid";
 				}
 			}
 
@@ -143,6 +177,11 @@ public class MissionLog : MonoBehaviour {
 			{
 				control.Vacate (manager.squadIds, mission.difficulty, missions [currentlyAdded]);
 
+			}
+			else if (this.mission.type == "Patrol")
+			{
+				control.Patrol (manager.squadIds, mission.difficulty, missions [currentlyAdded]);	//needs its own, not yet implemented!
+				//VictoryMatters = true;
 			}
 			else if (this.mission.type == "Assault")
 			{

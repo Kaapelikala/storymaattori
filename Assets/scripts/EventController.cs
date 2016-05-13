@@ -22,7 +22,8 @@ public class EventController : MonoBehaviour {
 	private Event_Burial Grave;
 
 	/// <summary>
-	/// Actual Fight between Our Squad and Enemy Squad
+	/// Actual Fight between Our Squad and Enemy Squad. 
+	///Enemies have NUMBER, successfull kills reduce this. Combat lasts until other side flees / is wiped out
 	/// </summary>
 	public void FireFight(List<SoldierController> squad, Mission missionImput, int Difficulty, bool MissionTargetDone, bool Retreat, bool EnemyRetreat)
 	{
@@ -188,7 +189,6 @@ public class EventController : MonoBehaviour {
 		int corpseRecoveryMod = 0;
 		if (Retreat == true)
 		{
-			targetlocation.retreat = true;
 			corpseRecoveryMod = Random.Range(-60,-20);
 		}
 
@@ -312,9 +312,130 @@ public class EventController : MonoBehaviour {
 	}
 
 
+
+
+
 		
 	public void Patrol(int [] indexes, int Difficulty, Mission missionImput)
 	{
+		targetlocation = missionImput;
+		string MissionName = campaing.GetNextMission(); // this gets our mission NAME
+		List<SoldierController> squad;
+		
+		
+		this.MotherBase = new Event_Debrief();
+		this.Grave = new Event_Burial();
+		
+		
+		
+		//Get new squad. 
+		if (indexes [0]==-1)
+			squad = manager.GetSquad ();
+		else
+		{
+			squad = manager.GetSquad(indexes);
+		}
+		
+		int soldierAmount = 0;
+		
+		
+		// Go trought all and give them mission numbers etc
+		soldierAmount = this.LeavingForMissionCheckings (squad, targetlocation, MissionName);
+
+		bool MissionTargetDone = false;
+		bool Retreat = false;
+		bool EnemyRetreat = false;
+
+		// PATROL SPECIFIC MATERRIAL DOWN
+		// Patrol Checks Few "Locations" for enemy - if encountered battle WILL come
+
+		int HowManyLocationsToCheck = 2;
+
+		int EnemyEncounterChance = Difficulty - 50;	// often will be about 50ish
+	
+		for (int i = 1; i <= HowManyLocationsToCheck; i++)
+		{
+			int WaypointNumber = (i-1)*10 + Random.Range (1,10);
+			foreach (SoldierController solttu in squad)
+			{
+				solttu.AddEvent("Checking waypoint " + WaypointNumber + "..\n  ");
+			}
+		
+			if (Random.Range (1, 100) < EnemyEncounterChance) {
+				
+				//			ACTUAL BATTLE HERE:
+				
+				this.FireFight (squad, targetlocation, Difficulty, MissionTargetDone, Retreat, EnemyRetreat);
+
+				HowManyLocationsToCheck = 0;	//after fight return to base!
+			} else 
+			{
+				foreach (SoldierController solttu in squad)
+				{
+					solttu.AddEvent("Clear of hostiles. Woah!\n");	//needs more details!!!
+					solttu.ChangeMorale(20);
+				}
+			}
+		
+		}
+
+
+		// SPECIFIC MATERIALL ENDS --------------
+
+
+		
+		//Extra angst if only survivor
+		
+		this.SurvivorAngst (squad, soldierAmount);
+		
+		
+		// MISSION CALCULATES RESULTS - Was it victorius?
+		
+		
+		bool Victory = targetlocation.IsVictory();
+		
+		int corpseRecoveryMod = 0;
+		if (Retreat == true)
+		{
+			corpseRecoveryMod = Random.Range(-60,-20);
+		}
+		
+		
+		this.BaseIdle();	// OOTHERS PARTYYY
+		
+		
+		
+		//DEBRIEFING FOR EACH!
+//		
+//		bool AwardBraveryMedal = false;
+//		
+//		if (targetlocation.type == "Assault" && Victory == true)
+//		{
+//			AwardBraveryMedal = true;	
+//		}
+		
+		foreach (SoldierController solttu in squad)		//ACTUAL DEBRIEFING: "-ONMISSION-" gets deleted there!
+		{
+			if (solttu.alive == true)	
+			{
+				MotherBase.Handle(solttu, missionImput, false);
+			}
+		}
+		
+		foreach (SoldierController solttu in squad)
+		{
+			
+			if (solttu.alive == false)	
+			{
+				if (Retreat == true && solttu.alive == false)
+					solttu.AddHistory("-RETREATDEATH-");
+				Grave.Bury(solttu,manager, false, corpseRecoveryMod);		//Burials
+				
+				manager.DeadSoldierNOTE(solttu);
+			}
+		}
+		
+		manager.MoveDeadsAway ();
 	}
 
 	
