@@ -349,10 +349,17 @@ public class EventController : MonoBehaviour {
 		// PATROL SPECIFIC MATERRIAL DOWN
 		// Patrol Checks Few "Locations" for enemy - if encountered battle WILL come
 
-		int HowManyLocationsToCheck = 2;
+		int HowManyLocationsToCheck = 3;
 
-		int EnemyEncounterChance = Difficulty - 50;	// often will be about 50ish
-	
+		int whenEncounter = Random.Range (1, HowManyLocationsToCheck);
+
+		bool ThereIsEnemies = false;
+
+		if (targetlocation.Hostiles > 0) { 		// If there is enemies is randomised already in the mission.
+			ThereIsEnemies = true;
+		}
+
+
 		for (int i = 1; i <= HowManyLocationsToCheck; i++)
 		{
 			int WaypointNumber = (i-1)*10 + Random.Range (1,10);
@@ -361,19 +368,18 @@ public class EventController : MonoBehaviour {
 				solttu.AddEvent("Checking waypoint " + WaypointNumber + "..\n  ");
 			}
 		
-			if (Random.Range (1, 100) < EnemyEncounterChance) {
-				
-				//			ACTUAL BATTLE HERE:
-				
+			if (( i == whenEncounter ) && ThereIsEnemies == true) //			ACTUAL BATTLE HERE:
+			{
 				this.FireFight (squad, targetlocation, Difficulty, MissionTargetDone, Retreat, EnemyRetreat);
 
 				HowManyLocationsToCheck = 0;	//after fight return to base!
+
 			} else 
 			{
 				foreach (SoldierController solttu in squad)
 				{
 					solttu.AddEvent("Clear of hostiles. Woah!\n");	//needs more details!!!
-					solttu.ChangeMorale(20);
+					solttu.ChangeMorale(Random.Range(5,20));
 				}
 			}
 		
