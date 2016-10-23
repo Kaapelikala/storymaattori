@@ -43,7 +43,7 @@ public class EventController : MonoBehaviour {
 		foreach (SoldierController solttu in squad) {
 			
 			
-			solttu.AddEvent("ENEMIES ENCOUNTERED!\n");
+			solttu.AddEvent("--ENEMIES ENCOUNTERED!\n");
 			
 			solttu.AddEvent(this.PrintBattleRange());
 			
@@ -326,6 +326,7 @@ public class EventController : MonoBehaviour {
 		this.MotherBase = new Event_Debrief();
 		this.Grave = new Event_Burial();
 		
+		Event_PatrolNoEnemies WaypointCheck = new Event_PatrolNoEnemies ();
 		
 		
 		//Get new squad. 
@@ -365,7 +366,7 @@ public class EventController : MonoBehaviour {
 			int WaypointNumber = (i-1)*10 + Random.Range (1,10);
 			foreach (SoldierController solttu in squad)
 			{
-				solttu.AddEvent("Checking waypoint " + WaypointNumber + "..\n  ");
+				solttu.AddEvent("-Checking waypoint " + WaypointNumber + "..\n");
 			}
 		
 			if (( i == whenEncounter ) && ThereIsEnemies == true) //			ACTUAL BATTLE HERE:
@@ -376,11 +377,8 @@ public class EventController : MonoBehaviour {
 
 			} else 
 			{
-				foreach (SoldierController solttu in squad)
-				{
-					solttu.AddEvent("Clear of hostiles. Woah!\n");	//needs more details!!!
-					solttu.ChangeMorale(Random.Range(5,20));
-				}
+				WaypointCheck.Handle(squad);
+
 			}
 		
 		}

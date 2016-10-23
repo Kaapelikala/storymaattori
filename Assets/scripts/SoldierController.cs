@@ -524,6 +524,8 @@ public class SoldierController : ScriptableObject {
 				toAdd = "K5";
 			else if (item == "Markmanship Metal")
 				toAdd = "MarM";
+			else if (item == "Bomb Defuse Medallion")
+				toAdd = "BDM";
 
 			if (firstAdd)
 			{
@@ -841,6 +843,7 @@ public class SoldierController : ScriptableObject {
 
 		this.alive = false;
 		this.HowDied = how;
+		Debug.Log("DEAD SOLDIER: "+ this.FullName() + " HOWDIED:" + how);
 
 	}
 
@@ -849,6 +852,7 @@ public class SoldierController : ScriptableObject {
 		this.AddHistory("-DIED@BASE-");
 		this.alive = false;
 		this.HowDied = how;
+		Debug.Log("DEAD SOLDIER: "+ this.FullName() + " HOWDIED:" + how);
  	
 	}
 
