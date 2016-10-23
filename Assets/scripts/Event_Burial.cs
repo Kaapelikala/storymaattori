@@ -106,7 +106,7 @@ public class Event_Burial : MonoBehaviour {
 			foreach (SoldierController solttu in (soldiers.GetSquad()))
 			{
 
-				if (solttu.HasHistory("-ONMISSION-")) // cant attend if somewhere else! (basically if dead happens at motherbase while they away!
+				if (solttu.alive == true &&solttu.HasHistory("-ONMISSION-")) // cant attend if somewhere else! (basically if dead happens at motherbase while they away!
 				{
 					solttu.AddHistory("-NOATTEND_BURI-:" + corpse.soldierID);
 					corpse.AddEvent(" " + solttu.FullName() +" was away.\n"); 
@@ -307,7 +307,7 @@ public class Event_Burial : MonoBehaviour {
 		{
 			
 			//DEBUG FOR LIKINGS
-			Debug.Log((solttu.soldierID + " liked " + corpse.soldierID + " for " + solttu.CompareHistory(corpse)));
+			Debug.Log("BURIALLIKINGS:" + (solttu.soldierID + " liked " + corpse.soldierID + " for " + solttu.CompareHistory(corpse)));
 
 			if (solttu.HasHistory("-NOCARE-:" + corpse.soldierID) | solttu == corpse)
 			{

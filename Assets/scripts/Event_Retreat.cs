@@ -73,6 +73,12 @@ public class Event_Retreat : MonoBehaviour {
 		this.campaing = injectionCampaing;
 	}
 
+	/// <summary>
+	/// Checks if soldiers retreat from the battle
+	/// </summary>
+	/// <returns><c>true</c>, if RETREAT HAPPENED <c>false</c> if battle continues.</returns>
+	/// <param name="INJECT">INJEC.</param>
+	/// <param name="difficulty">Difficulty.</param>
 	public bool RetreatCheck( List<SoldierController> INJECT , int difficulty)
 	{
 		bool Retreat = false;
@@ -119,7 +125,11 @@ public class Event_Retreat : MonoBehaviour {
 			"Shit",
 			"Darn",
 			"Nope",
-			"Ahh"
+			"Ahh" ,
+			"Ugh" ,
+			"Bugger" ,
+			"Oh dear," ,
+			"Aergh," 
 		};
 		
 		string cursingsInsert = cursings[(Mathf.RoundToInt(Random.value*(cursings.GetLength(0)-1)))];
@@ -137,7 +147,11 @@ public class Event_Retreat : MonoBehaviour {
 						"fly",
 						"run",
 						"retreat",
-						"get back to base"
+						"get back to base",
+						"bolt",
+						"run off",
+						"escape",
+						"run like hell"
 					};
 					
 					
@@ -170,6 +184,10 @@ public class Event_Retreat : MonoBehaviour {
 						"mission",
 						"skirmish",
 						"shootout",
+						"clash",
+						"encounter",
+						"fight",
+						"stuggle",
 						"",
 						""
 					};
@@ -178,6 +196,8 @@ public class Event_Retreat : MonoBehaviour {
 						"HARD",
 						"TOUGH",
 						"CRAZY",
+						"CRAZY",
+						"MAD",
 						"MAD",
 						"WHACO",
 						"DARK",
@@ -185,7 +205,10 @@ public class Event_Retreat : MonoBehaviour {
 						"CROWDED",
 						"MESSY",
 						"DENSE",
-						"BLOODY"
+						"BLOODY",
+						"SICK",
+						"UNPLEASANT",
+						"ROTTEN"
 					};
 
 					string CombatInsert = Combatings[(Mathf.RoundToInt(Random.value*(Combatings.GetLength(0)-1)))];

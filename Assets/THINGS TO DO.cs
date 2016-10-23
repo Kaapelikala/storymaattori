@@ -32,7 +32,8 @@ public class THINGSTODO : MonoBehaviour {
 		DIFFERENT TYPES OF MISSIONS 
 			Special Events to different mission
 				Defence - only chance of combat!
-				Ambush - only chance of combat
+				Ambush - only chance of combat but  devastatingly good results
+				Patrol - slight chance of combat (enemy ambush too)
 			Road to mission & back
 				Chance for AMBUSH and walk on mine
 			DIFFERENT AMOUNT OF SOLDIERS ACCEPTED TO MISSIONS

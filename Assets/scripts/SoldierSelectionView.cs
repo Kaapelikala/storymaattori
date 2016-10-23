@@ -20,13 +20,17 @@ public class SoldierSelectionView : MonoBehaviour {
 
 		Returnoitava += log.mission.type + " " + log.mission.location + "\n";
 
-		if (log.mission.type == "Vacation")
+		if (log.mission.type == "Patrol")
+		{
+			Returnoitava += "  Recon the area.\n  Potential hostiles.";
+		}
+		else if (log.mission.type == "Vacation")
 		{
 			Returnoitava += "  Long deserved R&R!";
 		}
 		else if (log.mission.type == "Assault")
 		{
-			Returnoitava += "  Priority target! \n  Expect heavy casualties!";
+			Returnoitava += "  Priority target!\n  Expect heavy casualties!";
 		}
 		else 
 		{
@@ -34,18 +38,26 @@ public class SoldierSelectionView : MonoBehaviour {
 		}
 
 
-		if (log.mission.type != "Vacation")
+		if (log.mission.type == "Patrol")
 		{
-			BattleRangeText.text = log.mission.getExpEncounterRange();
+			BattleRangeText.text = "???";
+		}
+		else if (log.mission.type == "Vacation")
+		{
+			BattleRangeText.text = "";
 		}
 		else
 		{
-			BattleRangeText.text = "";
+			BattleRangeText.text = log.mission.getExpEncounterRange();
 		}
 
 		MissionInfoText.text = Returnoitava;
 
-		if (log.mission.type == "Vacation")
+		if (log.mission.type == "Patrol")
+		{
+			MissionDifText.text = "???";
+		}
+		else if (log.mission.type == "Vacation")
 		{
 			MissionDifText.text = "None";
 		}
