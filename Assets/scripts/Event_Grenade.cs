@@ -7,16 +7,14 @@ using System.Collections.Generic;
 public class Event_Grenade : MonoBehaviour {
 	
 	public List<SoldierController> squad;public SoldierController target;
-	public string MissionName = "";
 
 	public Event_Grenade()
 	{
 	}
 	
-	public Event_Grenade(string NameInsert, List<SoldierController> INJECT)
+	public Event_Grenade(List<SoldierController> INJECT)
 	{
 		this.squad = INJECT;
-		this.MissionName = NameInsert;
 	}
 	
 	/// <summary>

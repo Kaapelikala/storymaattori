@@ -36,7 +36,7 @@ public class Event_Debrief : MonoBehaviour {
 				"win",
 				"success",
 				"victory",
-				"triumpf"
+				"triumph"
 			};
 			
 			string winInject = winnouns[(Mathf.RoundToInt(Random.value*(winnouns.GetLength(0)-1)))];
@@ -105,7 +105,12 @@ public class Event_Debrief : MonoBehaviour {
 			target.ChangeMorale(20);
 			
 		}
-
+		
+		//HANDLING OF WOUNDEDS!
+		this.CheckHealing();
+		
+		//PROMOTIONS
+		this.CheckPromotions();
 
 		if (AwardBraveryMedal == true)
 		{
@@ -113,17 +118,11 @@ public class Event_Debrief : MonoBehaviour {
 			target.AddAward("Bravery Medal");
 		}
 
-
-
-
-
-		//HANDLING OF WOUNDEDS!
-		this.CheckHealing();
-
-
-		//PROMOTIONS
-		this.CheckPromotions();
-
+		if ((target.HasHistory("-BOMBDEFUSER-") == true) && (target.HasAward("Bomb Defuse Medallion") == false))
+		{
+			target.AddEvent("Having successfully defused an enemy explosive, " +target.soldierLName+ " was awarded the Bomb Defusing Medallion!\n");
+			target.AddAward("Bomb Defuse Medallion");	// worthy of an award!
+		}
 
 		this.CheckKillAwards();
 
@@ -168,7 +167,7 @@ public class Event_Debrief : MonoBehaviour {
 			//Chance to kill oneself!!
 			this.CheckSuecide();
 
-
+			target.RemoveHistory("-ONMISSION-");	//The are again back at base!
 
 		}
 

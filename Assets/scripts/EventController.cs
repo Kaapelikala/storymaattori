@@ -12,18 +12,138 @@ public class EventController : MonoBehaviour {
 	public Mission targetlocation;
 
 
-	public void Fight (int Difficulty, Mission missionImput)
+	
+	private Event_Battle Battle;
+	private Event_Grenade Grenade;
+	private Event_EnemyEmplacement EnemyBunker;
+	private Event_Retreat MoraleLost;
+	private Event_Debrief MotherBase;
+	private Event_BaseIdle MotherPeace;
+	private Event_Burial Grave;
+
+	/// <summary>
+	/// Actual Fight between Our Squad and Enemy Squad. 
+	///Enemies have NUMBER, successfull kills reduce this. Combat lasts until other side flees / is wiped out
+	/// </summary>
+	public void FireFight(List<SoldierController> squad, Mission missionImput, int Difficulty, bool MissionTargetDone, bool Retreat, bool EnemyRetreat)
 	{
-		int[] indexes = {-1,-1,-1,-1};
-		Fight (indexes, Difficulty, missionImput);
+		// Event Initialisations 
+		
+		this.Battle = new Event_Battle (squad);
+		this.Grenade = new Event_Grenade (squad);
+		this.EnemyBunker = new Event_EnemyEmplacement();
+		this.MoraleLost = new Event_Retreat(campaing);
+		
+		
+		// pre-battle calculations!
+		
+		
+		int GreatestRank = 0;	// Highest rank soldier! Affects number of fight rounds but lessens difficulty!
+		
+		foreach (SoldierController solttu in squad) {
+			
+			
+			solttu.AddEvent("--ENEMIES ENCOUNTERED!\n");
+			
+			solttu.AddEvent(this.PrintBattleRange());
+			
+			if (solttu.rank > GreatestRank)
+				GreatestRank = solttu.rank;
+			if (GreatestRank == 1)		//troopers do not affect gameplay yet!
+				GreatestRank = 0;
+		}
+		
+		
+		//while (missionImput.StillSomethingToKill() && (squad.Count > 0) && !Retreat)
+		while (missionImput.StillSomethingToKill() == true && (squad.Count > 0) && (Retreat == false) && (EnemyRetreat == false)) { // THE BATTLE LOOP
+			
+			//randomising the soldier!
+			
+			int SoldierRandomiser = Mathf.FloorToInt (Random.Range (0, (squad.Count - 1)));
+			
+			int i = SoldierRandomiser;
+			
+			Debug.Log ("Currently FIGHTING: " + squad [i].soldierID + "KILLS: " + missionImput.kills + "HOSTILES: " + missionImput.Hostiles + "\nCurrently SOMETHING TO KILL: " + missionImput.StillSomethingToKill () + "COUNT: " + (squad.Count > 0) + "RETREAT: " + Retreat);
+			
+			if (squad [i].alive == true) {		//dead do not fight!
+				int BattleEventRandomiser = Mathf.FloorToInt (Random.Range (0, 100));
+				
+				//Other ideas : Enemy heavy  gun fire, OUR heavy gun fire?	CHANCE TO RETREAT!
+				
+				if (BattleEventRandomiser < 70) {		// THE BASIC ATTACK, 70 chance
+					squad [i].AddKills (missionImput.AddKills (Battle.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
+				}					
+				//					else if (targetlocation.type == "Assault" && BattleEventRandomiser > 90 && !MissionTargetDone)
+				//					{
+				//						//The HQ attack special here?
+				//						
+				//						// Only one chance to do it properly?
+				//						
+				//					}
+				else {
+					if (Random.Range (0, 100) < 50) { // Enemy bunker fires at one!
+						squad [i].AddKills (missionImput.AddKills (EnemyBunker.Encounter (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
+					} else {		// Grenade threathens the whole squad!
+						Grenade.CheckGrenade (squad, Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
+					}
+				}
+			} else {	// Checks against the Average Morale of the remaining soldiers!
+				Retreat = MoraleLost.RetreatCheck (squad, campaing.Campaing_Difficulty);
+				if (Retreat == false)
+				{
+					missionImput.retreat = false;	//THIS was if false missionimput retreat = true WHYYYY?
+				}
+			}	
+			
+			//Retreat Check for ENEMIES! Exactly same as for our soldiers but simplified
+			
+			if ((Random.Range (1, missionImput.Hostiles) <= missionImput.kills ) && Retreat == false) {	// one of them must fall before retreatchecking starts!
+				int EnemyMoraleCalculation = (((missionImput.Hostiles - missionImput.kills) * 100) / missionImput.Hostiles);
+				//Check is averaged, every dead hostile chips enemy morale
+				if (Random.Range (0, 100) > EnemyMoraleCalculation) {
+					EnemyRetreat = true;
+					missionImput.Enemyretreat = true;
+					
+					foreach (SoldierController soldier in squad) {
+						soldier.AddEvent ("Enemies fled!\n");
+						
+					}
+				}
+			}
+			
+			
+			//Everyone has enough processing power anyways.
+			manager.MoveDeadsAway ();
+			
+		}
+		
 	}
 
+
+	//---------MISSION TYPES------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	//
+	//
+	//	public void Fight (int Difficulty, Mission missionImput)
+	//	{
+	//		int[] indexes = {-1,-1,-1,-1};
+	//		Fight (indexes, Difficulty, missionImput);
+	//	}
+	//
 
 	public void Fight(int [] indexes, int Difficulty, Mission missionImput)
 	{
 		targetlocation = missionImput;
-		string MissionName = campaing.GetNextMission();
+		string MissionName = campaing.GetNextMission(); // this gets our mission NAME
 		List<SoldierController> squad;
+
+
+		this.MotherBase = new Event_Debrief();
+		this.Grave = new Event_Burial();
+
+
 
 		//Get new squad. 
 		if (indexes [0]==-1)
@@ -32,41 +152,14 @@ public class EventController : MonoBehaviour {
 		{
 			squad = manager.GetSquad(indexes);
 		}
-		Event_Battle Fight = new Event_Battle (MissionName, squad);
-		Event_Grenade Grenade = new Event_Grenade (MissionName, squad);
-		Event_EnemyEmplacement EnemyBunker = new Event_EnemyEmplacement();
-		Event_Retreat MoraleLost = new Event_Retreat(campaing);
-		Event_Debrief MotherBase = new Event_Debrief();
-		Event_Burial Grave = new Event_Burial();
 
 		int soldierAmount = 0;
-		int deadAmount = 0;
-		
-		int GreatestRank = 0;	// Highest rank soldier! Affects number of fight rounds but lessens difficulty!
-
-		//Give Mission Number to all!
 
 
+		// Go trought all and give them mission numbers etc
+		soldierAmount = this.LeavingForMissionCheckings (squad, targetlocation, MissionName);
 
-		foreach (SoldierController solttu in squad)
-		{
-			solttu.AddHistory("-ONMISSION-");	//denotes that is NOT AT THE MOTHERBASE!
-			solttu.AddHistory("-MISSION-:"+campaing.missionNumber);
-			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ":" + MissionName +":\n");
-			solttu.missions++;
-			soldierAmount++;
 
-			if (solttu.rank > GreatestRank)
-				GreatestRank = solttu.rank;
-
-			this.CheckSoldierMorale(solttu);
-					
-			solttu.AddEvent(this.PrintBattleRange());
-
-		}
-
-		if (GreatestRank == 1)		//troopers do not affect gameplay yet!
-			GreatestRank = 0;
 
 		//Enemies have NUMBER, successfull kills reduce this. Combat lasts until other side flees / is wiped out?
 
@@ -74,94 +167,24 @@ public class EventController : MonoBehaviour {
 		bool Retreat = false;
 		bool EnemyRetreat = false;
 
-		// ENEMY NUMBERS ARE CALCULATED IN MISSION ITSELF!
 
-		//while (missionImput.StillSomethingToKill() && (squad.Count > 0) && !Retreat)
-		while (missionImput.StillSomethingToKill() == true && (squad.Count > 0) && (Retreat == false) && (EnemyRetreat == false))
-		{
+		/* 
+				ACTUAL BATTLE HERE:
+		 */
 
-			//randomising the soldier!
-
-			int SoldierRandomiser = Mathf.FloorToInt(Random.Range(0,(squad.Count-1)));
-
-			int i =	SoldierRandomiser;
-			
-			Debug.Log("Currently FIGHTING: " + squad[i].soldierID + "KILLS: " + missionImput.kills + "HOSTILES: " + missionImput.Hostiles + "\nCurrently SOMETHING TO KILL: " + missionImput.StillSomethingToKill() + "COUNT: " + (squad.Count > 0) + "RETREAT: " + Retreat);
-
-			if (squad [i].alive == true){		//dead do not fight!
-					int BattleEventRandomiser = Mathf.FloorToInt(Random.Range(0,100));
-					
-					//Other ideas : Enemy heavy  gun fire, OUR heavy gun fire?	CHANCE TO RETREAT!
-					
-					if (BattleEventRandomiser < 70)		// THE BASIC ATTACK
-					{
-						squad [i].AddKills(	missionImput.AddKills(	Fight.FightRound (squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
-					}					
-//					else if (targetlocation.type == "Assault" && BattleEventRandomiser > 90 && !MissionTargetDone)
-//					{
-//						//The HQ attack special here?
-//						
-//						// Only one chance to do it properly?
-//						
-//					}
-					else 
-					{
-						if (Random.Range(0, 100) < 50){
-							squad [i].AddKills(	missionImput.AddKills(	EnemyBunker.Encounter(squad [i], Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank)));
-						}
-						else{
-							Grenade.CheckGrenade (squad, Difficulty + (Mathf.FloorToInt (Random.Range (-10, 10))) - GreatestRank);
-						}
-					}
-				}
-			else
-			{	// Checks against the Average Morale of the remaining soldiers!
-				Retreat = MoraleLost.RetreatCheck(squad, campaing.Campaing_Difficulty);
-			}	
-
-			//Retreat Check for ENEMIES! Exactly same as for our soldiers but simplified
-
-			if (Random.Range(1,missionImput.Hostiles) <= missionImput.kills && Retreat == false)	// one of them must fall before retreatchecking starts!		
-			{
-				int EnemyMoraleCalculation = (((missionImput.Hostiles - missionImput.kills) * 100) / missionImput.Hostiles);
-						//Check is averaged, every dead hostile chips enemy morale
-				if (Random.Range(0,100) > EnemyMoraleCalculation)
-				{
-					EnemyRetreat = true;
-					missionImput.Enemyretreat = true;
-
-					foreach (SoldierController soldier in squad) {
-						soldier.AddEvent("Enemies fled!\n");
-
-					}
-				}
-			}
+		this.FireFight (squad, targetlocation, Difficulty, MissionTargetDone, Retreat, EnemyRetreat);
 
 
-				//Everyone has enough processing power anyways.
-			manager.MoveDeadsAway ();
-
-		}
 
 		//Extra angst if only survivor
-		foreach (SoldierController solttu in squad)
-		{
 
-			if (solttu.alive == false)
-			{
-				deadAmount++;
-			}
-		}
-		if ((soldierAmount - deadAmount) == 1)
-		{
-			HandleOnlySurvivor(squad);
-		}
+		this.SurvivorAngst (squad, soldierAmount);
 
 
 		// MISSION CALCULATES RESULTS - Was it victorius?
 
 
-		bool Victory = missionImput.IsVictory(Retreat);
+		bool Victory = targetlocation.IsVictory();
 	
 		int corpseRecoveryMod = 0;
 		if (Retreat == true)
@@ -170,30 +193,26 @@ public class EventController : MonoBehaviour {
 		}
 
 
+		this.BaseIdle();	// OOTHERS PARTYYY
+
+
+
 		//DEBRIEFING FOR EACH!
 
 		bool AwardBraveryMedal = false;
-
+		
 		if (targetlocation.type == "Assault" && Victory == true)
 		{
 			AwardBraveryMedal = true;	
 		}
 
-		foreach (SoldierController solttu in squad)
+		foreach (SoldierController solttu in squad)		//ACTUAL DEBRIEFING: "-ONMISSION-" gets deleted there!
 		{
 			if (solttu.alive == true)	
 			{
 				MotherBase.Handle(solttu, missionImput, AwardBraveryMedal);
 			}
 		}
-
-		this.BaseIdle();	// OOTHERS PARTYYY
-
-		foreach (SoldierController solttu in squad)
-		{
-			solttu.RemoveHistory("-ONMISSION-");	//The are again back at base!
-		}
-
 
 		foreach (SoldierController solttu in squad)
 		{
@@ -202,7 +221,7 @@ public class EventController : MonoBehaviour {
 			{
 				if (Retreat == true && solttu.alive == false)
 					solttu.AddHistory("-RETREATDEATH-");
-				Grave.Bury(solttu,manager, AwardBraveryMedal, corpseRecoveryMod);
+				Grave.Bury(solttu,manager, AwardBraveryMedal, corpseRecoveryMod);		//Burials
 				
 				manager.DeadSoldierNOTE(solttu);
 			}
@@ -213,78 +232,30 @@ public class EventController : MonoBehaviour {
 		//manager.campaing.ButtonCont.CreateNewsPopup(missionImput.ToString());
 	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+//	public void Vacate (int Difficulty)
+//	{
+//		int[] indexes = {-1,-1,-1,-1};
+//		Vacate (indexes, Difficulty);
+//	}
+//
 	/// <summary>
-	/// What happens in the base while squad is away?
+	/// Squad parties at motherbase instead of real battle
 	/// </summary>
-	public void BaseIdle ()
-	{
-		int[] indexes = {-1,-1,-1,-1};
-		BaseIdle (indexes);
-	}
-	
-	
-	public void BaseIdle(int [] indexes)
-	{
-		List<SoldierController> idlers = new List<SoldierController> (0);		//those who are at the Base!
-	
-		Event_BaseIdle Motherbase = new Event_BaseIdle(campaing);
-		Event_Burial Grave = new Event_Burial();
-
-		foreach (SoldierController solttu in manager.GetSquad())
-		{
-			if (solttu.HasHistory("-ONMISSION-") == false)		// those who are NOT at MISSION!
-			{
-				idlers.Add(solttu);
-				solttu.AddHistory("-IDLE-:" + campaing.TimeStamp);	//to persons to remember this :D
-			}
-		}
-
-		Motherbase.Handle(idlers);	// The actual happenings
-
-
-
-		foreach (SoldierController solttu in idlers)
-		{
-			if (solttu.alive == false)	
-			{
-				Grave.Bury(solttu, manager, false, 50);
-				
-				manager.DeadSoldierNOTE(solttu);
-			}
-		}
-		
-		manager.MoveDeadsAway ();
-
-
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	public void Vacate (int Difficulty)
-	{
-		int[] indexes = {-1,-1,-1,-1};
-		Vacate (indexes, Difficulty);
-	}
-
-	public void Vacate(int [] indexes, int Difficulty)			//VACATION!
+	public void Vacate(int [] indexes, int Difficulty, Mission missionImput)			//VACATION!
 	{
 		string MissionName = campaing.GetNextMission();
 		List<SoldierController> squad;
@@ -298,53 +269,35 @@ public class EventController : MonoBehaviour {
 		}
 				
 		int soldierAmount = 0;
-		int deadAmount = 0;
 		int GreatestRank = 0;
 
 		Event_Vacation Party = new Event_Vacation (MissionName);
 		Event_Burial Grave = new Event_Burial();
 
-		foreach (SoldierController solttu in squad)
-		{
-			solttu.AddHistory("-ONMISSION-");
-			solttu.AddHistory("-VACATION-:"+campaing.missionNumber);
-			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ": VACATION\n");
-			solttu.missions++;
-			soldierAmount++;
-
-			if (solttu.rank > GreatestRank)
-				GreatestRank = solttu.rank;
-		}
+		// Go trought all and give them mission numbers etc
+		soldierAmount = this.LeavingForMissionCheckings (squad, missionImput, MissionName);
 
 
 		foreach (SoldierController solttu in squad)
 		{
 			Party.Handle(solttu, Difficulty, GreatestRank);
 		}
-		
-		//Extra angst if only survivor
-		foreach (SoldierController solttu in squad)
-		{
-			if (solttu.alive == false)
-			{
-				deadAmount++;
-			}
-		}
 
-		if ((soldierAmount - deadAmount) == 1)
-		{
-			HandleOnlySurvivor(squad);
-		}
+	
 
-		this.BaseIdle();	// OOTHERS PARTYYY
-		
+		this.SurvivorAngst (squad, soldierAmount);
+
+
+		this.BaseIdle();	// others at the base idle 
+
+
 		foreach (SoldierController solttu in squad)
 		{
 			solttu.RemoveHistory("-ONMISSION-");	//The are again back at base!
 		}
 		
 		
-		foreach (SoldierController solttu in squad)
+		foreach (SoldierController solttu in squad)	//burials. Simplefied than in battles
 		{
 			
 			if (solttu.alive == false)	
@@ -357,6 +310,205 @@ public class EventController : MonoBehaviour {
 		manager.MoveDeadsAway ();
 		
 	}
+
+
+
+
+
+		
+	public void Patrol(int [] indexes, int Difficulty, Mission missionImput)
+	{
+		targetlocation = missionImput;
+		string MissionName = campaing.GetNextMission(); // this gets our mission NAME
+		List<SoldierController> squad;
+		
+		
+		this.MotherBase = new Event_Debrief();
+		this.Grave = new Event_Burial();
+		
+		Event_PatrolNoEnemies WaypointCheck = new Event_PatrolNoEnemies ();
+		
+		
+		//Get new squad. 
+		if (indexes [0]==-1)
+			squad = manager.GetSquad ();
+		else
+		{
+			squad = manager.GetSquad(indexes);
+		}
+		
+		int soldierAmount = 0;
+		
+		
+		// Go trought all and give them mission numbers etc
+		soldierAmount = this.LeavingForMissionCheckings (squad, targetlocation, MissionName);
+
+		bool MissionTargetDone = false;
+		bool Retreat = false;
+		bool EnemyRetreat = false;
+
+		// PATROL SPECIFIC MATERRIAL DOWN
+		// Patrol Checks Few "Locations" for enemy - if encountered battle WILL come
+
+		int HowManyLocationsToCheck = 3;
+
+		int whenEncounter = Random.Range (1, HowManyLocationsToCheck);
+
+		bool ThereIsEnemies = false;
+
+		if (targetlocation.Hostiles > 0) { 		// If there is enemies is randomised already in the mission.
+			ThereIsEnemies = true;
+		}
+
+
+		for (int i = 1; i <= HowManyLocationsToCheck; i++)
+		{
+			int WaypointNumber = (i-1)*10 + Random.Range (1,10);
+			foreach (SoldierController solttu in squad)
+			{
+				solttu.AddEvent("-Checking waypoint " + WaypointNumber + "..\n");
+			}
+		
+			if (( i == whenEncounter ) && ThereIsEnemies == true) //			ACTUAL BATTLE HERE:
+			{
+				this.FireFight (squad, targetlocation, Difficulty, MissionTargetDone, Retreat, EnemyRetreat);
+
+				HowManyLocationsToCheck = 0;	//after fight return to base!
+
+			} else 
+			{
+				WaypointCheck.Handle(squad);
+
+			}
+		
+		}
+
+
+		// SPECIFIC MATERIALL ENDS --------------
+
+
+		
+		//Extra angst if only survivor
+		
+		this.SurvivorAngst (squad, soldierAmount);
+		
+		
+		// MISSION CALCULATES RESULTS - Was it victorius?
+		
+		
+		bool Victory = targetlocation.IsVictory();
+		
+		int corpseRecoveryMod = 0;
+		if (Retreat == true)
+		{
+			corpseRecoveryMod = Random.Range(-60,-20);
+		}
+		
+		
+		this.BaseIdle();	// OOTHERS PARTYYY
+		
+		
+		
+		//DEBRIEFING FOR EACH!
+//		
+//		bool AwardBraveryMedal = false;
+//		
+//		if (targetlocation.type == "Assault" && Victory == true)
+//		{
+//			AwardBraveryMedal = true;	
+//		}
+		
+		foreach (SoldierController solttu in squad)		//ACTUAL DEBRIEFING: "-ONMISSION-" gets deleted there!
+		{
+			if (solttu.alive == true)	
+			{
+				MotherBase.Handle(solttu, missionImput, false);
+			}
+		}
+		
+		foreach (SoldierController solttu in squad)
+		{
+			
+			if (solttu.alive == false)	
+			{
+				if (Retreat == true && solttu.alive == false)
+					solttu.AddHistory("-RETREATDEATH-");
+				Grave.Bury(solttu,manager, false, corpseRecoveryMod);		//Burials
+				
+				manager.DeadSoldierNOTE(solttu);
+			}
+		}
+		
+		manager.MoveDeadsAway ();
+	}
+
+	
+	/// <summary>
+	/// What happens in the base while squad is away?
+	/// </summary>	
+	public void BaseIdle ()
+	{
+		int[] indexes = {-1,-1,-1,-1};
+		BaseIdle (indexes);
+	}
+	
+	public void BaseIdle(int [] indexes)
+	{
+		List<SoldierController> idlers = new List<SoldierController> (0);		//those who are at the Base!
+		
+		this.MotherPeace = new Event_BaseIdle(campaing);
+		this.Grave = new Event_Burial();
+		
+		foreach (SoldierController solttu in manager.GetSquad())
+		{
+			if (solttu.HasHistory("-ONMISSION-") == false)		// those who are NOT at MISSION!
+			{
+				idlers.Add(solttu);
+				solttu.AddHistory("-IDLE-:" + campaing.TimeStamp);	//to persons to remember this :D
+			}
+		}
+		
+		MotherPeace.Handle(idlers);	// The actual happenings
+		
+		
+		
+		foreach (SoldierController solttu in idlers)
+		{
+			if (solttu.alive == false)	
+			{
+				Grave.Bury(solttu, manager, false, 50);
+				
+				manager.DeadSoldierNOTE(solttu);
+			}
+		}
+		
+		manager.MoveDeadsAway ();
+		
+		
+	}
+
+
+
+	//--------------OTHER FUNCTIONS----------------------------------------------------------------------------------------------------------
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
 
 	private void CheckSoldierMorale(SoldierController solttu)	//How this soldier likes this mission?
 
@@ -452,7 +604,53 @@ public class EventController : MonoBehaviour {
 				solttu.ChangeMorale(-30);
 			}
 		}			
-}
+	}
+
+
+	/// <summary>
+	/// Checks EVERY single squad that goes for a mission. MUST BE RUN!
+	/// </summary>
+	/// <returns>how many squad members</returns>
+	private int LeavingForMissionCheckings (List<SoldierController> squad, Mission missionImput, string MissionName){
+		
+		int soldierAmount = 0;
+		
+		foreach (SoldierController solttu in squad)
+		{
+			solttu.AddHistory("-ONMISSION-");	//denotes that is NOT AT THE MOTHERBASE!
+
+			solttu.AddHistory("-MISSION-:"+campaing.missionNumber+ ": " + missionImput.type);
+			solttu.AddEvent("\nTS:" + campaing.TimeStamp + ":" + missionImput.MissionName +": "+ missionImput.type+ "\n");
+		
+			solttu.missions++;
+			soldierAmount++;
+			
+			this.CheckSoldierMorale(solttu);
+			
+			
+		}
+
+		return soldierAmount;
+	}
+
+
+	private void SurvivorAngst(List<SoldierController> squad, int soldierAmount){
+
+		//after all missions: 
+
+		int deadAmount = 0;
+
+		foreach (SoldierController solttu in squad) {
+		
+			if (solttu.alive == false) {
+				deadAmount++;
+			}
+		}
+		if ((soldierAmount - deadAmount) == 1) {
+			HandleOnlySurvivor (squad);
+		}
+
+	}
 
 	private void HandleOnlySurvivor(List<SoldierController> squad){
 
@@ -490,7 +688,7 @@ public class EventController : MonoBehaviour {
 					solttu.AddAttribute("loner");
 					solttu.skill++;
 				}
-				else if ((Random.Range(0, 100) > 80) && !solttu.HasAttribute("heroic"))
+				else if ((Random.Range(0, 100) > 80) && !solttu.HasAttribute("heroic") && !solttu.HasAttribute("coward"))
 				{
 					solttu.AddEvent(solttu.getCallsignOrFirstname() + " was the only survivor. Mental scars will not heal.\n");
 					solttu.AddAttribute("coward");

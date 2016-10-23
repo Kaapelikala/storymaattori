@@ -46,6 +46,16 @@ public class Mission : MonoBehaviour {
 		{
 			this.Hostiles += Mathf.FloorToInt(Random.Range(1,4));
 		}
+		if (this.type=="Patrol")	// Chance to encounter enemies is randomised HERE instead of actual play!
+		{
+			int EnemyEncounterChance = this.difficulty - 50;	// often will be about 50ish
+
+			if (Random.Range (0,100) > EnemyEncounterChance) // NO ENEMIES
+			{
+				this.Hostiles = 0;
+				this.victory = true; // no enemies = victory is assured?? (for now at least)
+			}
+		}
 		else if (this.type=="Vacation")
 			this.Hostiles = 0;
 
@@ -58,7 +68,7 @@ public class Mission : MonoBehaviour {
 		this.squad=squad;
 		foreach (SoldierController s in squad) {
 			killsStart+=s.kills;
-			Debug.Log(killsStart);
+			//Debug.Log(killsStart);
 		}
 	}
 
@@ -71,7 +81,7 @@ public class Mission : MonoBehaviour {
 			else{
 
 			if (LOCKED == false)
-				this.IsVictory(false);		//Calculates actual NUMBERS behind all! this just PRINTS stuff
+				this.IsVictory();		//Calculates actual NUMBERS behind all! this just PRINTS stuff
 
 			string returned = "";
 			returned += MissionName + "\n";
@@ -88,24 +98,35 @@ public class Mission : MonoBehaviour {
 
 
 
-			if (this.type != "Vacation")
+			if ((this.type != "Vacation")  )		//Show battle notification if NOT vacation or NOT Patrol with no encounter
 			{
-				returned += ("--The battle took place in " + this.getEncounterRange() + " range.\n");
-				
-				if (Hostiles > squad.Count*1.5)
-					returned += "--The Squad was greatly outnumbered!\n";
-				else if (Hostiles > squad.Count+Random.Range(1,2))
-					returned += "--The Squad was outnumbered!\n";
-				else if (Hostiles < squad.Count-Random.Range(1,2))
-					returned += "--The Squad outnumbered the enemy!\n";
-//				else
-//					returned += "--The Squad and enemies were about even.\n";
+				if (this.type == "Patrol" && this.Hostiles > 0)
+				{
+					if (this.type == "Patrol") // if partrol where is enemies print this special addition
+					{
+						returned += "--The location contained enemies!\n";
+					}
+					returned += ("--The battle took place in " + this.getEncounterRange() + " range.\n");
+					
+					if (Hostiles > squad.Count*1.5)
+						returned += "--The Squad was greatly outnumbered!\n";
+					else if (Hostiles > squad.Count+Random.Range(1,2))
+						returned += "--The Squad was outnumbered!\n";
+					else if (Hostiles < squad.Count-Random.Range(1,2))
+						returned += "--The Squad outnumbered the enemy!\n";
+	//				else
+	//					returned += "--The Squad and enemies were about even.\n";
 
 
-				returned += "--During the mission soldiers killed: ";
+					returned += "--During the mission soldiers killed: ";
 
-				returned += thisMissionKills + "\n";
+					returned += thisMissionKills + "\n";
+				}
+				else if (this.type == "Patrol" && this.Hostiles == 0)	//special bit for non-combat patrol missions
+				{
+					returned += "--The location was clear of enemy activity!\n";
 
+				}
 			}
 
 			if (Enemyretreat == true)
@@ -130,29 +151,20 @@ public class Mission : MonoBehaviour {
 
 			if (this.type != "Vacation")
 			{
-				if (retreat == true)	//all are dead
+				if (this.type == "Patrol")
 				{
-					returned += "--Mission ended in RETREAT!\n";
-				}
-				else if (squad.Count == soldiersDead)	//all are dead
-				{
-					returned += "--Mission was a TOTAL DEFEAT!\n";
-				}
-				else if (thisMissionKills < soldiersDead)
-				{
-					returned += "--Mission was a FAILURE!\n";
-				}
-				else if (thisMissionKills == soldiersDead)
-				{
-					returned += "--Mission was a DRAW!\n";
-				}
-				else if (thisMissionKills > squad.Count*2)
-				{
-					returned += "--Mission was A MAJOR VICTORY!\n";
+					if (this.Hostiles == 0 && retreat == false)
+					{
+						returned += "--Mission was a SUCCESS!\n";
+					}
+					else
+					{
+						returned += this.StandardMissionResults();
+					}
 				}
 				else
 				{
-					returned += "--Mission was A VICTORY!\n";
+					returned += this.StandardMissionResults();
 				}
 			}
 
@@ -166,8 +178,41 @@ public class Mission : MonoBehaviour {
 
 		}
 
+	private string StandardMissionResults ()
+	{
+
+		string returned = "";
+
+		if (retreat == true)	//all are dead
+		{
+			returned += "--Mission ended in RETREAT!\n";
+		}
+		else if (squad.Count == soldiersDead)	//all are dead
+		{
+			returned += "--Mission was a TOTAL DEFEAT!\n";
+		}
+		else if (thisMissionKills < soldiersDead)
+		{
+			returned += "--Mission was a FAILURE!\n";
+		}
+		else if (thisMissionKills == soldiersDead)
+		{
+			returned += "--Mission was a DRAW!\n";
+		}
+		else if (thisMissionKills > squad.Count*2)
+		{
+			returned += "--Mission was A MAJOR VICTORY!\n";
+		}
+		else
+		{
+			returned += "--Mission was A VICTORY!\n";
+		}
+
+		return returned;
+	}
+
 	//IS THIS MISSION VICTORY?
-	public bool IsVictory(bool retreat)
+	public bool IsVictory()
 		{
 		
 			if (LOCKED == true)
@@ -194,9 +239,8 @@ public class Mission : MonoBehaviour {
 					}
 									
 
-				if (retreat)
+				if (this.retreat == true)
 				{
-					this.retreat = true;
 					this.victory = false;
 				}	
 				else if (thisMissionKills < soldiersDead)	//Victory is simple: Did they kill more than lost?
