@@ -91,13 +91,13 @@ public class EventController : MonoBehaviour {
 				Retreat = MoraleLost.RetreatCheck (squad, campaing.Campaing_Difficulty);
 				if (Retreat == false)
 				{
-					missionImput.retreat = true;
+					missionImput.retreat = false;	//THIS was if false missionimput retreat = true WHYYYY?
 				}
 			}	
 			
 			//Retreat Check for ENEMIES! Exactly same as for our soldiers but simplified
 			
-			if (Random.Range (1, missionImput.Hostiles) <= missionImput.kills && Retreat == false) {	// one of them must fall before retreatchecking starts!
+			if ((Random.Range (1, missionImput.Hostiles) <= missionImput.kills ) && Retreat == false) {	// one of them must fall before retreatchecking starts!
 				int EnemyMoraleCalculation = (((missionImput.Hostiles - missionImput.kills) * 100) / missionImput.Hostiles);
 				//Check is averaged, every dead hostile chips enemy morale
 				if (Random.Range (0, 100) > EnemyMoraleCalculation) {
